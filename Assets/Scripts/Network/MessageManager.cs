@@ -27,12 +27,12 @@ public class MessageManager {
 	
 	public static readonly GameMessage ResponseLobbyModeClientMessage = new GameMessage(msg => {
 		NetworkManagerCustom.singleton.StartArguments = msg.ReadMessage<StringListMessage>().Value;
-		GameObject.Find("LobbyManager").AddComponent<NetworkLobbyClientHUD>();
+		GameObject.Find("LobbyManager").AddComponent<NetworkLobbyClientGUI>();
 	});
 	
 	public static readonly GameMessage SetReadyLobbyServerMessage = new GameMessage(msg => {
 		bool ready = bool.Parse(msg.ReadMessage<StringMessage>().value);
-		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerHUD>().SetReady(msg.conn, ready);
+		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().SetReady(msg.conn, ready);
 	});
 
 	[System.Serializable]

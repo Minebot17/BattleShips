@@ -67,15 +67,21 @@
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncScaleChild.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncVelocity.cs" />
      <Compile Include="Assets\Scripts\Network\GameMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Lobby\NetworkLobbyClientHUD.cs" />
-     <Compile Include="Assets\Scripts\Network\Lobby\NetworkLobbyCommon.cs" />
-     <Compile Include="Assets\Scripts\Network\Lobby\NetworkLobbyServerHUD.cs" />
      <Compile Include="Assets\Scripts\Network\MessageManager.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\NetworkIdentityMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\StringListMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\NetworkLobby.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManagerCustom.cs" />
-     <Compile Include="Assets\Scripts\Network\NetworkManagerCustomGUI.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkVectors.cs" />
+     <Compile Include="Assets\Scripts\Ships\Ship.cs" />
+     <Compile Include="Assets\Scripts\Ships\ShipCell.cs" />
+     <Compile Include="Assets\Scripts\Ships\ShipEditor.cs" />
+     <Compile Include="Assets\Scripts\Ships\ShipModule.cs" />
+     <Compile Include="Assets\Scripts\UI\Common\NetworkLobbyClientGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Common\NetworkLobbyServerGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Common\NetworkManagerCustomGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\ShipManager\ShipManagerStartGUI.cs" />
+     <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

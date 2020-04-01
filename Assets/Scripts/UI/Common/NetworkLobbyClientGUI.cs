@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class NetworkLobbyClientHUD : MonoBehaviour {
+public class NetworkLobbyClientGUI : MonoBehaviour {
 
 	private bool ready = false;
 

@@ -1,0 +1,9 @@
+Build/
+.idea/
+Library/
+Logs/
+obj/
+Temp/
+*.meta
+Build.rar
+BattleShips.sln

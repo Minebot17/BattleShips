@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class NetworkLobbyServerHUD : MonoBehaviour {
+public class NetworkLobbyServerGUI : MonoBehaviour {
 
 	private Dictionary<NetworkConnection, bool> readyMap = new Dictionary<NetworkConnection, bool>();
 	private bool ready = false;

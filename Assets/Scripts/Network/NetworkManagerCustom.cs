@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
@@ -14,7 +15,7 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
-			GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerHUD>().RemoveConnection(conn);
+			GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().RemoveConnection(conn);
 	}
 
 	public override void OnServerConnect(NetworkConnection conn) {
@@ -38,5 +39,8 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void Start() {
 		ResetValuesToDefault();
+
+		if (!Directory.Exists(Application.streamingAssetsPath + "/ships"))
+			Directory.CreateDirectory(Application.streamingAssetsPath + "/ships");
 	}
 }

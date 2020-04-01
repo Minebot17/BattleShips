@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(NetworkManagerCustom))]
 public class NetworkManagerCustomGUI : MonoBehaviour {
@@ -39,7 +40,8 @@ public class NetworkManagerCustomGUI : MonoBehaviour {
 			}
 
 			if (GUILayout.Button("Ships Manager")) {
-				// TODO add/remove/import/export/change ships scene
+				enabled = false;
+				SceneManager.LoadScene("Scenes/ShipManagerMenu");
 			}
 		}
 		else {

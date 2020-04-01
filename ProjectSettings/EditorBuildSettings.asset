@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 5e8ad1d6500b73a46bae98006cdd42e2
+  - enabled: 1
+    path: Assets/Scenes/ShipManagerMenu.unity
+    guid: 5e16cad73d2f772459caa2da04fe66d1
+  - enabled: 1
+    path: Assets/Scenes/ShipEditor.unity
+    guid: d353136ebcb510948975e48ec07e299a
   m_configObjects: {}

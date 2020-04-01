@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class NetworkLobbyCommon : MonoBehaviour {
+public class NetworkLobby : MonoBehaviour {
 	
 	private void Awake() {
 		MessageManager.Initialize();
@@ -13,9 +13,9 @@ public class NetworkLobbyCommon : MonoBehaviour {
 
 	private void Start() {
 		if (NetworkManagerCustom.singleton.IsServer)
-			GameObject.Find("LobbyManager").AddComponent<NetworkLobbyServerHUD>();
+			GameObject.Find("LobbyManager").AddComponent<NetworkLobbyServerGUI>();
 		else
 			MessageManager.RequestLobbyModeServerMessage.SendToServer(new EmptyMessage());
-		Destroy(GetComponent<NetworkLobbyCommon>());
+		Destroy(GetComponent<NetworkLobby>());
 	}
 }
