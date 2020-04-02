@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\UI\Common\NetworkLobbyServerGUI.cs" />
      <Compile Include="Assets\Scripts\UI\Common\NetworkManagerCustomGUI.cs" />
      <Compile Include="Assets\Scripts\UI\ShipManager\ShipManagerStartGUI.cs" />
+     <Compile Include="Assets\Scripts\Utils.cs" />
      <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

@@ -16,18 +16,11 @@ public class ShipManagerStartGUI : MonoBehaviour {
     public static string openedShipName;
     
     public void Start() {
-        /*Ship ship = new Ship();
-        ShipCell main = new ShipCell(new Vector2Int(0, 0));
-        main.module = new ShipModule(new Vector2Int(0, 0), "AICore");
-        ship.shipCells.Add(main);
-        byte[] bytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(ship));
-        new FileStream(Application.streamingAssetsPath + "/empty.ship", FileMode.Create)
-            .Write(bytes, 0, bytes.Length);*/
-
         shipNames = Directory.GetFiles(Application.streamingAssetsPath + "/ships")
                           .Where(s => !s.Contains(".meta"))
-                          .Select(Path.GetFileName).ToList();
-        shipNames.Remove("empty.ship");
+                          .Select(s => Path.GetFileName(s).Split('.')[0])
+                          .ToList();
+        shipNames.Remove("empty");
     }
 
     public void OnGUI() {
@@ -36,15 +29,18 @@ public class ShipManagerStartGUI : MonoBehaviour {
             GUILayout.Label("This ship already exists");
         else if (GUILayout.Button("Create ship")) {
             File.Copy(Application.streamingAssetsPath + "/ships/empty.ship",
-            Application.streamingAssetsPath + "/ships/" + shipName, false);
+            Application.streamingAssetsPath + "/ships/" + shipName + ".ship", false
+            );
             openedShipName = shipName;
             SceneManager.LoadScene("Scenes/ShipEditor");
         }
-        else if (GUILayout.Button("Edit ship")) {
+        else if (GUILayout.Button("Edit ship"))
             lastButton = LastButton.Edit;
-        }
-        else if (GUILayout.Button("Remove ship")) {
+        else if (GUILayout.Button("Remove ship"))
             lastButton = LastButton.Remove;
+        else if (GUILayout.Button("Back")) {
+            SceneManager.LoadScene("Scenes/Menu");
+            GameObject.Find("NetworkManager").GetComponent<NetworkManagerCustomGUI>().enabled = true;
         }
 
         if (lastButton != LastButton.None) {
