@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ShipEditor.unity
     guid: d353136ebcb510948975e48ec07e299a
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 687f58a7e42323f4aadc7e16d3f84126
   m_configObjects: {}

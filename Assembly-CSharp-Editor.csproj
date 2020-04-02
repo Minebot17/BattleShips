@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CC545EB7-3577-8724-42F5-D10A877C3B6C}</ProjectGuid>
+    <ProjectGuid>{86813453-9856-AB4C-9AE8-B6A44E4D955E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -58,41 +58,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
-     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
-     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
-     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
-     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
-     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
-     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
-     <Compile Include="Assets\Scripts\CameraFollower.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncPosition.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncPositionChild.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncRotation.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncRotationChild.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncScale.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncScaleChild.cs" />
-     <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncVelocity.cs" />
-     <Compile Include="Assets\Scripts\Network\GameMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\MessageManager.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\NetworkIdentityMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\StringListMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\NetworkLobby.cs" />
-     <Compile Include="Assets\Scripts\Network\NetworkManagerCustom.cs" />
-     <Compile Include="Assets\Scripts\Network\NetworkVectors.cs" />
-     <Compile Include="Assets\Scripts\ShipController.cs" />
-     <Compile Include="Assets\Scripts\ShipInputManager.cs" />
-     <Compile Include="Assets\Scripts\Ships\Ship.cs" />
-     <Compile Include="Assets\Scripts\Ships\ShipCell.cs" />
-     <Compile Include="Assets\Scripts\Ships\ShipEditor.cs" />
-     <Compile Include="Assets\Scripts\Ships\ShipModule.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkLobbyClientGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkLobbyServerGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\ShipManagerStartGUI.cs" />
-     <Compile Include="Assets\Scripts\Utils.cs" />
-     <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
+     <Compile Include="Assets\Joystick Pack\Scripts\Editor\DynamicJoystickEditor.cs" />
+     <Compile Include="Assets\Joystick Pack\Scripts\Editor\FloatingJoystickEditor.cs" />
+     <Compile Include="Assets\Joystick Pack\Scripts\Editor\JoystickEditor.cs" />
+     <Compile Include="Assets\Joystick Pack\Scripts\Editor\VariableJoystickEditor.cs" />
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -359,6 +334,21 @@
  </Reference>
  <Reference Include="UnityEngine.XRModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Android.Extensions">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>E:/Unity Projects/BattleShips/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -714,6 +704,12 @@
  <Reference Include="Boo.Lang">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{CC545EB7-3577-8724-42F5-D10A877C3B6C}</Project>
+      <Name>Assembly-CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

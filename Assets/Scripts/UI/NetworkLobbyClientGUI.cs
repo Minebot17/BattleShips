@@ -9,7 +9,14 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class NetworkLobbyClientGUI : MonoBehaviour {
 
-	private bool ready = false;
+	protected bool ready;
+	protected List<string> shipNames;
+	public static string selectedShip;
+
+	protected void Start() {
+		shipNames = Utils.GetShipNamesList();
+		selectedShip = null;
+	}
 
 	protected virtual void OnGUI() {
 		if (NetworkManagerCustom.singleton.GameInProgress)
@@ -20,8 +27,13 @@ public class NetworkLobbyClientGUI : MonoBehaviour {
 
 		if (!ready) {
 			GUILayout.Label("Выберите корабль");
-			// TODO ship select
+			for (int i = 0; i < shipNames.Count; i++)
+				if (GUILayout.Button(shipNames[i]))
+					selectedShip = shipNames[i];
 		}
+		
+		if (selectedShip != null)
+			GUILayout.Label("Вы выбрали: " + selectedShip);
 		
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;

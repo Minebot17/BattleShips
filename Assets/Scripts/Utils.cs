@@ -1,11 +1,32 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class Utils {
     public static float sizeOfOne = 0.64f;
+    public static System.Random rnd = new System.Random();
+
+    public static List<string> GetShipNamesList() {
+        List<string> result = Directory.GetFiles(Application.streamingAssetsPath + "/ships")
+                     .Where(s => !s.Contains(".meta"))
+                     .Select(s => Path.GetFileName(s).Split('.')[0])
+                     .ToList();
+        result.Remove("empty");
+        return result;
+    }
+
+    public static Vector2 ToVector2(this Vector3 vec) {
+        return new Vector2(vec.x, vec.y);
+    }
     
+    public static Vector3 ToVector3(this Vector2 vec) {
+        return new Vector3(vec.x, vec.y, 0);
+    }
+
     public static int RoundSinged(float number) {
         return (int)(number > 0 ? Mathf.Floor(number) : Mathf.Ceil(number));
     }
@@ -20,9 +41,21 @@ public static class Utils {
             .Write(bytes, 0, bytes.Length);
     }
 
-    public static GameObject DeserializeShip(string shipName) {
-        Ship ship = JsonUtility.FromJson<Ship>(File.ReadAllText(Application.streamingAssetsPath + "/ships/" + shipName + ".ship"));
-        GameObject shipObject = new GameObject(shipName + "Ship");
+    public static GameObject DeserializeShip(string shipName, bool withController = false) {
+        return DeserializeShipFromJson(GetShipJson(shipName));
+    }
+
+    public static GameObject DeserializeShipFromJson(string json, bool withController = false) {
+        Ship ship = JsonUtility.FromJson<Ship>(json);
+        GameObject shipObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
+        shipObject.GetComponent<ShipController>().enabled = withController;
+        shipObject.name = "Ship";
+        shipObject.transform.localPosition = Vector3.zero;
+        
+        GameObject forwardPointer = new GameObject("ForwardPointer");
+        forwardPointer.transform.parent = shipObject.transform;
+        forwardPointer.transform.localPosition = new Vector3(0, 1, 0);
+        
         for (int i = 0; i < ship.shipCells.Count; i++) {
             GameObject shipCell = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), shipObject.transform);
             shipCell.name = "ShipCell " + ship.shipCells[i].positionOnShip.x + " " + ship.shipCells[i].positionOnShip.y;
@@ -31,10 +64,10 @@ public static class Utils {
             ship.shipCells[i].positionOnShip.y * sizeOfOne, 0);
 
             ShipModule module = ship.shipCells[i].module;
-            if (module != null) {
+            if (!module.type.Equals("")) {
                 if (module.mainPosition != ship.shipCells[i].positionOnShip) {
                     GameObject partOfModule = new GameObject(
-                        "PartOf" + module.type + " " + module.mainPosition.x + " " + module.mainPosition.y);
+                    "PartOf" + module.type + " " + module.mainPosition.x + " " + module.mainPosition.y);
                     partOfModule.transform.parent = shipCell.transform;
                     partOfModule.transform.localPosition = Vector3.zero;
                 }
@@ -50,7 +83,11 @@ public static class Utils {
 
         return shipObject;
     }
-    
+
+    public static string GetShipJson(string shipName) {
+        return File.ReadAllText(Application.streamingAssetsPath + "/ships/" + shipName + ".ship");
+    }
+
     public static void SerializeShip(GameObject shipObject) {
         Ship ship = new Ship();
         for (int i = 0; i < shipObject.transform.childCount; i++) {

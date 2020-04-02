@@ -7,12 +7,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class NetworkLobbyServerGUI : MonoBehaviour {
+public class NetworkLobbyServerGUI : NetworkLobbyClientGUI {
 
 	private Dictionary<NetworkConnection, bool> readyMap = new Dictionary<NetworkConnection, bool>();
-	private bool ready = false;
+	private int lastConnections;
 
-	public void OnGUI() {
+	protected override void OnGUI() {
 		if (NetworkManagerCustom.singleton.GameInProgress)
 			return;
 		
@@ -34,19 +34,37 @@ public class NetworkLobbyServerGUI : MonoBehaviour {
 
 		if (!ready) {
 			GUILayout.Label("Выберите корабль");
-			// TODO ship select
+			for (int i = 0; i < shipNames.Count; i++)
+				if (GUILayout.Button(shipNames[i]))
+					selectedShip = shipNames[i];
 		}
+		
+		if (selectedShip != null)
+			GUILayout.Label("Вы выбрали: " + selectedShip);
 		
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
 			SetReady(NetworkManager.singleton.client.connection, ready);
 		}
 
-		if (readyCount == connectionsCount && GUILayout.Button("Старт!")) {
+		if (readyCount == connectionsCount 
+				&& !NetworkManagerCustom.singleton.GameInProgress 
+				&& GUILayout.Button("Старт!")) {
 			NetworkManagerCustom.singleton.GameInProgress = true;
-			NetworkManager.singleton.ServerChangeScene("Start");
+			MessageManager.RequestShipClientMessage.SendToAllClients(new EmptyMessage());
+			lastConnections = readyCount;
 		}
+		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
+			GUILayout.Label("Загрузка кораблей игроков...");
 	}
+	
+	public void AddClientShip(NetworkConnection conn, string data) {
+		NetworkManagerCustom.singleton.playerShips.Add(conn, data);
+		lastConnections--;
+		if (lastConnections == 0)
+			NetworkManager.singleton.ServerChangeScene("Game");
+	}
+
 
 	public void SetReady(NetworkConnection conn, bool ready) {
 		readyMap[conn] = ready;

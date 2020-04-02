@@ -9,18 +9,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ShipManagerStartGUI : MonoBehaviour {
-    private bool showShips = false;
     private LastButton lastButton = LastButton.None;
     private List<string> shipNames = new List<string>();
     private string shipName;
     public static string openedShipName;
     
     public void Start() {
-        shipNames = Directory.GetFiles(Application.streamingAssetsPath + "/ships")
-                          .Where(s => !s.Contains(".meta"))
-                          .Select(s => Path.GetFileName(s).Split('.')[0])
-                          .ToList();
-        shipNames.Remove("empty");
+        shipNames = Utils.GetShipNamesList();
     }
 
     public void OnGUI() {

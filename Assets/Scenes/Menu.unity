@@ -320,6 +320,7 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   IsServer: 1
   GameInProgress: 0
+  StartArguments: []
 --- !u!4 &1161281330
 Transform:
   m_ObjectHideFlags: 0

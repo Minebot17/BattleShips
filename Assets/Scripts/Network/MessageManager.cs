@@ -34,14 +34,23 @@ public class MessageManager {
 		bool ready = bool.Parse(msg.ReadMessage<StringMessage>().value);
 		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().SetReady(msg.conn, ready);
 	});
+	
+	public static readonly GameMessage RequestShipClientMessage = new GameMessage(msg => {
+		ResponseShipServerMessage.SendToServer(new StringMessage(Utils.GetShipJson(NetworkLobbyClientGUI.selectedShip)));
+	});
+	
+	public static readonly GameMessage ResponseShipServerMessage = new GameMessage(msg => {
+		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>()
+				.AddClientShip(msg.conn, msg.ReadMessage<StringMessage>().value);
+	});
 
-	[System.Serializable]
+	[Serializable]
 	public class StringList : List<string> { }
 
-	[System.Serializable]
+	[Serializable]
 	public class MultyStringList : List<List<string>> { }
 	
-	[System.Serializable]
+	[Serializable]
 	public class Vector3List : List<Vector3> { }
 
 	#endregion
