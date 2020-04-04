@@ -264,6 +264,7 @@ MonoBehaviour:
   m_OnlineScene: Lobby
   m_SpawnPrefabs:
   - {fileID: 1829593063244557294, guid: e44575a468b493c40aa5453fec6cd2ac, type: 3}
+  - {fileID: 8577016000011909186, guid: 12d20a47d742fa144ad1cbfc481aa334, type: 3}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

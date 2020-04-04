@@ -13,6 +13,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public bool GameInProgress ;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
+	public Dictionary<NetworkIdentity, Vector2> playerGunVectors = new Dictionary<NetworkIdentity, Vector2>();
 
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))

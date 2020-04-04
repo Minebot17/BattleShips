@@ -58,6 +58,10 @@ public class MessageManager {
 		Utils.DeserializeShipPartsFromJson(shipObject, ((StringMessage)messages[1]).value);
 	});
 	
+	public static readonly GameMessage name = new GameMessage(msg => {
+		
+	});
+
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 

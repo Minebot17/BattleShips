@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 486139735350138543}
   - component: {fileID: 551601282658687144}
   - component: {fileID: 1238005028969507167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShipCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
