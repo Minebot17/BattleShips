@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerShip: {fileID: 0}
   cam: {fileID: 2072155905}
-  touch: 1
+  touch: 0
   leftJoystick: {fileID: 743183633}
   rightJoystick: {fileID: 1303457999}
 --- !u!114 &2072155908
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 1
+  speed: 0.1
 --- !u!1 &2072894543
 GameObject:
   m_ObjectHideFlags: 0

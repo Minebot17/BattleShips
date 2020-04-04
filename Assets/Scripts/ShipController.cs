@@ -12,17 +12,19 @@ public class ShipController : NetworkBehaviour {
     public float rotationPower = 1f;
     
     private void Start() {
-        GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject;
-        if (!isLocalPlayer)
+        MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
+        
+        if (!hasAuthority)
             return;
 
+        GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject;
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
         ShipInputManager.singleton.playerShip = gameObject;
     }
 
     private void FixedUpdate() {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
             return;
 
         float rotation = ShipInputManager.singleton.GetShipRotation();
@@ -33,8 +35,12 @@ public class ShipController : NetworkBehaviour {
             rigidbody.AddTorque(rotation * rotationPower, ForceMode2D.Force);
         
         if (trust != 0)
-            rigidbody.AddForce(forwardPointer.localPosition.ToVector2() * (trust * trustPower), ForceMode2D.Force);
+            rigidbody.AddForce(GetForward() * (trust * trustPower), ForceMode2D.Force);
         
         // TODO gun
+    }
+
+    private Vector2 GetForward() {
+        return (forwardPointer.position - forwardPointer.parent.position).ToVector2();
     }
 }

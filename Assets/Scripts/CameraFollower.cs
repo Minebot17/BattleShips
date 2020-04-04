@@ -14,7 +14,7 @@ public class CameraFollower : MonoBehaviour {
 		set { target = value; }
 	}
 
-	private void FixedUpdate() {
+	private void Update() {
 		if (!target)
 			return;
 

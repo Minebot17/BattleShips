@@ -44,9 +44,10 @@ public class NetworkManagerCustom : NetworkManager {
 
 	private void SpawnClientShip(NetworkConnection conn) {
 		Vector2 spawnPosition = GetSpawnPoint();
-		GameObject ship = Utils.DeserializeShipFromJson(playerShips[conn], true);
-		ship.transform.position = spawnPosition.ToVector3();
-		NetworkServer.SpawnWithClientAuthority(ship, conn);
+		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
+		shipObject.transform.position = spawnPosition.ToVector3();
+		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
+		Utils.DeserializeShipPartsFromJson(shipObject, playerShips[conn]);
 	}
 
 	private Vector2 GetSpawnPoint() {

@@ -16,15 +16,15 @@ public class ShipInputManager : MonoBehaviour {
     }
 
     public void Start() {
-        leftJoystick.enabled = touch;
-        rightJoystick.enabled = touch;
+        leftJoystick.gameObject.SetActive(touch);
+        rightJoystick.gameObject.SetActive(touch);
     }
 
     public float GetShipRotation() {
         if (touch)
-            return leftJoystick.Horizontal;
+            return -leftJoystick.Horizontal;
         
-        return Input.GetKey(KeyCode.A) ? -1 : Input.GetKey(KeyCode.D) ? 1 : 0;
+        return Input.GetKey(KeyCode.A) ? 1 : Input.GetKey(KeyCode.D) ? -1 : 0;
     }
 
     public float GetShipTrust() {

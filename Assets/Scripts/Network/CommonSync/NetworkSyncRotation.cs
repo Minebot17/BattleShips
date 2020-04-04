@@ -20,21 +20,18 @@ public class NetworkSyncRotation : NetworkVectors{
 	
 	private void Update() {
 		if (fromLocalPlayer) {
-			if (isLocalPlayer)
+			if (hasAuthority)
 				return;
 		}
 		else if (isServer)
 			return;
-
-		if (isServer)
-			lastRotation = transform.localEulerAngles;
 
 		InterpolateRotation();
 	}
 
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!isLocalPlayer)
+			if (!hasAuthority)
 				return;
 		}
 		else if (!isServer)
@@ -50,12 +47,14 @@ public class NetworkSyncRotation : NetworkVectors{
 	private bool IsRotationChanged() {
 		Vector3 rotation = new Vector3(X ? transform.localEulerAngles.x : lastRotation.x, Y ? transform.localEulerAngles.y : lastRotation.y, Z ? transform.localEulerAngles.z : lastRotation.z);
 		return Vector3.Distance(rotation, lastRotation) > rotThreshold;
+		return true;
 	}
 	
 	private void InterpolateRotation() {
 		Vector3 rot = transform.localEulerAngles;
 		Vector3 newRot = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(lastRotation), Time.deltaTime * rotLerpRate).eulerAngles;
 		transform.localEulerAngles = new Vector3(X ? newRot.x : rot.x, Y ? newRot.y : rot.y, Z ? newRot.z : rot.z);
+		transform.localEulerAngles = lastRotation;
 	}
 
 	[Command(channel = Channels.DefaultUnreliable)]

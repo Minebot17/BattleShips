@@ -20,7 +20,7 @@ public class NetworkSyncScaleChild : NetworkBehaviour {
 	
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!isLocalPlayer)
+			if (!hasAuthority)
 				return;
 		}
 		else if (!isServer)
@@ -66,7 +66,7 @@ public class NetworkSyncScaleChild : NetworkBehaviour {
 		for (int i = 0; i < array.Length; i++)
 			lastScales[indexes[i]] = array[i];
 		if (fromLocalPlayer) {
-			if (isLocalPlayer)
+			if (hasAuthority)
 				return;
 		}
 		else if (isServer)

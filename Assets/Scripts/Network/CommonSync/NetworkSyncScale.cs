@@ -19,7 +19,7 @@ public class NetworkSyncScale : NetworkVectors {
 	private void OnScaleChange(Vector3 value) {
 		lastScale = value;
 		if (fromLocalPlayer) {
-			if (isLocalPlayer)
+			if (hasAuthority)
 				return;
 		}
 		else if (isServer)
@@ -30,7 +30,7 @@ public class NetworkSyncScale : NetworkVectors {
 
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!isLocalPlayer)
+			if (!hasAuthority)
 				return;
 		}
 		else if (!isServer)

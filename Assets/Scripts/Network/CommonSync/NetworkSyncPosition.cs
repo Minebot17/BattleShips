@@ -21,7 +21,7 @@ public class NetworkSyncPosition : NetworkVectors {
 
 	private void Update() {
 		if (fromLocalPlayer) {
-			if (isLocalPlayer)
+			if (hasAuthority)
 				return;
 		}
 		else if (isServer)
@@ -32,7 +32,7 @@ public class NetworkSyncPosition : NetworkVectors {
 
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!isLocalPlayer)
+			if (!hasAuthority)
 				return;
 		}
 		else if (!isServer)

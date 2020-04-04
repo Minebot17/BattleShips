@@ -42,20 +42,23 @@ public static class Utils {
     }
 
     public static GameObject DeserializeShip(string shipName, bool withController = false) {
-        return DeserializeShipFromJson(GetShipJson(shipName));
+        return DeserializeShipFromJson(GetShipJson(shipName), withController, shipName);
     }
 
-    public static GameObject DeserializeShipFromJson(string json, bool withController = false) {
-        Ship ship = JsonUtility.FromJson<Ship>(json);
+    public static GameObject DeserializeShipFromJson(string json, bool withController = false, string shipName = "") {
+        
         GameObject shipObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
         shipObject.GetComponent<ShipController>().enabled = withController;
-        shipObject.name = "Ship";
+        shipObject.name = shipName + "Ship";
         shipObject.transform.localPosition = Vector3.zero;
-        
-        GameObject forwardPointer = new GameObject("ForwardPointer");
-        forwardPointer.transform.parent = shipObject.transform;
-        forwardPointer.transform.localPosition = new Vector3(0, 1, 0);
-        
+
+        DeserializeShipPartsFromJson(shipObject, json);
+
+        return shipObject;
+    }
+
+    public static void DeserializeShipPartsFromJson(GameObject shipObject, string json) {
+        Ship ship = JsonUtility.FromJson<Ship>(json);
         for (int i = 0; i < ship.shipCells.Count; i++) {
             GameObject shipCell = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), shipObject.transform);
             shipCell.name = "ShipCell " + ship.shipCells[i].positionOnShip.x + " " + ship.shipCells[i].positionOnShip.y;
@@ -80,8 +83,6 @@ public static class Utils {
                 }
             }
         }
-
-        return shipObject;
     }
 
     public static string GetShipJson(string shipName) {
@@ -91,6 +92,9 @@ public static class Utils {
     public static void SerializeShip(GameObject shipObject) {
         Ship ship = new Ship();
         for (int i = 0; i < shipObject.transform.childCount; i++) {
+            if (!shipObject.transform.GetChild(i).name.StartsWith("ShipCell"))
+                continue;
+            
             GameObject shipCell = shipObject.transform.GetChild(i).gameObject;
             ShipCell cell = new ShipCell();
             string[] splittedName = shipCell.name.Split(' ');

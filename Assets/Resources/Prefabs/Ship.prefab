@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7308499375990886396}
   - component: {fileID: 4995754193170269664}
   - component: {fileID: -6770703054382944236}
+  - component: {fileID: 7559252952544963984}
   - component: {fileID: 4782216032328181830}
   m_Layer: 0
   m_Name: Ship
@@ -32,7 +33,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2797817629172648002}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,7 +51,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -144,6 +146,21 @@ MonoBehaviour:
   velocityLerpRate: 15
   velocityThreshold: 0.1
   fromLocalPlayer: 1
+--- !u!114 &7559252952544963984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829593063244557294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb11bca7d834e9eb27de9c37393f22f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angularLerpRate: 15
+  angularThreshold: 0.1
+  fromLocalPlayer: 1
 --- !u!114 &4782216032328181830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,5 +173,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10895f5c26029d46a9949f4a85d13d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trustPower: 1
-  rotationPower: 1
+  trustPower: 50
+  rotationPower: 25
+--- !u!1 &4332470153827670108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2797817629172648002}
+  m_Layer: 0
+  m_Name: ForwardPointer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2797817629172648002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332470153827670108}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3096915464810858827}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

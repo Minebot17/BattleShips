@@ -23,7 +23,7 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 
 	private void Update() {
 		if (fromLocalPlayer) {
-			if (isLocalPlayer)
+			if (hasAuthority)
 				return;
 		}
 		else if (isServer)
@@ -38,7 +38,7 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!isLocalPlayer)
+			if (!hasAuthority)
 				return;
 		}
 		else if (!isServer)
@@ -82,7 +82,7 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 
 	[ClientRpc]
 	private void RpcSendToClients(Vector3[] array, int[] indexes) {
-		if (isLocalPlayer)
+		if (hasAuthority)
 			return;
 		for (int i = 0; i < array.Length; i++)
 			lastPositions[indexes[i]] = array[i];
