@@ -58,8 +58,11 @@ public class MessageManager {
 		Utils.DeserializeShipPartsFromJson(shipObject, ((StringMessage)messages[1]).value);
 	});
 	
-	public static readonly GameMessage name = new GameMessage(msg => {
-		
+	public static readonly GameMessage DestroyModuleClientMessage = new GameMessage(msg => {
+		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
+		NetworkIdentity identity = ((NetworkIdentityMessage)messages.Value[0]).Value;
+		string cellName = ((StringMessage) messages.Value[1]).value;
+		MonoBehaviour.Destroy(identity.transform.Find(cellName).transform.GetChild(0).gameObject);
 	});
 
 	[Serializable]
