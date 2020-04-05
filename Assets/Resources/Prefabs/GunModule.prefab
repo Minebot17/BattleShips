@@ -149,6 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ticksCD: 25
-  ammoSpeed: 0.1
+  ammoSpeed: 0.15
   ammoPrefab: {fileID: 8577016000011909186, guid: 12d20a47d742fa144ad1cbfc481aa334,
     type: 3}

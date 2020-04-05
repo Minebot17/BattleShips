@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.NetworkSystem;
 
 public class ShipInputManager : MonoBehaviour {
     public static ShipInputManager singleton;
@@ -41,5 +42,9 @@ public class ShipInputManager : MonoBehaviour {
         return Input.GetMouseButton(0) 
                ? (cam.ScreenToWorldPoint(Input.mousePosition) - playerShip.transform.position).ToVector2() 
                : new Vector2(0, 0);
+    }
+    
+    public void OnRestartClick() {
+		MessageManager.ResetGameServerMessage.SendToServer(new EmptyMessage());
     }
 }

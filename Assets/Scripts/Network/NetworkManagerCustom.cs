@@ -35,7 +35,14 @@ public class NetworkManagerCustom : NetworkManager {
 			}
 		}
 	}
-	
+
+	public void GameOver(NetworkConnection looser) {
+		foreach (NetworkConnection conn in NetworkServer.connections)
+			MessageManager.GameOverClientMessage.SendToClient(conn, new StringMessage((looser != conn)+""));
+
+		Time.timeScale = 0;
+	}
+
 	IEnumerator WaitForReady(NetworkConnection conn) {
 		while (!conn.isReady)
 			yield return new WaitForSeconds(0.25f);

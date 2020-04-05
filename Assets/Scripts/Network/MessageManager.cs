@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.UI;
 
 public class MessageManager {
 
@@ -65,6 +66,25 @@ public class MessageManager {
 		MonoBehaviour.Destroy(identity.transform.Find(cellName).transform.GetChild(0).gameObject);
 	});
 
+	public static readonly GameMessage GameOverClientMessage = new GameMessage(msg => {
+		bool winner = bool.Parse(msg.ReadMessage<StringMessage>().value);
+		GameObject.Find(winner ? "WinLabel" : "LooseLabel").GetComponent<Text>().enabled = true;
+		GameObject.Find("RestartButton").GetComponent<Image>().enabled = true;
+		GameObject.Find("RestartButton").GetComponent<Button>().enabled = true;
+		GameObject.Find("RestartButton").transform.GetChild(0).GetComponent<Text>().enabled = true;
+		Time.timeScale = 0;
+	});
+	
+	public static readonly GameMessage ResetGameServerMessage = new GameMessage(msg => {
+		NetworkManager.singleton.ServerChangeScene("Game");
+		Time.timeScale = 1f;
+		RecoveryTimeScaleClientMessage.SendToAllClients(new EmptyMessage());
+	});
+	
+	public static readonly GameMessage RecoveryTimeScaleClientMessage = new GameMessage(msg => {
+		Time.timeScale = 1f;
+	});
+	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 
