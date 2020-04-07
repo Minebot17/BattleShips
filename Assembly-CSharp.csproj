@@ -98,6 +98,7 @@
      <Compile Include="Assets\Scripts\ShipModel\ShipCell.cs" />
      <Compile Include="Assets\Scripts\ShipModel\ShipEditor.cs" />
      <Compile Include="Assets\Scripts\ShipModel\ShipModule.cs" />
+     <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyClientGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyServerGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGUI.cs" />

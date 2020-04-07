@@ -26,6 +26,9 @@ public class ShipServerController : NetworkBehaviour {
             return;
 
         for (int i = 0; i < guns.Length; i++) {
+            if (!(UnityEngine.Object)guns[i])
+                continue;
+            
             Vector2 shootVector = NetworkManagerCustom.singleton.playerGunVectors[identity];
             if (shootVector != Vector2.zero)
                 guns[i].Shoot(shootVector.normalized);

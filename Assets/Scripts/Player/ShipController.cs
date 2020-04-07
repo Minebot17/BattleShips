@@ -19,9 +19,11 @@ public class ShipController : NetworkBehaviour {
     private void Start() {
         MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
-        
-        if (!hasAuthority)
+
+        if (!hasAuthority) {
+            GameObject.Find("EnemyPointer").GetComponent<EnemyPointer>().Target = gameObject;
             return;
+        }
 
         GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject;
         rigidbody = GetComponent<Rigidbody2D>();
