@@ -14,6 +14,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
 	public Dictionary<NetworkIdentity, Vector2> playerGunVectors = new Dictionary<NetworkIdentity, Vector2>();
+	public int lastConnections;
 
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
@@ -26,6 +27,9 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public override void OnServerSceneChanged(string sceneName) {
+		if (sceneName.Equals("ShipEditor"))
+			lastConnections = NetworkServer.connections.Count;
+		
 		if (sceneName.Equals("Game")) {
 			foreach (NetworkConnection conn in playerShips.Keys) {
 				if (conn.isReady)

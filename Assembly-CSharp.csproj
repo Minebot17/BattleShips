@@ -95,14 +95,13 @@
      <Compile Include="Assets\Scripts\Player\ShipInputManager.cs" />
      <Compile Include="Assets\Scripts\Player\ShipServerController.cs" />
      <Compile Include="Assets\Scripts\ShipModel\Ship.cs" />
-     <Compile Include="Assets\Scripts\ShipModel\ShipCell.cs" />
      <Compile Include="Assets\Scripts\ShipModel\ShipEditor.cs" />
      <Compile Include="Assets\Scripts\ShipModel\ShipModule.cs" />
+     <Compile Include="Assets\Scripts\UI\EditorModule.cs" />
      <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyClientGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyServerGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\ShipManagerStartGUI.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
  <Reference Include="Unity.Timeline.Editor">

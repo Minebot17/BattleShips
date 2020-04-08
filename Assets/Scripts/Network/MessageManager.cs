@@ -36,14 +36,14 @@ public class MessageManager {
 		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().SetReady(msg.conn, ready);
 	});
 	
-	public static readonly GameMessage RequestShipClientMessage = new GameMessage(msg => {
+	/*public static readonly GameMessage RequestShipClientMessage = new GameMessage(msg => {
 		ResponseShipServerMessage.SendToServer(new StringMessage(Utils.GetShipJson(NetworkLobbyClientGUI.selectedShip)));
 	});
 	
 	public static readonly GameMessage ResponseShipServerMessage = new GameMessage(msg => {
 		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>()
 				.AddClientShip(msg.conn, msg.ReadMessage<StringMessage>().value);
-	});
+	});*/
 	
 	public static readonly GameMessage RequestShipPartsServerMessage = new GameMessage(msg => {
 		NetworkIdentity id = msg.ReadMessage<NetworkIdentityMessage>().Value;
@@ -83,6 +83,23 @@ public class MessageManager {
 	
 	public static readonly GameMessage RecoveryTimeScaleClientMessage = new GameMessage(msg => {
 		Time.timeScale = 1f;
+	});
+	
+	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {
+		string json = NetworkManagerCustom.singleton.playerShips.ContainsKey(msg.conn)
+					? NetworkManagerCustom.singleton.playerShips[msg.conn]
+					: Utils.CreateEmptyShip();
+		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(json));
+	});
+	
+	public static readonly GameMessage ResponseShipEditorClientMessage = new GameMessage(msg => {
+		ShipEditor.singleton.OpenShip(msg.ReadMessage<StringMessage>().value);
+	});
+	
+	public static readonly GameMessage SendShipServerMessage = new GameMessage(msg => {
+		NetworkManagerCustom.singleton.playerShips[msg.conn] = msg.ReadMessage<StringMessage>().value;
+		if (--NetworkManagerCustom.singleton.lastConnections == 0) 
+			NetworkManagerCustom.singleton.ServerChangeScene("Game");
 	});
 	
 	[Serializable]

@@ -5,7 +5,7 @@ using UnityEngine;
 
 [Serializable]
 public class Ship {
-    public List<ShipCell> shipCells = new List<ShipCell>();
+    public List<ShipModule> shipModules = new List<ShipModule>();
 
     public Ship() {
     }

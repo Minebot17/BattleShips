@@ -38,11 +38,6 @@ public class NetworkManagerCustomGUI : MonoBehaviour {
 				NetworkManager.singleton.networkPort = int.Parse(Port);
 				NetworkManager.singleton.StartHost();
 			}
-
-			if (GUILayout.Button("Ships Manager")) {
-				enabled = false;
-				SceneManager.LoadScene("Scenes/ShipManagerMenu");
-			}
 		}
 		else {
 			if (GUILayout.Button("Disconnect")) {
