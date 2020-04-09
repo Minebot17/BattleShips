@@ -1,9 +1,9 @@
 Build/
 .idea/
+.vs/
 Library/
 Logs/
 obj/
 Temp/
-*.meta
 Build.rar
 BattleShips.sln

@@ -86,10 +86,7 @@ public class MessageManager {
 	});
 	
 	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {
-		string json = NetworkManagerCustom.singleton.playerShips.ContainsKey(msg.conn)
-					? NetworkManagerCustom.singleton.playerShips[msg.conn]
-					: Utils.CreateEmptyShip();
-		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(json));
+		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerShips[msg.conn]));
 	});
 	
 	public static readonly GameMessage ResponseShipEditorClientMessage = new GameMessage(msg => {

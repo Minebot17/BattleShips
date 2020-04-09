@@ -25,7 +25,7 @@ public class ShipController : NetworkBehaviour {
             return;
         }
 
-        GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject;
+        GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject.transform;
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
         ShipInputManager.singleton.playerShip = gameObject;

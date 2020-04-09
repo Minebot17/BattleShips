@@ -13,8 +13,10 @@ public class NetworkManagerCustom : NetworkManager {
 	public bool GameInProgress ;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
+	public Dictionary<NetworkConnection, int> playerScore = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkIdentity, Vector2> playerGunVectors = new Dictionary<NetworkIdentity, Vector2>();
 	public int lastConnections;
+	public int scoreForWin;
 
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
@@ -38,6 +40,16 @@ public class NetworkManagerCustom : NetworkManager {
 					StartCoroutine(WaitForReady(conn));
 			}
 		}
+	}
+
+	public void StartGame() {
+		GameInProgress = true;
+		foreach (NetworkConnection conn in NetworkServer.connections) {
+			playerShips[conn] = Utils.CreateEmptyShip();
+			playerScore[conn] = 0;
+		}
+
+		NetworkManager.singleton.ServerChangeScene("ShipEditor");
 	}
 
 	public void GameOver(NetworkConnection looser) {

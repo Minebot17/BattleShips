@@ -31,6 +31,8 @@ public class NetworkLobbyServerGUI : NetworkLobbyClientGUI {
 		GUILayout.Label("Вы в лобби. Подключено " + connectionsCount + " игроков");
 		GUILayout.Label("Готовы " + readyCount + " из " + connectionsCount);
 
+		NetworkManagerCustom.singleton.scoreForWin = int.Parse(GUILayout.TextField(NetworkManagerCustom.singleton.scoreForWin+""));
+
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
 			SetReady(NetworkManager.singleton.client.connection, ready);
@@ -38,10 +40,8 @@ public class NetworkLobbyServerGUI : NetworkLobbyClientGUI {
 
 		if (readyCount == connectionsCount 
 				&& !NetworkManagerCustom.singleton.GameInProgress 
-				&& GUILayout.Button("Старт!")) {
-			NetworkManagerCustom.singleton.GameInProgress = true;
-			NetworkManager.singleton.ServerChangeScene("ShipEditor");
-		}
+				&& GUILayout.Button("Старт!"))
+			NetworkManagerCustom.singleton.StartGame();
 		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
 			GUILayout.Label("Загрузка...");
 	}
