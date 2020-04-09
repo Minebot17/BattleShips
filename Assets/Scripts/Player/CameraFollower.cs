@@ -7,6 +7,16 @@ public class CameraFollower : MonoBehaviour {
 	
 	[SerializeField]
 	private GameObject target;
+	[SerializeField]
+	private Camera camera;
+	[SerializeField]
+	private BoxCollider2D leftBorder;
+	[SerializeField]
+	private BoxCollider2D rightBorder;
+	[SerializeField]
+	private BoxCollider2D topBorder;
+	[SerializeField]
+	private BoxCollider2D bottomBorder;
 
 	public float speed;
 
@@ -14,15 +24,23 @@ public class CameraFollower : MonoBehaviour {
 		set { target = value; }
 	}
 
-	private void Update() {
+	private void LateUpdate() {
 		if (!target)
 			return;
 
-		if (transform.position != target.transform.position) {
-			Vector2 delta = ((target.transform.position - transform.position) * speed) + transform.position;
+		Vector2 newPosition = Vector2.Lerp(transform.position, target.transform.position, speed * Time.deltaTime);
 
-			if (transform.position != new Vector3(delta.x, delta.y, transform.position.z))
-				transform.position = new Vector3(delta.x, delta.y, transform.position.z);
-		}
+		if (transform.position != new Vector3(newPosition.x, newPosition.y, transform.position.z))
+			transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
+		
+		if(camera.ViewportToWorldPoint(new Vector3(0, 0.5f, camera.farClipPlane)).x < leftBorder.transform.position.x)
+			transform.position = new Vector3(leftBorder.transform.position.x - camera.ViewportToWorldPoint(new Vector3(0, 0.5f, camera.farClipPlane)).x + transform.position.x, transform.position.y, transform.position.z);
+		if (camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.farClipPlane)).x > rightBorder.transform.position.x)
+			transform.position = new Vector3(rightBorder.transform.position.x - camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.farClipPlane)).x + transform.position.x, transform.position.y, transform.position.z);
+		if (camera.ViewportToWorldPoint(new Vector3(0.5f, 1, camera.farClipPlane)).y > topBorder.transform.position.y)
+			transform.position = new Vector3(transform.position.x, topBorder.transform.position.y - camera.ViewportToWorldPoint(new Vector3(0.5f, 1, camera.farClipPlane)).y + transform.position.y, transform.position.z);
+		if (camera.ViewportToWorldPoint(new Vector3(0.5f, 0, camera.farClipPlane)).y < bottomBorder.transform.position.y)
+			transform.position = new Vector3(transform.position.x, bottomBorder.transform.position.y - camera.ViewportToWorldPoint(new Vector3(0.5f, 0, camera.farClipPlane)).y + transform.position.y, transform.position.z);
 	}
+
 }
