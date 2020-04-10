@@ -31,7 +31,7 @@ public class ShipController : NetworkBehaviour {
         ShipInputManager.singleton.playerShip = gameObject;
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         if (!hasAuthority)
             return;
 
