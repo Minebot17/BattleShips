@@ -36,15 +36,6 @@ public class MessageManager {
 		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().SetReady(msg.conn, ready);
 	});
 	
-	/*public static readonly GameMessage RequestShipClientMessage = new GameMessage(msg => {
-		ResponseShipServerMessage.SendToServer(new StringMessage(Utils.GetShipJson(NetworkLobbyClientGUI.selectedShip)));
-	});
-	
-	public static readonly GameMessage ResponseShipServerMessage = new GameMessage(msg => {
-		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>()
-				.AddClientShip(msg.conn, msg.ReadMessage<StringMessage>().value);
-	});*/
-	
 	public static readonly GameMessage RequestShipPartsServerMessage = new GameMessage(msg => {
 		NetworkIdentity id = msg.ReadMessage<NetworkIdentityMessage>().Value;
 		ResponseShipPartsClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
@@ -55,15 +46,18 @@ public class MessageManager {
 	
 	public static readonly GameMessage ResponseShipPartsClientMessage = new GameMessage(msg => {
 		MessagesList messages = msg.ReadMessage<MessagesMessage>().Value;
-		GameObject shipObject = ((NetworkIdentityMessage) messages[0]).Value.gameObject;
-		Utils.DeserializeShipPartsFromJson(shipObject, ((StringMessage)messages[1]).value);
+		NetworkIdentity shipObject = ((NetworkIdentityMessage) messages[0]).Value;
+		string json = ((StringMessage) messages[1]).value;
+		Utils.DeserializeShipPartsFromJson(shipObject.gameObject, json);
 	});
 	
 	public static readonly GameMessage DestroyModuleClientMessage = new GameMessage(msg => {
 		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
 		NetworkIdentity identity = ((NetworkIdentityMessage)messages.Value[0]).Value;
 		string cellName = ((StringMessage) messages.Value[1]).value;
-		MonoBehaviour.Destroy(identity.transform.Find(cellName).transform.GetChild(0).gameObject);
+		Transform cellTransform = identity.transform.Find(cellName);
+		if (cellTransform.childCount != 0)
+			MonoBehaviour.Destroy(cellTransform.GetChild(0).gameObject);
 	});
 
 	public static readonly GameMessage GameOverClientMessage = new GameMessage(msg => {
@@ -99,6 +93,33 @@ public class MessageManager {
 			NetworkManagerCustom.singleton.ServerChangeScene("Game");
 	});
 	
+	public static readonly GameMessage KillShipClientMessage = new GameMessage(msg => {
+		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
+		NetworkIdentity killer = ((NetworkIdentityMessage) messages.Value[0]).Value;
+		NetworkIdentity prey = ((NetworkIdentityMessage) messages.Value[1]).Value;
+		
+		// TODO анимация взрыва корабля
+	});
+	
+	public static readonly GameMessage RequestScoreboardInfoServerMessage = new GameMessage(msg => {
+		ResponseScoreboardInfoClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
+			new StringListMessage(NetworkManagerCustom.singleton.playerShips.Values.ToList()),
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerScore.Values.ToList()), 
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerCurrentKills.Values.ToList()), 
+			new IntegerMessage(NetworkManagerCustom.singleton.scoreForWin) 
+		}));
+	});
+	
+	public static readonly GameMessage ResponseScoreboardInfoClientMessage = new GameMessage(msg => {
+		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
+		Scoreboard.singleton.Init(
+			((StringListMessage)messages.Value[0]).Value,
+			((IntegerListMessage)messages.Value[1]).Value,
+			((IntegerListMessage)messages.Value[2]).Value,
+			((IntegerMessage)messages.Value[3]).value
+		);
+	});
+	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 
@@ -110,6 +131,9 @@ public class MessageManager {
 	
 	[Serializable]
 	public class Vector3List : List<Vector3> { }
+	
+	[Serializable]
+	public class IntegerList : List<int> {  }
 
 	#endregion
 }

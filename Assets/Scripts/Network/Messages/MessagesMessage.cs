@@ -19,6 +19,8 @@ public class MessagesMessage : MessageBase {
             string typeStr = reader.ReadString();
             Type type = typeStr.Equals("UnityEngine.Networking.NetworkSystem.StringMessage")
                         ? typeof(StringMessage)
+                        : typeStr.Equals("UnityEngine.Networking.NetworkSystem.IntegerMessage") 
+                        ? typeof(IntegerMessage) 
                         : Type.GetType(typeStr);
             MessageBase message = (MessageBase) type.GetConstructor(new Type[0]).Invoke(new object[0]);
             message.Deserialize(reader);

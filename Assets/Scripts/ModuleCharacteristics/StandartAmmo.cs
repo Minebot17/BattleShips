@@ -12,9 +12,11 @@ public class StandartAmmo : NetworkBehaviour, IAmmo {
     
     private int lifeSpanTimer = 999999;
     private GameObject owner;
+    private NetworkIdentity ownerIdentity;
 
     public void Init(GameObject owner, Vector2 shootVector) {
         this.owner = owner;
+        ownerIdentity = owner.GetComponent<NetworkIdentity>();
         GetComponent<Rigidbody2D>().AddForce(shootVector, ForceMode2D.Impulse);
         lifeSpanTimer = lifeSpan;
     }
@@ -24,7 +26,7 @@ public class StandartAmmo : NetworkBehaviour, IAmmo {
             return;
 
         if (hp.gameObject.transform.parent.parent.gameObject != owner) {
-            hp.Damage(damage);
+            hp.Damage(new PlayerDamageSource(damage, ownerIdentity));
             NetworkServer.Destroy(gameObject);
         }
     }

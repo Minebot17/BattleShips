@@ -17,7 +17,8 @@ public class ShipController : NetworkBehaviour {
     
     
     private void Start() {
-        MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
+        if (!isServer)
+            MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
 
         if (!hasAuthority) {

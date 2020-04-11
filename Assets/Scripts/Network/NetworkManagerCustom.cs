@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
@@ -10,13 +11,14 @@ using UnityEngine.Networking.NetworkSystem;
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
 	public bool IsServer;
-	public bool GameInProgress ;
+	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
 	public Dictionary<NetworkConnection, int> playerScore = new Dictionary<NetworkConnection, int>();
+	public Dictionary<NetworkConnection, int> playerCurrentKills = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkIdentity, Vector2> playerGunVectors = new Dictionary<NetworkIdentity, Vector2>();
 	public int lastConnections;
-	public int scoreForWin;
+	public int scoreForWin = 2;
 
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
@@ -47,16 +49,34 @@ public class NetworkManagerCustom : NetworkManager {
 		foreach (NetworkConnection conn in NetworkServer.connections) {
 			playerShips[conn] = Utils.CreateEmptyShip();
 			playerScore[conn] = 0;
+			playerCurrentKills[conn] = 0;
 		}
 
 		NetworkManager.singleton.ServerChangeScene("ShipEditor");
 	}
 
-	public void GameOver(NetworkConnection looser) {
-		foreach (NetworkConnection conn in NetworkServer.connections)
-			MessageManager.GameOverClientMessage.SendToClient(conn, new StringMessage((looser != conn)+""));
+	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
+		playerCurrentKills[killer.clientAuthorityOwner]++;
+		MessageManager.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
+			new NetworkIdentityMessage(killer),
+			new NetworkIdentityMessage(prey)
+		}));
+		Invoke(nameof(RoundOver), 2f); // TODO переделать если более 2х игроков
+	}
 
-		Time.timeScale = 0;
+	public void RoundOver() {
+		ServerChangeScene("Scoreboard");
+		Invoke(nameof(ScoreboardOver), Scoreboard.visibleSeconds);
+	}
+
+	public void ScoreboardOver() {
+		List<NetworkConnection> conns = playerCurrentKills.Keys.ToList();
+		foreach (NetworkConnection conn in conns) {
+			playerScore[conn] += playerCurrentKills[conn];
+			playerCurrentKills[conn] = 0;
+		}
+		
+		ServerChangeScene("ShipEditor");
 	}
 
 	IEnumerator WaitForReady(NetworkConnection conn) {

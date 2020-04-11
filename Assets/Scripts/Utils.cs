@@ -52,13 +52,13 @@ public static class Utils {
             shipCell.transform.localPosition = new Vector3(position.x * sizeOfOne, position.y * sizeOfOne, 0);
         }
     }
-    
+
     public static string SerializeShip(GameObject shipObject) {
         Ship ship = new Ship();
         for (int i = 0; i < shipObject.transform.childCount; i++) {
             if (!shipObject.transform.GetChild(i).name.StartsWith("ShipCell"))
                 continue;
-            
+
             GameObject shipCell = shipObject.transform.GetChild(i).gameObject;
             string[] splittedName = shipCell.name.Split(' ');
             Vector2Int position = new Vector2Int(int.Parse(splittedName[1]), int.Parse(splittedName[2]));

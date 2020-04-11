@@ -10,6 +10,7 @@ public class ShipServerController : NetworkBehaviour {
     
     private int initialModulesCount;
     private int currentModulesCount;
+    private bool isDead = false;
     
     private void Start() {
         identity = GetComponent<NetworkIdentity>();
@@ -35,15 +36,21 @@ public class ShipServerController : NetworkBehaviour {
         }
     }
 
-    public void OnModuleDeath(string type) {
-        NetworkConnection playerConnection = identity.clientAuthorityOwner;
+    public void OnModuleDeath(DamageSource damageSource, string type) {
+        if (isDead)
+            return;
+        
+        NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
         if (type.Equals("AICore")) {
-            NetworkManagerCustom.singleton.GameOver(playerConnection);
+            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
+            isDead = true;
             return;
         }
 
         currentModulesCount--;
-        if (currentModulesCount*5 <= initialModulesCount)
-            NetworkManagerCustom.singleton.GameOver(playerConnection);
+        if (currentModulesCount * 5 <= initialModulesCount) {
+            isDead = true;
+            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
+        }
     }
 }

@@ -66,11 +66,13 @@
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\CommonGunModule.cs" />
+     <Compile Include="Assets\Scripts\ModuleCharacteristics\DamageSource.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\DeathStandart.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\IAmmo.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\IDeath.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\IGunModule.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\ModuleHp.cs" />
+     <Compile Include="Assets\Scripts\ModuleCharacteristics\PlayerDamageSource.cs" />
      <Compile Include="Assets\Scripts\ModuleCharacteristics\StandartAmmo.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncAngular.cs" />
@@ -83,6 +85,7 @@
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncVelocity.cs" />
      <Compile Include="Assets\Scripts\Network\GameMessage.cs" />
      <Compile Include="Assets\Scripts\Network\MessageManager.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\IntegerListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\MessagesMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\NetworkIdentityMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\StringListMessage.cs" />
