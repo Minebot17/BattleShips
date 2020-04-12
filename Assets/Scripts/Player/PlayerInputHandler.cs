@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking.NetworkSystem;
 
-public class ShipInputManager : MonoBehaviour {
-    public static ShipInputManager singleton;
-    public GameObject playerShip; // надо задавать программно. Нужно, чтобы вычислять вектор направления стрельбы на пк
+public class PlayerInputHandler : MonoBehaviour, IInputHandler {
+    public static PlayerInputHandler singleton;
     public Camera cam;
     public bool touch = true;
     public Joystick leftJoystick;
@@ -35,12 +34,12 @@ public class ShipInputManager : MonoBehaviour {
         return Input.GetKey(KeyCode.S) ? -1 : Input.GetKey(KeyCode.W) ? 1 : 0;
     }
 
-    public Vector2 GetGunVector() {
+    public Vector2 GetGunVector(Vector3 vector) {
         if (touch)
             return rightJoystick.Direction;
         
         return Input.GetMouseButton(0) 
-               ? (cam.ScreenToWorldPoint(Input.mousePosition) - playerShip.transform.position).ToVector2() 
+               ? (cam.ScreenToWorldPoint(Input.mousePosition) - vector).ToVector2() 
                : new Vector2(0, 0);
     }
     

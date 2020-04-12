@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
@@ -14,13 +11,19 @@ public class ShipController : NetworkBehaviour {
 
     public GameObject enemyPointerPrefab;
     public float trustPower = 1f;
+
+    public delegate void Engines(Vector2 direction, ForceMode2D mode);
+    public Engines engines;
+
     public float rotationPower = 1f;
+    private IInputHandler inputHandler = PlayerInputHandler.singleton;
     
     
     private void Start() {
         if (!isServer)
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
+        engines = AddMainForce;
 
         if (!hasAuthority) {
             GameObject enemyPointer = Instantiate(enemyPointerPrefab, GameObject.Find("Canvas").transform);
@@ -31,16 +34,15 @@ public class ShipController : NetworkBehaviour {
         GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject.transform;
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
-        ShipInputManager.singleton.playerShip = gameObject;
     }
 
     private void Update() {
         if (!hasAuthority)
             return;
 
-        float rotation = ShipInputManager.singleton.GetShipRotation();
-        float trust = ShipInputManager.singleton.GetShipTrust();
-        Vector2 gunVector = ShipInputManager.singleton.GetGunVector();
+        float rotation = inputHandler.GetShipRotation();
+        float trust = inputHandler.GetShipTrust();
+        Vector2 gunVector = inputHandler.GetGunVector(transform.position);
 
         if (lastGunVector != gunVector) {
             if (isServer)
@@ -54,7 +56,9 @@ public class ShipController : NetworkBehaviour {
             rigidbody.AddTorque(rotation * rotationPower, ForceMode2D.Force);
         
         if (trust != 0)
-            rigidbody.AddForce(GetForward() * (trust * trustPower), ForceMode2D.Force);
+        {
+            engines.Invoke(GetForward() * trust, ForceMode2D.Force);
+        }
     }
 
     private Vector2 GetForward() {
@@ -72,5 +76,10 @@ public class ShipController : NetworkBehaviour {
 
     public override float GetNetworkSendInterval() {
         return 0.02f;
+    }
+
+    private void AddMainForce(Vector2 direction, ForceMode2D mode)
+    {
+        rigidbody.AddForce(direction * trustPower, mode);
     }
 }
