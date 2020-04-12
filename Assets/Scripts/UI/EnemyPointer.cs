@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class EnemyPointer : MonoBehaviour {
@@ -21,8 +18,8 @@ public class EnemyPointer : MonoBehaviour {
         if (!Target)
             return;
         
-        Vector2 pos = Target.transform.position - camera.transform.position;
-        rect.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(pos.y, pos.x));
-        image.enabled = pos.magnitude > 10;
+        Vector2 position = Target.transform.position - camera.transform.position;
+        rect.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(position.y, position.x));
+        image.enabled = position.magnitude > 10;
     }
 }

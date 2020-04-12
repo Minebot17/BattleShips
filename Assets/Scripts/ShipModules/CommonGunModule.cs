@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,7 +12,7 @@ public class CommonGunModule : MonoBehaviour, IGunModule {
     [SerializeField]
     private GameObject ammoPrefab;
 
-    private int timerCD = 0;
+    private int timerCD;
     
     public void Shoot(Vector2 vec) {
         if (!NetworkManagerCustom.singleton.IsServer)

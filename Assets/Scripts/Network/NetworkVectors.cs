@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 public class NetworkVectors : NetworkBehaviour {
 	public bool X;

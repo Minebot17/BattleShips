@@ -1,4 +1,3 @@
-
 using UnityEngine.Networking;
 
 public class PlayerDamageSource : DamageSource {

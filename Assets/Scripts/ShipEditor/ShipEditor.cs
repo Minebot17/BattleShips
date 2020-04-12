@@ -1,11 +1,6 @@
-﻿using System;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking.NetworkSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShipEditor : MonoBehaviour {

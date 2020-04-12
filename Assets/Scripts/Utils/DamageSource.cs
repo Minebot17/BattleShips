@@ -1,5 +1,3 @@
-using UnityEngine.Networking;
-
 public class DamageSource {
 
     private int amount;
