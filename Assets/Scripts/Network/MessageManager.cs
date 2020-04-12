@@ -95,8 +95,7 @@ public class MessageManager {
 		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
 		NetworkIdentity killer = ((NetworkIdentityMessage) messages.Value[0]).Value;
 		NetworkIdentity prey = ((NetworkIdentityMessage) messages.Value[1]).Value;
-		
-		// TODO анимация взрыва корабля
+		prey.GetComponent<IDeath>().OnDead(null);
 	});
 	
 	public static readonly GameMessage RequestScoreboardInfoServerMessage = new GameMessage(msg => {

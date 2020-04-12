@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,11 @@ public class EnemyPointer : MonoBehaviour {
     
     [SerializeField]
     private Image image;
-    
+
+    private void Start() {
+        camera = GameObject.Find("Main Camera");
+    }
+
     private void Update() {
         if (!Target)
             return;

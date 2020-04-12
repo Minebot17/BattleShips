@@ -96,8 +96,8 @@ public class NetworkManagerCustom : NetworkManager {
 	private Vector2 GetSpawnPoint() {
 		GameObject points = GameObject.Find("SpawnPoints");
 		int index = Utils.rnd.Next(points.transform.childCount);
-		Vector2 result = new Vector2(points.transform.GetChild(index).position.x, points.transform.GetChild(index).position.x);
-		Destroy(points.transform.GetChild(index).gameObject);
+		Vector2 result = new Vector2(points.transform.GetChild(index).position.x, points.transform.GetChild(index).position.y);
+		DestroyImmediate(points.transform.GetChild(index).gameObject);
 		return result;
 	}
 

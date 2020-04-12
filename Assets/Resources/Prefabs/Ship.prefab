@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7559252952544963984}
   - component: {fileID: 4782216032328181830}
   - component: {fileID: 6064448069935592005}
+  - component: {fileID: 2038251598706424931}
   m_Layer: 8
   m_Name: Ship
   m_TagString: Player
@@ -174,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10895f5c26029d46a9949f4a85d13d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPointerPrefab: {fileID: 8074436548526991826, guid: 850a6f2bcc5fe5643a9b7ce08cc64733,
+    type: 3}
   trustPower: 50
   rotationPower: 25
 --- !u!114 &6064448069935592005
@@ -188,6 +191,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c654649aa3854eae9337d599dad68028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2038251598706424931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829593063244557294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdfe0f2486b84356bd8f9948cfaff1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 6984430419054421309, guid: b763c097093decf4a9d41871479dfa00,
+    type: 3}
+  destroyTime: 2
 --- !u!1 &4332470153827670108
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class ShipController : NetworkBehaviour {
     private Transform forwardPointer;
     private NetworkIdentity identity;
 
+    public GameObject enemyPointerPrefab;
     public float trustPower = 1f;
     public float rotationPower = 1f;
     
@@ -22,7 +23,8 @@ public class ShipController : NetworkBehaviour {
         identity = GetComponent<NetworkIdentity>();
 
         if (!hasAuthority) {
-            GameObject.Find("EnemyPointer").GetComponent<EnemyPointer>().Target = gameObject;
+            GameObject enemyPointer = Instantiate(enemyPointerPrefab, GameObject.Find("Canvas").transform);
+            enemyPointer.GetComponent<EnemyPointer>().Target = gameObject;
             return;
         }
 

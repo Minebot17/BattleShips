@@ -324,6 +324,7 @@ MonoBehaviour:
   GameInProgress: 0
   StartArguments: []
   lastConnections: 0
+  scoreForWin: 2
 --- !u!4 &1161281330
 Transform:
   m_ObjectHideFlags: 0

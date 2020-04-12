@@ -97,6 +97,7 @@
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IDeath.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IGunModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\ModuleHp.cs" />
+     <Compile Include="Assets\Scripts\ShipModules\ShipDeathStandart.cs" />
      <Compile Include="Assets\Scripts\ShipModules\StandartAmmo.cs" />
      <Compile Include="Assets\Scripts\UI\EditorModule.cs" />
      <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />

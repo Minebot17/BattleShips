@@ -106,5 +106,7 @@ public class ShipEditor : MonoBehaviour {
         MessageManager.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
         Destroy(buttonObject.GetComponent<Button>());
         buttonObject.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
+        timerText.enabled = false;
+        timerStarted = false;
     }
 }

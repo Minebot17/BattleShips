@@ -428,7 +428,7 @@ MonoBehaviour:
   editorModulePrefab: {fileID: 4185844678102467263, guid: eef4befd2c7a67c418e7c6bff60f5eb7,
     type: 3}
   timerText: {fileID: 230349390}
-  timeBeforeClosing: 10
+  timeBeforeClosing: 30
 --- !u!4 &299456990
 Transform:
   m_ObjectHideFlags: 0
