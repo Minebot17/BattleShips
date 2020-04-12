@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 
@@ -7,14 +9,22 @@ public class ShipEditor : MonoBehaviour {
     public static ShipEditor singleton;
     public Transform editorModules;
     public GameObject editorModulePrefab;
-    
-    private string selectedModule = null;
+    public Text timerText;
+    public int timeBeforeClosing = 30;
+
+    private string selectedModule;
     private GameObject currentShip;
-    private EditorModule[] modules = null;
+    private EditorModule[] modules;
     private List<Image> moduleBackgrounds = new List<Image>();
+    private float closingTimer;
+    private bool timerStarted;
 
     public void Start() {
         singleton = this;
+        if (NetworkManagerCustom.singleton.IsServer)
+            SetTimer(timeBeforeClosing);
+        else
+            MessageManager.RequestTimerInEditorServerMessage.SendToServer(new EmptyMessage());
 
         modules = Resources.LoadAll<EditorModule>("EditorModules/");
         moduleBackgrounds.Add(editorModules.transform.GetChild(0).GetComponent<Image>());
@@ -28,6 +38,27 @@ public class ShipEditor : MonoBehaviour {
         }
 
         MessageManager.RequestShipEditorServerMessage.SendToServer(new EmptyMessage());
+    }
+
+    public void SetTimer(int seconds) {
+        closingTimer = seconds;
+        timerText.text = (int) Math.Ceiling(closingTimer) + ""; 
+        timerText.enabled = true;
+        timerStarted = true;
+    }
+
+    public void FixedUpdate() {
+        if (!timerStarted)
+            return;
+        
+        if (closingTimer > 0)
+            closingTimer -= Time.fixedDeltaTime;
+        else {
+            MessageManager.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
+            timerStarted = false;
+        }
+
+        timerText.text = (int) Math.Ceiling(closingTimer) + ""; 
     }
 
     public void OpenShip(string json) {

@@ -118,6 +118,14 @@ public class MessageManager {
 		);
 	});
 	
+	public static readonly GameMessage RequestTimerInEditorServerMessage = new GameMessage(msg => {
+		ResponseTimerInEditorClientMessage.SendToClient(msg.conn, new IntegerMessage(ShipEditor.singleton.timeBeforeClosing));
+	});
+	
+	public static readonly GameMessage ResponseTimerInEditorClientMessage = new GameMessage(msg => {
+		ShipEditor.singleton.SetTimer(msg.ReadMessage<IntegerMessage>().value - 1); // -1 нужно чтобы у клиентов таймер чуть был меньше из-за задержки пакетов
+	});
+	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 
