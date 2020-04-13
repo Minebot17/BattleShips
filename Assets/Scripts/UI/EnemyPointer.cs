@@ -16,7 +16,7 @@ public class EnemyPointer : MonoBehaviour {
     private Image image;
 
     private void Start() {
-        camera = GameObject.Find("Main Camera");
+        camera = CameraFollower.singleton.gameObject;
     }
 
     private void Update() {

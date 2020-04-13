@@ -10,10 +10,16 @@ public class MessageManager {
 
 	public static short LastIndex = 99;
 	public static readonly List<GameMessage> ToRegister = new List<GameMessage>();
+	public static bool Inited;
 
 	public static void Initialize() {
+		if (Inited)
+			return;
+		
 		foreach (GameMessage message in ToRegister)
 			message.Register();
+
+		Inited = true;
 	}
 
 	// ClientMessage - server to server, ServerMessage - client to server
@@ -95,9 +101,15 @@ public class MessageManager {
 		MessagesMessage messages = msg.ReadMessage<MessagesMessage>();
 		NetworkIdentity killer = ((NetworkIdentityMessage) messages.Value[0]).Value;
 		NetworkIdentity prey = ((NetworkIdentityMessage) messages.Value[1]).Value;
+
+		if (prey.hasAuthority) {
+			PlayerInputHandler.singleton.ToggleInput(false);
+			CameraFollower.singleton.gameObject.AddComponent<PlayerObserver>();
+		}
+		
 		prey.GetComponent<IDeath>().OnDead(null);
 	});
-	
+
 	public static readonly GameMessage RequestScoreboardInfoServerMessage = new GameMessage(msg => {
 		ResponseScoreboardInfoClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
 			new StringListMessage(NetworkManagerCustom.singleton.playerShips.Values.ToList()),

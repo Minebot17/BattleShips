@@ -87,6 +87,7 @@
      <Compile Include="Assets\Scripts\Player\CameraFollower.cs" />
      <Compile Include="Assets\Scripts\Player\IInputHandler.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerInputHandler.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerObserver.cs" />
      <Compile Include="Assets\Scripts\Player\ShipController.cs" />
      <Compile Include="Assets\Scripts\Player\ShipServerController.cs" />
      <Compile Include="Assets\Scripts\ShipEditor\Ship.cs" />
@@ -95,9 +96,9 @@
      <Compile Include="Assets\Scripts\ShipModules\BasicEngineModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\CommonGunModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\DeathStandart.cs" />
-     <Compile Include="Assets\Scripts\ShipModules\IEngineModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IAmmo.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IDeath.cs" />
+     <Compile Include="Assets\Scripts\ShipModules\Interfaces\IEngineModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IGunModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\ShipModules\ShipDeathStandart.cs" />

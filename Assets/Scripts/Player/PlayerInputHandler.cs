@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.UI;
 
 public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public static PlayerInputHandler singleton;
@@ -10,7 +11,8 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public bool touch = true;
     public Joystick leftJoystick;
     public Joystick rightJoystick;
-    
+    public Button screenButton;
+
     public void Awake() {
         singleton = this;
     }
@@ -18,6 +20,13 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public void Start() {
         leftJoystick.gameObject.SetActive(touch);
         rightJoystick.gameObject.SetActive(touch);
+    }
+
+    public void ToggleInput(bool active) {
+        if (touch) {
+            leftJoystick.gameObject.SetActive(active);
+            rightJoystick.gameObject.SetActive(active);
+        }
     }
 
     public float GetShipRotation() {

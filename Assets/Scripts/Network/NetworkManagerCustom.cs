@@ -60,9 +60,11 @@ public class NetworkManagerCustom : NetworkManager {
 			new NetworkIdentityMessage(killer),
 			new NetworkIdentityMessage(prey)
 		}));
-		Invoke(nameof(RoundOver), 2f); // TODO переделать если более 2х игроков
+		prey.GetComponent<IDeath>().OnDead(null);
+		if (GameObject.FindGameObjectsWithTag("Player").Length <= 1)
+			Invoke(nameof(RoundOver), 1.9f);
 	}
-
+	
 	public void RoundOver() {
 		ServerChangeScene("Scoreboard");
 		Invoke(nameof(ScoreboardOver), Scoreboard.visibleSeconds);
@@ -73,8 +75,15 @@ public class NetworkManagerCustom : NetworkManager {
 		foreach (NetworkConnection conn in conns) {
 			playerScore[conn] += playerCurrentKills[conn];
 			playerCurrentKills[conn] = 0;
+
+			if (playerScore[conn] == scoreForWin) {
+				ServerChangeScene("Lobby");
+				DestroyImmediate(GameObject.Find("LobbyManager"));
+				GameInProgress = false;
+				return;
+			}
 		}
-		
+
 		ServerChangeScene("ShipEditor");
 	}
 

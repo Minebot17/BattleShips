@@ -32,7 +32,7 @@ public class ShipController : NetworkBehaviour {
             return;
         }
 
-        GameObject.Find("Main Camera").GetComponent<CameraFollower>().Target = gameObject.transform;
+        CameraFollower.singleton.Target = gameObject.transform;
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
     }
@@ -57,9 +57,8 @@ public class ShipController : NetworkBehaviour {
             rigidbody.AddTorque(rotation * rotationPower, ForceMode2D.Force);
         
         if (trust != 0)
-        {
             engines.Invoke(GetForward() * trust, ForceMode2D.Force);
-        }
+        
     }
 
     private Vector2 GetForward() {

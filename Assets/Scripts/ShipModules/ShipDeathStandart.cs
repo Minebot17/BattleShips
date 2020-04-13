@@ -10,10 +10,8 @@ public class ShipDeathStandart : MonoBehaviour, IDeath {
     public void OnDead(DamageSource source) {
         effect = Instantiate(effectPrefab);
         effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.1f);
-        Invoke(nameof(DestroyEffect), destroyTime);
-    }
-
-    private void DestroyEffect() {
-        Destroy(effect);
+        Destroy(effect, destroyTime);
+        gameObject.SetActive(false);
+        Destroy(gameObject, destroyTime + 0.2f);
     }
 }

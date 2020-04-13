@@ -1,25 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CameraFollower : MonoBehaviour {
-	
-	[SerializeField]
-	private Transform target;
-	[SerializeField]
-	private Camera camera;
-	[SerializeField]
-	private BoxCollider2D leftBorder;
-	[SerializeField]
-	private BoxCollider2D rightBorder;
-	[SerializeField]
-	private BoxCollider2D topBorder;
-	[SerializeField]
-	private BoxCollider2D bottomBorder;
+
+	public static CameraFollower singleton;
+	[SerializeField] private Transform target;
+	[SerializeField] private Camera camera;
+	[SerializeField] private BoxCollider2D leftBorder;
+	[SerializeField] private BoxCollider2D rightBorder;
+	[SerializeField] private BoxCollider2D topBorder;
+	[SerializeField] private BoxCollider2D bottomBorder;
 
 	[SerializeField]
 	private float speed;
 
 	public Transform Target {
 		set => target = value;
+	}
+
+	private void Awake() {
+		singleton = this;
 	}
 
 	private void LateUpdate() {
