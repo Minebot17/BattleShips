@@ -105,6 +105,7 @@
      <Compile Include="Assets\Scripts\ShipModules\StandartAmmo.cs" />
      <Compile Include="Assets\Scripts\UI\EditorModule.cs" />
      <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />
+     <Compile Include="Assets\Scripts\UI\HoldButton.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyClientGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkLobbyServerGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGUI.cs" />

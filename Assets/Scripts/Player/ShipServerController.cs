@@ -7,11 +7,12 @@ public class ShipServerController : NetworkBehaviour {
     
     private IGunModule[] guns = null;
     private NetworkIdentity identity;
+    private ShipController commonController;
     
     private int initialModulesCount;
     private int currentModulesCount;
     private bool isDead = false;
-    
+
     private void Start() {
         identity = GetComponent<NetworkIdentity>();
         if (!isServer)
@@ -20,19 +21,19 @@ public class ShipServerController : NetworkBehaviour {
         guns = GetComponentsInChildren<IGunModule>();
         initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
         currentModulesCount = initialModulesCount;
+        commonController = GetComponent<ShipController>();
     }
 
     private void FixedUpdate() {
-        if (!isServer || !NetworkManagerCustom.singleton.playerGunVectors.ContainsKey(identity))
+        if (!isServer || !NetworkManagerCustom.singleton.playersGunButton.ContainsKey(identity))
             return;
 
         for (int i = 0; i < guns.Length; i++) {
             if (!(UnityEngine.Object)guns[i])
                 continue;
             
-            Vector2 shootVector = NetworkManagerCustom.singleton.playerGunVectors[identity];
-            if (shootVector != Vector2.zero)
-                guns[i].Shoot(shootVector.normalized);
+            if (NetworkManagerCustom.singleton.playersGunButton[identity])
+                guns[i].Shoot(commonController.GetForward());
         }
     }
 

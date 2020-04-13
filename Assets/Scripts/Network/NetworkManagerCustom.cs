@@ -15,7 +15,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
 	public Dictionary<NetworkConnection, int> playerScore = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkConnection, int> playerCurrentKills = new Dictionary<NetworkConnection, int>();
-	public Dictionary<NetworkIdentity, Vector2> playerGunVectors = new Dictionary<NetworkIdentity, Vector2>();
+	public Dictionary<NetworkIdentity, bool> playersGunButton = new Dictionary<NetworkIdentity, bool>();
 	public int lastConnections;
 	public int scoreForWin = 2;
 

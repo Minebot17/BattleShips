@@ -10,8 +10,8 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public Camera cam;
     public bool touch = true;
     public Joystick leftJoystick;
-    public Joystick rightJoystick;
-    public Button screenButton;
+    public HoldButton gunButton;
+    public GameObject screenButton;
 
     public void Awake() {
         singleton = this;
@@ -19,13 +19,13 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
 
     public void Start() {
         leftJoystick.gameObject.SetActive(touch);
-        rightJoystick.gameObject.SetActive(touch);
+        gunButton.gameObject.SetActive(touch);
     }
 
     public void ToggleInput(bool active) {
         if (touch) {
             leftJoystick.gameObject.SetActive(active);
-            rightJoystick.gameObject.SetActive(active);
+            gunButton.gameObject.SetActive(active);
         }
     }
 
@@ -43,13 +43,8 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
         return Input.GetKey(KeyCode.S) ? -1 : Input.GetKey(KeyCode.W) ? 1 : 0;
     }
 
-    public Vector2 GetGunVector(Vector3 vector) {
-        if (touch)
-            return rightJoystick.Direction;
-        
-        return Input.GetMouseButton(0) 
-               ? (cam.ScreenToWorldPoint(Input.mousePosition) - vector).ToVector2() 
-               : new Vector2(0, 0);
+    public bool GetGun() {
+        return touch ? gunButton.buttonPressed : Input.GetMouseButton(0);
     }
     
     public void OnRestartClick() {

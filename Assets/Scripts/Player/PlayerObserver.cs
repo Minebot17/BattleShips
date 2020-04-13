@@ -12,8 +12,8 @@ public class PlayerObserver : MonoBehaviour {
         players = GameObject.FindGameObjectsWithTag("Player");
         currentIndex = Utils.rnd.Next(players.Length);
         CameraFollower.singleton.Target = players[currentIndex].transform;
-        PlayerInputHandler.singleton.screenButton.enabled = true;
-        PlayerInputHandler.singleton.screenButton.onClick.AddListener(OnScreenClick);
+        PlayerInputHandler.singleton.screenButton.GetComponent<Image>().raycastTarget = true;
+        PlayerInputHandler.singleton.screenButton.GetComponent<Button>().onClick.AddListener(OnScreenClick);
     }
     
     public void OnScreenClick() {
