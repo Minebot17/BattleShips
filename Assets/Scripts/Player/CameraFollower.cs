@@ -33,17 +33,36 @@ public class CameraFollower : MonoBehaviour {
 
 		float widthOfScreen = (camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.farClipPlane)).x - transform.position.x) * 2;
 		float heightOfScreen = (camera.ViewportToWorldPoint(new Vector3(0.5f, 1, camera.farClipPlane)).y - transform.position.y) * 2;
+		bool leftBorderAchived = false;
+		bool rightBorderAchived = false;
+		bool topBorderAchived = false;
+		bool bottomBorderAchived = false;
 
 		if (camera.ViewportToWorldPoint(new Vector3(0, 0.5f, camera.farClipPlane)).x < leftBorder.transform.position.x)
+		{
+			leftBorderAchived = true;
 			transform.position = new Vector3(leftBorder.transform.position.x + widthOfScreen / 2, transform.position.y, transform.position.z);
-		
+		}
+
 		if (camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.farClipPlane)).x > rightBorder.transform.position.x)
+		{
+			rightBorderAchived = true;
 			transform.position = new Vector3(rightBorder.transform.position.x - widthOfScreen / 2, transform.position.y, transform.position.z);
-		
+		}
+
 		if (camera.ViewportToWorldPoint(new Vector3(0.5f, 1, camera.farClipPlane)).y > topBorder.transform.position.y)
+		{
+			topBorderAchived = true;
 			transform.position = new Vector3(transform.position.x, topBorder.transform.position.y - heightOfScreen / 2, transform.position.z);
-		
+		}
+
 		if (camera.ViewportToWorldPoint(new Vector3(0.5f, 0, camera.farClipPlane)).y < bottomBorder.transform.position.y)
+		{
+			bottomBorderAchived = true;
 			transform.position = new Vector3(transform.position.x, bottomBorder.transform.position.y + heightOfScreen / 2, transform.position.z);
+		}
+
+		if (leftBorderAchived && rightBorderAchived) transform.position = new Vector3(0, transform.position.y, transform.position.z);
+		if (topBorderAchived && bottomBorderAchived) transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 	}
 }

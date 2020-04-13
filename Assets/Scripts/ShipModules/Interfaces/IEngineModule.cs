@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-interface IEngineModule
+public interface IEngineModule
 {
-    void AddForce(Vector2 direction, ForceMode2D mode);
+    float TrustPower { get; }
 }
 

@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
 
-    public delegate void Engines(Vector2 direction, ForceMode2D mode);
     public GameObject enemyPointerPrefab;
     public float trustPower = 1f;
-    public Engines engines;
     public float rotationPower = 1f;
+
+    public List<IEngineModule> engines = new List<IEngineModule>();
+    public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();   
     
     private bool lastGunButton;
     private Rigidbody2D rigidbody;
@@ -21,7 +24,7 @@ public class ShipController : NetworkBehaviour {
         if (!isServer)
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
-        engines = AddMainForce;
+
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
 
@@ -51,11 +54,10 @@ public class ShipController : NetworkBehaviour {
         }
 
         if (rotation != 0)
-            rigidbody.AddTorque(rotation * rotationPower, ForceMode2D.Force);
+            rigidbody.AddTorque(rotation * (rotationPower + gyrodines.Sum(e => e.RotationPower)), ForceMode2D.Force);
         
         if (trust != 0)
-            engines.Invoke(GetForward() * trust, ForceMode2D.Force);
-        
+            rigidbody.AddForce(GetForward() * (trustPower + engines.Sum(e => e.TrustPower)), ForceMode2D.Force);        
     }
 
     public Vector2 GetForward() {
@@ -73,10 +75,5 @@ public class ShipController : NetworkBehaviour {
 
     public override float GetNetworkSendInterval() {
         return 0.02f;
-    }
-
-    private void AddMainForce(Vector2 direction, ForceMode2D mode)
-    {
-        rigidbody.AddForce(direction * trustPower, mode);
     }
 }
