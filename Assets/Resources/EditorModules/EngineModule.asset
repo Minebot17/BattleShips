@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b334b59d254828aac50afeabb322f4, type: 3}
   m_Name: EngineModule
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8846053260266170038, guid: 0fbbd3bbbcf8edb469f43ef3ccd8e667, type: 3}
-  cost: 0
+  prefab: {fileID: 8846053260266170038, guid: 8ae7ec82ef40ee341952b70e602157da, type: 3}

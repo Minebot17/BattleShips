@@ -16,10 +16,11 @@ public class ShipController : NetworkBehaviour {
     public Engines engines;
 
     public float rotationPower = 1f;
-    private IInputHandler inputHandler = PlayerInputHandler.singleton;
+    private IInputHandler inputHandler;
     
     
     private void Start() {
+        inputHandler = PlayerInputHandler.singleton;
         if (!isServer)
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
