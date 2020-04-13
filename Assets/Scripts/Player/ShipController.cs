@@ -22,6 +22,8 @@ public class ShipController : NetworkBehaviour {
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
         identity = GetComponent<NetworkIdentity>();
         engines = AddMainForce;
+        rigidbody = GetComponent<Rigidbody2D>();
+        forwardPointer = transform.Find("ForwardPointer");
 
         if (!hasAuthority) {
             GameObject enemyPointer = Instantiate(enemyPointerPrefab, GameObject.Find("Canvas").transform);
@@ -30,8 +32,6 @@ public class ShipController : NetworkBehaviour {
         }
 
         CameraFollower.singleton.Target = gameObject.transform;
-        rigidbody = GetComponent<Rigidbody2D>();
-        forwardPointer = transform.Find("ForwardPointer");
     }
 
     private void Update() {

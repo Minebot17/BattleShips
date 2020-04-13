@@ -177,8 +177,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPointerPrefab: {fileID: 8074436548526991826, guid: 850a6f2bcc5fe5643a9b7ce08cc64733,
     type: 3}
-  trustPower: 50
-  rotationPower: 25
+  trustPower: 25
+  rotationPower: 10
 --- !u!114 &6064448069935592005
 MonoBehaviour:
   m_ObjectHideFlags: 0

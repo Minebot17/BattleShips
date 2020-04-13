@@ -453,6 +453,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984437, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_Name
@@ -1009,10 +1019,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2072155905}
-  touch: 0
+  touch: 1
   leftJoystick: {fileID: 743183633}
   gunButton: {fileID: 1683275969}
-  screenButton: {fileID: 0}
+  screenButton: {fileID: 815699959}
 --- !u!1 &1441039256
 GameObject:
   m_ObjectHideFlags: 0
