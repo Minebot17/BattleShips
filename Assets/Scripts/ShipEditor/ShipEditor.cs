@@ -47,12 +47,12 @@ public class ShipEditor : MonoBehaviour {
         timerStarted = true;
     }
 
-    public void FixedUpdate() {
+    public void Update() {
         if (!timerStarted)
             return;
         
         if (closingTimer > 0)
-            closingTimer -= Time.fixedDeltaTime;
+            closingTimer -= Time.deltaTime;
         else {
             MessageManager.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
             timerStarted = false;

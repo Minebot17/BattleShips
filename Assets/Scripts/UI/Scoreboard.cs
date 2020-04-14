@@ -35,11 +35,10 @@ public class Scoreboard : MonoBehaviour {
     }
 
     public void Init(List<string> ships, List<int> score, List<int> kills, int scoreForWin) {
-        int centerCount = scoreForWin - 1;
-        SpawnBoardPart(startSprite, -partSize.x/2 * (centerCount + 1));
-        SpawnBoardPart(endSprite, partSize.x/2 * (centerCount + 1));
-        for (int i = 0; i < centerCount; i++)
-            SpawnBoardPart(centerSprite, partSize.x/2 * (i - centerCount + 1));
+        SpawnBoardPart(startSprite, -partSize.x/2 * scoreForWin);
+        SpawnBoardPart(endSprite, partSize.x/2 * scoreForWin);
+        for (int i = 0; i < scoreForWin - 1; i++)
+            SpawnBoardPart(centerSprite, partSize.x/2 * (i*2 - scoreForWin + 2));
         
         int yPerPlayer = partSize.y / (ships.Count + 1);
         for (int i = 0; i < ships.Count; i++) {
@@ -47,7 +46,7 @@ public class Scoreboard : MonoBehaviour {
             Utils.DeserializeShipPartsFromJson(shipObject, ships[i]);
             shipObject.transform.parent = transform;
             shipObject.transform.localPosition = new Vector3(
-                -partSize.x/2 * (centerCount + 1) + partSize.x * score[i], 
+                -partSize.x/2 * scoreForWin + partSize.x * score[i], 
                 partSize.y/2 - yPerPlayer * (i + 1), -0.1f
             );
             

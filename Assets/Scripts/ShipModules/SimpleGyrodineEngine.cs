@@ -7,15 +7,16 @@ class SimpleGyrodineEngine : MonoBehaviour, IGyrodineModule
     public float RotationPower { get { return rotationPower; } }
     private ShipController shipController;
 
-    private void Start()
-    {
+    private void Start() {
         shipController = transform.GetComponentInParent<ShipController>();
-        shipController.gyrodines.Add(this);
+        
+        if (shipController)
+            shipController.gyrodines.Add(this);
     }
 
-    private void OnDestroy()
-    {
-        if (shipController.gyrodines.Contains(this)) shipController.gyrodines.Remove(this);
+    private void OnDestroy() {
+        if (shipController && shipController.gyrodines.Contains(this)) 
+            shipController.gyrodines.Remove(this);
     }
 
 }

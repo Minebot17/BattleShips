@@ -10,14 +10,15 @@ public class SimpleEngineModule : MonoBehaviour, IEngineModule {
 
     private ShipController shipController;
 
-    private void Start()
-    {
+    private void Start() {
         shipController = transform.GetComponentInParent<ShipController>();
-        shipController.engines.Add(this);
+        
+        if (shipController)
+            shipController.engines.Add(this);
     }
 
-    private void OnDestroy()
-    {
-        if(shipController.engines.Contains(this)) shipController.engines.Remove(this);
+    private void OnDestroy() {
+        if(shipController && shipController.engines.Contains(this)) 
+            shipController.engines.Remove(this);
     }
 }

@@ -64,25 +64,6 @@ public class MessageManager {
 			MonoBehaviour.Destroy(cellTransform.GetChild(0).gameObject);
 	});
 
-	public static readonly GameMessage GameOverClientMessage = new GameMessage(msg => {
-		bool winner = bool.Parse(msg.ReadMessage<StringMessage>().value);
-		GameObject.Find(winner ? "WinLabel" : "LooseLabel").GetComponent<Text>().enabled = true;
-		GameObject.Find("RestartButton").GetComponent<Image>().enabled = true;
-		GameObject.Find("RestartButton").GetComponent<Button>().enabled = true;
-		GameObject.Find("RestartButton").transform.GetChild(0).GetComponent<Text>().enabled = true;
-		Time.timeScale = 0;
-	});
-	
-	public static readonly GameMessage ResetGameServerMessage = new GameMessage(msg => {
-		NetworkManager.singleton.ServerChangeScene("Game");
-		Time.timeScale = 1f;
-		RecoveryTimeScaleClientMessage.SendToAllClients(new EmptyMessage());
-	});
-	
-	public static readonly GameMessage RecoveryTimeScaleClientMessage = new GameMessage(msg => {
-		Time.timeScale = 1f;
-	});
-	
 	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {
 		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerShips[msg.conn]));
 	});
@@ -106,7 +87,13 @@ public class MessageManager {
 			PlayerInputHandler.singleton.ToggleInput(false);
 			CameraFollower.singleton.gameObject.AddComponent<PlayerObserver>();
 		}
-		
+		else {
+			EnemyPointer[] pointers = GameObject.FindObjectsOfType<EnemyPointer>();
+			foreach (EnemyPointer pointer in pointers)
+				if (pointer.Target == prey.gameObject)
+					MonoBehaviour.Destroy(pointer.gameObject);
+		}
+
 		prey.GetComponent<IDeath>().OnDead(null);
 	});
 

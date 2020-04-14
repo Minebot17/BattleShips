@@ -37,7 +37,7 @@ public class ShipController : NetworkBehaviour {
         CameraFollower.singleton.Target = gameObject.transform;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if (!hasAuthority)
             return;
 

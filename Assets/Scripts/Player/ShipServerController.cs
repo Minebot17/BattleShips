@@ -42,9 +42,9 @@ public class ShipServerController : NetworkBehaviour {
             return;
         
         NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
-        if (type.Equals("AICore")) {
-            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
+        if (type.Equals("AICoreModule")) {
             isDead = true;
+            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
             return;
         }
 

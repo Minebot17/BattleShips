@@ -19,24 +19,17 @@ public class NetworkSyncVelocity : NetworkVectors {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
-	private void Update() {
-		if (fromLocalPlayer) {
-			if (hasAuthority)
-				return;
-		}
-		else if (isServer)
-			return;
-
-		InterpolateVelocity();
-	}
-
 	private void FixedUpdate() {
 		if (fromLocalPlayer) {
-			if (!hasAuthority)
+			if (!hasAuthority) {
+				InterpolateVelocity();
 				return;
+			}
 		}
-		else if (!isServer)
+		else if (!isServer) {
+			InterpolateVelocity();
 			return;
+		}
 
 		if (IsVelocityChanged()) {
 			if (!isServer)

@@ -18,25 +18,18 @@ public class NetworkSyncAngular : NetworkBehaviour {
     private void Start() {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-    private void Update() {
-        if (fromLocalPlayer) {
-            if (hasAuthority)
-                return;
-        }
-        else if (isServer)
-            return;
-
-        InterpolateAngular();
-    }
-
+    
     private void FixedUpdate() {
         if (fromLocalPlayer) {
-            if (!hasAuthority)
+            if (!hasAuthority) {
+                InterpolateAngular();
                 return;
+            }
         }
-        else if (!isServer)
+        else if (!isServer) {
+            InterpolateAngular();
             return;
+        }
 
         if (IsAngularChanged()) {
             if (!isServer)

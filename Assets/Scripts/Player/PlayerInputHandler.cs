@@ -46,8 +46,4 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public bool GetGun() {
         return touch ? gunButton.buttonPressed : Input.GetMouseButton(0);
     }
-    
-    public void OnRestartClick() {
-		MessageManager.ResetGameServerMessage.SendToServer(new EmptyMessage());
-    }
 }
