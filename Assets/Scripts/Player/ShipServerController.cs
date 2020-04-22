@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -37,19 +38,15 @@ public class ShipServerController : NetworkBehaviour {
         }
     }
 
-    public void OnModuleDeath(DamageSource damageSource, string type) {
+    public void OnModuleDeath(DamageSource damageSource, GameObject module) {
         if (isDead)
             return;
         
-        NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
-        if (type.Equals("AICoreModule")) {
-            isDead = true;
-            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
-            return;
-        }
-
         currentModulesCount--;
-        if (currentModulesCount * 5 <= initialModulesCount) {
+        NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
+        if (module.name.Equals("AICoreModule") ||
+            currentModulesCount * 5 <= initialModulesCount ||
+            (guns.Count(g => !(UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<IGunModule>())) {
             isDead = true;
             NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
         }

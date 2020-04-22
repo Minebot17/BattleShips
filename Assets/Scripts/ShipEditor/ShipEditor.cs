@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
@@ -69,7 +70,7 @@ public class ShipEditor : MonoBehaviour {
         Vector3 p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         p = new Vector3(p.x/Utils.sizeOfOne - 0.5f*(p.x > 0 ? -1 : 1), p.y/Utils.sizeOfOne - 0.5f*(p.y > 0 ? -1 : 1), 0f);
         Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
-        GameObject shipCell = currentShip.transform.Find("ShipCell " + position.x + " " + position.y)?.gameObject;
+        GameObject shipCell = FindShipCell(position);
 
         if (selectedModule == null || position.x == 0 && position.y == 0)
             return;
@@ -78,7 +79,7 @@ public class ShipEditor : MonoBehaviour {
             if (shipCell)
                 Destroy(shipCell);
         }
-        else if (!shipCell) {
+        else if (!shipCell && GetNeighbors(position).Any(go => go)) {
             string[] splittedName = selectedModule.Split(' ');
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
             cell.name = "ShipCell " + position.x + " " + position.y;
@@ -87,6 +88,19 @@ public class ShipEditor : MonoBehaviour {
             module.name = modules[int.Parse(splittedName[1])].name;
             module.transform.localPosition = new Vector3(0, 0, -0.1f);
         }
+    }
+
+    private GameObject[] GetNeighbors(Vector2Int pos) {
+        GameObject[] neighbors = new GameObject[4];
+        neighbors[0] = FindShipCell(new Vector2Int(pos.x - 1, pos.y));
+        neighbors[1] = FindShipCell(new Vector2Int(pos.x + 1, pos.y));
+        neighbors[2] = FindShipCell(new Vector2Int(pos.x, pos.y - 1));
+        neighbors[3] = FindShipCell(new Vector2Int(pos.x, pos.y + 1));
+        return neighbors;
+    }
+
+    private GameObject FindShipCell(Vector2Int pos) {
+        return currentShip.transform.Find("ShipCell " + pos.x + " " + pos.y)?.gameObject;
     }
 
     public void OnSelectModuleClick(GameObject buttonObject) {

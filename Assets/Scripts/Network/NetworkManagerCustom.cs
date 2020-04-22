@@ -16,6 +16,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public Dictionary<NetworkConnection, int> playerScore = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkConnection, int> playerCurrentKills = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkIdentity, bool> playersGunButton = new Dictionary<NetworkIdentity, bool>();
+	public GameObject clientShip;
 	public int lastConnections;
 	public int scoreForWin = 2;
 
@@ -55,11 +56,14 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
-		playerCurrentKills[killer.clientAuthorityOwner]++;
-		MessageManager.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
-			new NetworkIdentityMessage(killer),
-			new NetworkIdentityMessage(prey)
-		}));
+		if (killer != null) {
+			playerCurrentKills[killer.clientAuthorityOwner]++;
+			MessageManager.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
+				new NetworkIdentityMessage(killer),
+				new NetworkIdentityMessage(prey)
+			}));
+		}
+
 		prey.GetComponent<IDeath>().OnDead(null);
 		if (GameObject.FindGameObjectsWithTag("Player").Length <= 1)
 			Invoke(nameof(RoundOver), 1.9f);

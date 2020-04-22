@@ -124,6 +124,10 @@ public class MessageManager {
 		ShipEditor.singleton.SetTimer(msg.ReadMessage<IntegerMessage>().value - 1); // -1 нужно чтобы у клиентов таймер чуть был меньше из-за задержки пакетов
 	});
 	
+	public static readonly GameMessage SuicideServerMessage = new GameMessage(msg => {
+		NetworkManagerCustom.singleton.PlayerKill(null, msg.ReadMessage<NetworkIdentityMessage>().Value);
+	});
+	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 

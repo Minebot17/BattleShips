@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
-
+    
     public GameObject enemyPointerPrefab;
     public float trustPower = 1f;
     public float rotationPower = 1f;
@@ -34,6 +34,7 @@ public class ShipController : NetworkBehaviour {
             return;
         }
 
+        NetworkManagerCustom.singleton.clientShip = gameObject;
         CameraFollower.singleton.Target = gameObject.transform;
     }
 
