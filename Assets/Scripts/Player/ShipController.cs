@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
     
+    public EventHandler<ModuleDeathEvent> moduleDeathEvent = new EventHandler<ModuleDeathEvent>();
     public GameObject enemyPointerPrefab;
     public float trustPower = 1f;
     public float rotationPower = 1f;
@@ -18,13 +19,22 @@ public class ShipController : NetworkBehaviour {
     private NetworkIdentity identity;
     private IInputHandler inputHandler;
     
-    
+    private int initialModulesCount;
+    private int currentModulesCount;
+
+    public int InitialModulesCount => initialModulesCount;
+    public int CurrentModulesCount => currentModulesCount;
+
     private void Start() {
         inputHandler = PlayerInputHandler.singleton;
         if (!isServer)
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
-        identity = GetComponent<NetworkIdentity>();
+        else {
+            initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
+            currentModulesCount = initialModulesCount;
+        }
 
+        identity = GetComponent<NetworkIdentity>();
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
 
@@ -64,7 +74,20 @@ public class ShipController : NetworkBehaviour {
     public Vector2 GetForward() {
         return (forwardPointer.position - forwardPointer.parent.position).ToVector2();
     }
-    
+
+    public void OnInitializePartsOnClient() {
+        initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
+        currentModulesCount = initialModulesCount;
+    }
+
+    public void OnModuleDeath(Transform cell) {
+        currentModulesCount--;
+        if (cell.childCount != 0)
+            MonoBehaviour.Destroy(cell.GetChild(0).gameObject);
+
+        moduleDeathEvent.CallListners(new ModuleDeathEvent(gameObject));
+    }
+
     [Command(channel = Channels.DefaultUnreliable)]
     private void CmdSendGunVector(bool gunButton) {
         NetworkManagerCustom.singleton.playersGunButton[identity] = gunButton;
@@ -76,5 +99,9 @@ public class ShipController : NetworkBehaviour {
 
     public override float GetNetworkSendInterval() {
         return 0.02f;
+    }
+
+    public class ModuleDeathEvent : EventBase {
+        public ModuleDeathEvent(GameObject sender) : base(sender, false) { }
     }
 }

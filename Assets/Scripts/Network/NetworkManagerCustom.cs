@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
+	public static int percentToDeath = 20;
 	public bool IsServer;
 	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
@@ -133,5 +134,10 @@ public class NetworkManagerCustom : NetworkManager {
 
 		if (!Directory.Exists(Application.streamingAssetsPath + "/ships"))
 			Directory.CreateDirectory(Application.streamingAssetsPath + "/ships");
+		
+		GameSettings.Load();
+		Timer.InitializeCreate();
+		LanguageManager.Initialize();
+		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
 	}
 }

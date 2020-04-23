@@ -53,6 +53,10 @@ public class MessageManager {
 		NetworkIdentity shipObject = ((NetworkIdentityMessage) messages[0]).Value;
 		string json = ((StringMessage) messages[1]).value;
 		Utils.DeserializeShipPartsFromJson(shipObject.gameObject, json);
+
+		ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
+		if (controller) 
+			controller.OnInitializePartsOnClient();
 	});
 	
 	public static readonly GameMessage DestroyModuleClientMessage = new GameMessage(msg => {
@@ -60,8 +64,7 @@ public class MessageManager {
 		NetworkIdentity identity = ((NetworkIdentityMessage)messages.Value[0]).Value;
 		string cellName = ((StringMessage) messages.Value[1]).value;
 		Transform cellTransform = identity.transform.Find(cellName);
-		if (cellTransform.childCount != 0)
-			MonoBehaviour.Destroy(cellTransform.GetChild(0).gameObject);
+		identity.gameObject.GetComponent<ShipController>().OnModuleDeath(cellTransform);
 	});
 
 	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {

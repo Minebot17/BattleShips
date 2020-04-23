@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
     
@@ -41,14 +42,19 @@ public class ShipServerController : NetworkBehaviour {
     public void OnModuleDeath(DamageSource damageSource, GameObject module) {
         if (isDead)
             return;
-        
+
         currentModulesCount--;
         NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
         if (module.name.Equals("AICoreModule") ||
-            currentModulesCount * 5 <= initialModulesCount ||
-            (guns.Count(g => !(UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<IGunModule>())) {
+            currentModulesCount * (100/NetworkManagerCustom.percentToDeath) <= initialModulesCount ||
+            (guns.Count(g => (UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<IGunModule>())) {
             isDead = true;
             NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
         }
+        
+        MessageManager.DestroyModuleClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
+            new NetworkIdentityMessage(identity),
+            new StringMessage(module.transform.parent.gameObject.name)
+        }));
     }
 }

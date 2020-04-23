@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraFollower : MonoBehaviour {
 
 	public static CameraFollower singleton;
+	public EventHandler<ChangeTargetEvent> changeTargetEvent = new EventHandler<ChangeTargetEvent>();
 	[SerializeField] private Transform target;
 	[SerializeField] private Camera camera;
 	[SerializeField] private BoxCollider2D leftBorder;
@@ -15,7 +16,11 @@ public class CameraFollower : MonoBehaviour {
 	private float speed;
 
 	public Transform Target {
-		set => target = value;
+		set {
+			ChangeTargetEvent result = changeTargetEvent.CallListners(new ChangeTargetEvent(gameObject, target, value));
+			if (!result.IsCancel)
+				target = result.NewTarget;
+		}
 	}
 
 	private void Awake() {
@@ -64,5 +69,16 @@ public class CameraFollower : MonoBehaviour {
 
 		if (leftBorderAchived && rightBorderAchived) transform.position = new Vector3(0, transform.position.y, transform.position.z);
 		if (topBorderAchived && bottomBorderAchived) transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+	}
+
+	public class ChangeTargetEvent : EventBase {
+
+		public Transform OldTarget;
+		public Transform NewTarget;
+		
+		public ChangeTargetEvent(GameObject sender, Transform oldTarget, Transform newTarget) : base(sender, true) {
+			OldTarget = oldTarget;
+			NewTarget = newTarget;
+		}
 	}
 }
