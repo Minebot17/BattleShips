@@ -44,7 +44,7 @@ public class MessageManager {
 		NetworkIdentity id = msg.ReadMessage<NetworkIdentityMessage>().Value;
 		ResponseShipPartsClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
 			new NetworkIdentityMessage(id),
-			new StringMessage(NetworkManagerCustom.singleton.playerShips[id.clientAuthorityOwner])
+			new StringMessage(NetworkManagerCustom.singleton.playerData[id.clientAuthorityOwner].shipJson)
 		}));
 	});
 	
@@ -68,7 +68,7 @@ public class MessageManager {
 	});
 
 	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {
-		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerShips[msg.conn]));
+		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerData[msg.conn].shipJson));
 	});
 	
 	public static readonly GameMessage ResponseShipEditorClientMessage = new GameMessage(msg => {
@@ -76,7 +76,7 @@ public class MessageManager {
 	});
 	
 	public static readonly GameMessage SendShipServerMessage = new GameMessage(msg => {
-		NetworkManagerCustom.singleton.playerShips[msg.conn] = msg.ReadMessage<StringMessage>().value;
+		NetworkManagerCustom.singleton.playerData[msg.conn].shipJson = msg.ReadMessage<StringMessage>().value;
 		if (--NetworkManagerCustom.singleton.lastConnections == 0) 
 			NetworkManagerCustom.singleton.ServerChangeScene("Game");
 	});
@@ -102,9 +102,9 @@ public class MessageManager {
 
 	public static readonly GameMessage RequestScoreboardInfoServerMessage = new GameMessage(msg => {
 		ResponseScoreboardInfoClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
-			new StringListMessage(NetworkManagerCustom.singleton.playerShips.Values.ToList()),
-			new IntegerListMessage(NetworkManagerCustom.singleton.playerScore.Values.ToList()), 
-			new IntegerListMessage(NetworkManagerCustom.singleton.playerCurrentKills.Values.ToList()), 
+			new StringListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.shipJson).ToList()),
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.score).ToList()), 
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.kills).ToList()), 
 			new IntegerMessage(NetworkManagerCustom.singleton.scoreForWin) 
 		}));
 	});

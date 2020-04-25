@@ -24,9 +24,9 @@ public class Scoreboard : MonoBehaviour {
         singleton = this;
         if (NetworkManagerCustom.singleton.IsServer) {
             Init(
-                NetworkManagerCustom.singleton.playerShips.Values.ToList(),
-                NetworkManagerCustom.singleton.playerScore.Values.ToList(),
-                NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerCurrentKills).Values.ToList(),
+            NetworkManagerCustom.singleton.playerData.Values.Select(d => d.shipJson).ToList(),
+            NetworkManagerCustom.singleton.playerData.Values.Select(d => d.score).ToList(),
+                NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerData.ToDictionary(d => d.Key, d => d.Value.kills)).Values.ToList(),
                 NetworkManagerCustom.singleton.scoreForWin
             );
         }

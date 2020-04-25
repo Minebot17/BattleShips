@@ -27,14 +27,14 @@ public class ShipServerController : NetworkBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!isServer || !NetworkManagerCustom.singleton.playersGunButton.ContainsKey(identity))
+        if (!isServer || !identity)
             return;
 
         for (int i = 0; i < guns.Length; i++) {
             if (!(UnityEngine.Object)guns[i])
                 continue;
             
-            if (NetworkManagerCustom.singleton.playersGunButton[identity])
+            if (NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].isShoot)
                 guns[i].Shoot(commonController.GetForward());
         }
     }

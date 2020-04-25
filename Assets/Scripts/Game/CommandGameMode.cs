@@ -25,18 +25,18 @@ public class CommandGameMode : IGameMode {
 
     public bool IsRoundOver() {
         List<int> playersAlive = commands.Select(command => 
-            command.Count(id => NetworkManagerCustom.singleton.playerShipObjects[id])).ToList();
+            command.Count(id => NetworkManagerCustom.singleton.playerData[id].shipIdentity)).ToList();
         
         return playersAlive.Count(c => c == 0) == playersAlive.Count - 1;
     }
 
     public Dictionary<NetworkConnection, int> GetScoreDelta(Dictionary<NetworkConnection, int> kills) {
-        List<int> playersAlive = commands.Select(command => command.Count(id => NetworkManagerCustom.singleton.playerShipAlive[id])).ToList();
+        List<int> playersAlive = commands.Select(command => command.Count(id => NetworkManagerCustom.singleton.playerData[id].alive)).ToList();
         int winnersIndex = playersAlive.FindIndex(c => c != 0);
         List<NetworkConnection> winners = commands[winnersIndex];
         
         Dictionary<NetworkConnection, int> scoreDelta = new Dictionary<NetworkConnection, int>();
-        foreach (NetworkConnection conn in NetworkManagerCustom.singleton.playerShipAlive.Keys) 
+        foreach (NetworkConnection conn in NetworkManagerCustom.singleton.playerData.Keys) 
             scoreDelta.Add(conn, winners.Contains(conn) ? 1 : 0);
 
         return scoreDelta;

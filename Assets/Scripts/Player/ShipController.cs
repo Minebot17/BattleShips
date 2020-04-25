@@ -57,7 +57,7 @@ public class ShipController : NetworkBehaviour {
 
         if (lastGunButton != gunButton) {
             if (isServer)
-                NetworkManagerCustom.singleton.playersGunButton[identity] = gunButton;
+                NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].isShoot = gunButton;
             else
                 CmdSendGunVector(gunButton);
             lastGunButton = gunButton;
@@ -89,7 +89,7 @@ public class ShipController : NetworkBehaviour {
 
     [Command(channel = Channels.DefaultUnreliable)]
     private void CmdSendGunVector(bool gunButton) {
-        NetworkManagerCustom.singleton.playersGunButton[identity] = gunButton;
+        NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].isShoot = gunButton;
     }
     
     public override int GetNetworkChannel() {
