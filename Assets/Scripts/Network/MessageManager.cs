@@ -131,6 +131,25 @@ public class MessageManager {
 		NetworkManagerCustom.singleton.PlayerKill(null, msg.ReadMessage<NetworkIdentityMessage>().Value);
 	});
 	
+	public static readonly GameMessage RequestEnemyPointerColorServerMessage = new GameMessage(msg => {
+		NetworkIdentity target = msg.ReadMessage<NetworkIdentityMessage>().Value;
+		ResponseEnemyPointerColorServerMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
+			new NetworkIdentityMessage(target),
+			new IntegerMessage(NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(msg.conn, target)) 
+		}));
+	});
+	
+	public static readonly GameMessage ResponseEnemyPointerColorServerMessage = new GameMessage(msg => {
+		MessagesList messages = msg.ReadMessage<MessagesMessage>().Value;
+		NetworkIdentity target = ((NetworkIdentityMessage) messages[0]).Value;
+		int color = ((IntegerMessage) messages[1]).value;
+		
+		GameObject enemyPointer = MonoBehaviour.Instantiate(
+			NetworkManagerCustom.singleton.enemyPointerPrefab, GameObject.Find("Canvas").transform);
+		enemyPointer.GetComponent<EnemyPointer>().Target = target.gameObject;
+		enemyPointer.GetComponentInChildren<Image>().color = color.ToColor();
+	});
+	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -62,5 +63,20 @@ public static class Utils {
         }
 
         return JsonUtility.ToJson(ship);
+    }
+    
+    public static Color ToColor(this int HexVal) {
+        byte R = (byte)((HexVal >> 16) & 0xFF);
+        byte G = (byte)((HexVal >> 8) & 0xFF);
+        byte B = (byte)((HexVal) & 0xFF);
+        return new Color(R, G, B, 255);
+    }
+    
+    public static int ToHex(this Color color) {
+        int hex = 0;
+        hex += (int)(color.b * 255);
+        hex += (int)(color.g * 255) << 8;
+        hex += (int)(color.r * 255) << 16;
+        return hex;
     }
 }

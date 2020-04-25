@@ -27,25 +27,24 @@ public class ShipController : NetworkBehaviour {
 
     private void Start() {
         inputHandler = PlayerInputHandler.singleton;
-        if (!isServer)
+        identity = GetComponent<NetworkIdentity>();
+        rigidbody = GetComponent<Rigidbody2D>();
+        forwardPointer = transform.Find("ForwardPointer");
+        
+        if (hasAuthority) {
+            NetworkManagerCustom.singleton.clientShip = gameObject;
+            CameraFollower.singleton.Target = gameObject.transform;
+        }
+        else
+            MessageManager.RequestEnemyPointerColorServerMessage.SendToServer(new NetworkIdentityMessage(identity));
+
+        if (!isServer) {
             MessageManager.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
+        }
         else {
             initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
             currentModulesCount = initialModulesCount;
         }
-
-        identity = GetComponent<NetworkIdentity>();
-        rigidbody = GetComponent<Rigidbody2D>();
-        forwardPointer = transform.Find("ForwardPointer");
-
-        if (!hasAuthority) {
-            GameObject enemyPointer = Instantiate(enemyPointerPrefab, GameObject.Find("Canvas").transform);
-            enemyPointer.GetComponent<EnemyPointer>().Target = gameObject;
-            return;
-        }
-
-        NetworkManagerCustom.singleton.clientShip = gameObject;
-        CameraFollower.singleton.Target = gameObject.transform;
     }
 
     private void FixedUpdate() {

@@ -26,7 +26,7 @@ public class Scoreboard : MonoBehaviour {
             Init(
                 NetworkManagerCustom.singleton.playerShips.Values.ToList(),
                 NetworkManagerCustom.singleton.playerScore.Values.ToList(),
-                NetworkManagerCustom.singleton.playerCurrentKills.Values.ToList(),
+                NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerCurrentKills).Values.ToList(),
                 NetworkManagerCustom.singleton.scoreForWin
             );
         }
@@ -34,7 +34,7 @@ public class Scoreboard : MonoBehaviour {
             MessageManager.RequestScoreboardInfoServerMessage.SendToServer(new EmptyMessage());
     }
 
-    public void Init(List<string> ships, List<int> score, List<int> kills, int scoreForWin) {
+    public void Init(List<string> ships, List<int> score, List<int> delta, int scoreForWin) {
         SpawnBoardPart(startSprite, -partSize.x/2 * scoreForWin);
         SpawnBoardPart(endSprite, partSize.x/2 * scoreForWin);
         for (int i = 0; i < scoreForWin - 1; i++)
@@ -51,7 +51,7 @@ public class Scoreboard : MonoBehaviour {
             );
             
             shipObject.transform.localEulerAngles = new Vector3(0, 0, -90);
-            deltaScore[shipObject] = kills[i];
+            deltaScore[shipObject] = delta[i];
             initialPosition[shipObject] = shipObject.transform.localPosition.x;
         }
     }

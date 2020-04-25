@@ -323,8 +323,11 @@ MonoBehaviour:
   IsServer: 1
   GameInProgress: 0
   StartArguments: []
+  clientShip: {fileID: 0}
   lastConnections: 0
   scoreForWin: 2
+  enemyPointerPrefab: {fileID: 8074436548526991826, guid: 850a6f2bcc5fe5643a9b7ce08cc64733,
+    type: 3}
 --- !u!4 &1161281330
 Transform:
   m_ObjectHideFlags: 0

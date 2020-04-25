@@ -25,9 +25,13 @@ public class StandartAmmo : NetworkBehaviour, IAmmo {
             return;
 
         if (hp.gameObject.transform.parent.parent.gameObject != owner) {
-            hp.Damage(new PlayerDamageSource(damage, ownerIdentity));
+            hp.Damage(GetDamageSource());
             NetworkServer.Destroy(gameObject);
         }
+    }
+
+    public DamageSource GetDamageSource() {
+        return new PlayerDamageSource(damage, ownerIdentity);
     }
 
     private void FixedUpdate() {

@@ -65,6 +65,9 @@
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+     <Compile Include="Assets\Scripts\Game\CommandGameMode.cs" />
+     <Compile Include="Assets\Scripts\Game\FFAGameMode.cs" />
+     <Compile Include="Assets\Scripts\Game\IGameMode.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncAngular.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncPosition.cs" />

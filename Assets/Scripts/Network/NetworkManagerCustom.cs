@@ -13,14 +13,19 @@ public class NetworkManagerCustom : NetworkManager {
 	public bool IsServer;
 	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
+	public Dictionary<NetworkConnection, bool> playerShipAlive = new Dictionary<NetworkConnection, bool>();
+	public Dictionary<NetworkConnection, NetworkIdentity> playerShipObjects = new Dictionary<NetworkConnection, NetworkIdentity>();
 	public Dictionary<NetworkConnection, string> playerShips = new Dictionary<NetworkConnection, string>();
 	public Dictionary<NetworkConnection, int> playerScore = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkConnection, int> playerCurrentKills = new Dictionary<NetworkConnection, int>();
 	public Dictionary<NetworkIdentity, bool> playersGunButton = new Dictionary<NetworkIdentity, bool>();
 	public GameObject clientShip;
 	public int lastConnections;
+	public IGameMode gameMode = new FFAGameMode();
+	
 	public int scoreForWin = 2;
-
+	public GameObject enemyPointerPrefab;
+	
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
 			GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().RemoveConnection(conn);
@@ -65,8 +70,9 @@ public class NetworkManagerCustom : NetworkManager {
 			}));
 		}
 
+		playerShipAlive[prey.clientAuthorityOwner] = false;
 		prey.GetComponent<IDeath>().OnDead(null);
-		if (GameObject.FindGameObjectsWithTag("Player").Length <= 1)
+		if (gameMode.IsRoundOver())
 			Invoke(nameof(RoundOver), 1.9f);
 	}
 	
@@ -105,6 +111,8 @@ public class NetworkManagerCustom : NetworkManager {
 		shipObject.transform.position = spawnPosition.ToVector3();
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
 		Utils.DeserializeShipPartsFromJson(shipObject, playerShips[conn]);
+		playerShipObjects[conn] = shipObject.GetComponent<NetworkIdentity>();
+		playerShipAlive[conn] = true;
 	}
 
 	private Vector2 GetSpawnPoint() {
