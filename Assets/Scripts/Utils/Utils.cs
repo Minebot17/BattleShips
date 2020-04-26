@@ -1,11 +1,14 @@
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public static class Utils {
     public static float sizeOfOne = 0.64f;
     public static System.Random rnd = new System.Random();
+    public static string localIp;
     
     public static Vector2 ToVector2(this Vector3 vec) {
         return new Vector2(vec.x, vec.y);
@@ -78,5 +81,18 @@ public static class Utils {
         hex += (int)(color.g * 255) << 8;
         hex += (int)(color.r * 255) << 16;
         return hex;
+    }
+
+    public static void UpdateLocalIPAddress() {
+        IPHostEntry host;
+        string localIp = "";
+        host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList) {
+            if (ip.AddressFamily == AddressFamily.InterNetwork) {
+                localIp = ip.ToString();
+                break;
+            }
+        }
+        Utils.localIp = localIp;
     }
 }

@@ -33,7 +33,15 @@ public class NetworkManagerCustomGUI : MonoBehaviour {
 				NetworkManager.singleton.StartClient();
 			}
 
-			if (GUILayout.Button("Host")) {
+			if (GUILayout.Button("Host FFA")) {
+				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "FFA");
+				_started = true;
+				NetworkManager.singleton.networkPort = int.Parse(Port);
+				NetworkManager.singleton.StartHost();
+			}
+			
+			if (GUILayout.Button("Host Commands")) {
+				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "Commands");
 				_started = true;
 				NetworkManager.singleton.networkPort = int.Parse(Port);
 				NetworkManager.singleton.StartHost();

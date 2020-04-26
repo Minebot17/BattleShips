@@ -21,9 +21,10 @@ public class NetworkManagerCustom : NetworkManager {
 	public int scoreForWin = 2;
 	public GameObject enemyPointerPrefab;
 	
+	// TODO сделать эвенты на сервере при подключении и отключении игроков
 	public override void OnServerDisconnect(NetworkConnection conn) {
 		if (networkSceneName.Equals("Lobby"))
-			GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().RemoveConnection(conn);
+			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
 	}
 
 	public override void OnServerConnect(NetworkConnection conn) {
@@ -47,13 +48,15 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void StartGame() {
 		GameInProgress = true;
+		LobbyServerGui serverGui = GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>();
 		foreach (NetworkConnection conn in NetworkServer.connections) {
 				playerData[conn] = new PlayerServerData() {
 				score = 0,
 				kills = 0,
 				shipJson = Utils.CreateEmptyShip(),
 				alive = true,
-				isShoot = false
+				isShoot = false,
+				nick = serverGui.nickMap[conn]
 			};
 		}
 

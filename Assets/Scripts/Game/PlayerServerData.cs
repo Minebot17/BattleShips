@@ -6,6 +6,7 @@ public class PlayerServerData {
     public int score;
     public int kills;
     public string shipJson;
+    public string nick;
     public bool alive;
     public bool isShoot;
 

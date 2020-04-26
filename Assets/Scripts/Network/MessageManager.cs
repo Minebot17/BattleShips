@@ -32,12 +32,27 @@ public class MessageManager {
 	
 	public static readonly GameMessage ResponseLobbyModeClientMessage = new GameMessage(msg => {
 		NetworkManagerCustom.singleton.StartArguments = msg.ReadMessage<StringListMessage>().Value;
-		GameObject.Find("LobbyManager").AddComponent<NetworkLobbyClientGUI>();
+		string mode = NetworkManagerCustom.singleton.StartArguments.Find(s => s.StartsWith("gamemode:")).Split(':')[1];
+		GameObject lobbyManager = GameObject.Find("LobbyManager");
+		
+		switch (mode) {
+			case "ffa":
+				lobbyManager.AddComponent<LobbyClientGUI>();
+				break;
+			case "commands":
+				lobbyManager.AddComponent<LobbyClientTeamGUI>();
+				break;
+		}
+	});
+	
+	public static readonly GameMessage SetNickLobbyServerMessage = new GameMessage(msg => {
+		string nick = msg.ReadMessage<StringMessage>().value;
+		GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().nickMap[msg.conn] = nick;
 	});
 	
 	public static readonly GameMessage SetReadyLobbyServerMessage = new GameMessage(msg => {
 		bool ready = bool.Parse(msg.ReadMessage<StringMessage>().value);
-		GameObject.Find("LobbyManager").GetComponent<NetworkLobbyServerGUI>().SetReady(msg.conn, ready);
+		GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().SetReady(msg.conn, ready);
 	});
 	
 	public static readonly GameMessage RequestShipPartsServerMessage = new GameMessage(msg => {

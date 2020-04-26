@@ -65,10 +65,10 @@
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
-     <Compile Include="Assets\Scripts\Game\CommandGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\FFAGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\IGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerServerData.cs" />
+     <Compile Include="Assets\Scripts\Game\TeamGameMode.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncAngular.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncPosition.cs" />
@@ -113,8 +113,10 @@
      <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />
      <Compile Include="Assets\Scripts\UI\HoldButton.cs" />
      <Compile Include="Assets\Scripts\UI\HpBar.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkLobbyClientGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkLobbyServerGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\LobbyClientGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\LobbyClientTeamGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\LobbyServerGui.cs" />
+     <Compile Include="Assets\Scripts\UI\LobbyServerTeamGUI.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGUI.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
