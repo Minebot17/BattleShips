@@ -10,7 +10,7 @@ public class LobbyClientGUI : MonoBehaviour {
 
 	protected virtual void Start() {
 		Utils.UpdateLocalIPAddress();
-		nick = Utils.localIp;
+		nick = GameSettings.SettingNick.Value.Equals("ip") ? Utils.localIp : GameSettings.SettingNick.Value;
 	}
 
 	protected virtual void OnGUI() {
@@ -24,7 +24,7 @@ public class LobbyClientGUI : MonoBehaviour {
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
 		if (GUILayout.Button("OK"))
-			MessageManager.SetNickLobbyServerMessage.SendToServer(new StringMessage(nick));
+			MessageManager.SendNickServerMessage.SendToServer(new StringMessage(nick));
 		
 		RenderInChild();
 

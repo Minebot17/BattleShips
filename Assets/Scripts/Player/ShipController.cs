@@ -31,10 +31,8 @@ public class ShipController : NetworkBehaviour {
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
         
-        if (hasAuthority) {
-            NetworkManagerCustom.singleton.clientShip = gameObject;
+        if (hasAuthority) 
             CameraFollower.singleton.Target = gameObject.transform;
-        }
         else
             MessageManager.RequestEnemyPointerColorServerMessage.SendToServer(new NetworkIdentityMessage(identity));
 
@@ -57,7 +55,7 @@ public class ShipController : NetworkBehaviour {
 
         if (lastGunButton != gunButton) {
             if (isServer)
-                NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].isShoot = gunButton;
+                NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].IsShoot = gunButton;
             else
                 CmdSendGunVector(gunButton);
             lastGunButton = gunButton;
@@ -89,7 +87,7 @@ public class ShipController : NetworkBehaviour {
 
     [Command(channel = Channels.DefaultUnreliable)]
     private void CmdSendGunVector(bool gunButton) {
-        NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].isShoot = gunButton;
+        NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].IsShoot = gunButton;
     }
     
     public override int GetNetworkChannel() {

@@ -5,31 +5,70 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
+	public EventHandler<PlayerConnectionEvent> playerConnectedEvent = new EventHandler<PlayerConnectionEvent>();
+	public EventHandler<PlayerConnectionEvent> playerDisconnectedEvent = new EventHandler<PlayerConnectionEvent>();
 	public static int percentToDeath = 20;
+
 	public bool IsServer;
 	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public Dictionary<NetworkConnection, PlayerServerData> playerData = new Dictionary<NetworkConnection, PlayerServerData>();
-	public GameObject clientShip;
+	public int clientIndex;
 	public int lastConnections;
 	public IGameMode gameMode = new FFAGameMode();
 	
 	public int scoreForWin = 2;
 	public GameObject enemyPointerPrefab;
 	
-	// TODO сделать эвенты на сервере при подключении и отключении игроков
-	public override void OnServerDisconnect(NetworkConnection conn) {
-		if (networkSceneName.Equals("Lobby"))
-			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
+	public void Start() {
+		ResetValuesToDefault();
+
+		if (!Directory.Exists(Application.streamingAssetsPath + "/ships"))
+			Directory.CreateDirectory(Application.streamingAssetsPath + "/ships");
+		
+		GameSettings.Load();
+		Timer.InitializeCreate();
+		LanguageManager.Initialize();
+		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
 	}
 
 	public override void OnServerConnect(NetworkConnection conn) {
-		if (GameInProgress) 
+		if (GameInProgress) {
 			conn.Disconnect();
+			return;
+		}
+
+		int id = Utils.rnd.Next();
+		playerData.Add(conn, new PlayerServerData() {
+			Score = 0,
+			Kills = 0,
+			ShipJson = Utils.CreateEmptyShip(),
+			Alive = true,
+			IsShoot = false,
+			Nick = conn.address,
+			Id = id
+		});
+		
+		MessageManager.SendPlayerIdClientMessage.SendToClient(conn, new IntegerMessage(id));
+		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
+	}
+	
+	public override void OnServerDisconnect(NetworkConnection conn) {
+		if (networkSceneName.Equals("Lobby"))
+			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
+
+		playerData.Remove(conn);
+		playerDisconnectedEvent.CallListners(new PlayerConnectionEvent(conn));
+	}
+
+	public override void OnClientConnect(NetworkConnection conn) {
+		if (!GameInProgress)
+			MessageManager.SendNickServerMessage.SendToServer(new StringMessage(GameSettings.SettingNick.Value));
 	}
 
 	public override void OnServerSceneChanged(string sceneName) {
@@ -46,33 +85,29 @@ public class NetworkManagerCustom : NetworkManager {
 		}
 	}
 
+	public PlayerServerData FindServerPlayer() {
+		return FindPlayerById(clientIndex);
+	}
+
+	public PlayerServerData FindPlayerById(int id) {
+		return playerData.First(p => p.Value.Id == id).Value;
+	}
+
 	public void StartGame() {
 		GameInProgress = true;
-		LobbyServerGui serverGui = GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>();
-		foreach (NetworkConnection conn in NetworkServer.connections) {
-				playerData[conn] = new PlayerServerData() {
-				score = 0,
-				kills = 0,
-				shipJson = Utils.CreateEmptyShip(),
-				alive = true,
-				isShoot = false,
-				nick = serverGui.nickMap[conn]
-			};
-		}
-
 		NetworkManager.singleton.ServerChangeScene("ShipEditor");
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
 		if (killer != null) {
-			playerData[killer.clientAuthorityOwner].kills++;
+			playerData[killer.clientAuthorityOwner].Kills++;
 			MessageManager.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
 				new NetworkIdentityMessage(killer),
 				new NetworkIdentityMessage(prey)
 			}));
 		}
 
-		playerData[prey.clientAuthorityOwner].alive = false;
+		playerData[prey.clientAuthorityOwner].Alive = false;
 		prey.GetComponent<IDeath>().OnDead(null);
 		if (gameMode.IsRoundOver())
 			Invoke(nameof(RoundOver), 1.9f);
@@ -85,10 +120,10 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void ScoreboardOver() {
 		foreach (PlayerServerData data in playerData.Values) {
-			data.score += data.kills;
-			data.kills = 0;
+			data.Score += data.Kills;
+			data.Kills = 0;
 
-			if (data.score == scoreForWin) {
+			if (data.Score == scoreForWin) {
 				ServerChangeScene("Lobby");
 				DestroyImmediate(GameObject.Find("LobbyManager"));
 				GameInProgress = false;
@@ -111,9 +146,9 @@ public class NetworkManagerCustom : NetworkManager {
 		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
 		shipObject.transform.position = spawnPosition.ToVector3();
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
-		Utils.DeserializeShipPartsFromJson(shipObject, playerData[conn].shipJson);
-		playerData[conn].shipIdentity = shipObject.GetComponent<NetworkIdentity>();
-		playerData[conn].alive = true;
+		Utils.DeserializeShipPartsFromJson(shipObject, playerData[conn].ShipJson);
+		playerData[conn].ShipIdentity = shipObject.GetComponent<NetworkIdentity>();
+		playerData[conn].Alive = true;
 	}
 
 	private Vector2 GetSpawnPoint() {
@@ -138,15 +173,11 @@ public class NetworkManagerCustom : NetworkManager {
 		ResetValuesToDefault();
 	}
 
-	public void Start() {
-		ResetValuesToDefault();
+	public class PlayerConnectionEvent : EventBase {
+		public NetworkConnection Conn;
 
-		if (!Directory.Exists(Application.streamingAssetsPath + "/ships"))
-			Directory.CreateDirectory(Application.streamingAssetsPath + "/ships");
-		
-		GameSettings.Load();
-		Timer.InitializeCreate();
-		LanguageManager.Initialize();
-		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
+		public PlayerConnectionEvent(NetworkConnection conn) : base(singleton, false) {
+			Conn = conn;
+		}
 	}
 }

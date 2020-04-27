@@ -9,13 +9,7 @@ using UnityEngine.Networking.NetworkSystem;
 public class LobbyServerGui : LobbyClientGUI {
 
 	protected Dictionary<NetworkConnection, bool> readyMap = new Dictionary<NetworkConnection, bool>();
-	public Dictionary<NetworkConnection, string> nickMap = new Dictionary<NetworkConnection, string>();
-
-	protected override void Start() {
-		foreach (NetworkClient client in NetworkClient.allClients)
-			nickMap[client.connection] = client.connection.address;
-	}
-
+	
 	protected override void OnGUI() {
 		if (NetworkManagerCustom.singleton.GameInProgress)
 			return;
@@ -40,7 +34,7 @@ public class LobbyServerGui : LobbyClientGUI {
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
 		if (GUILayout.Button("OK"))
-			MessageManager.SetNickLobbyServerMessage.SendToServer(new StringMessage(nick));
+			NetworkManagerCustom.singleton.FindServerPlayer().Nick = nick;
 
 		GUILayout.Space(20);
 		GUILayout.Label("Кол-во очков до победы");
@@ -54,10 +48,11 @@ public class LobbyServerGui : LobbyClientGUI {
 			SetReady(NetworkManager.singleton.client.connection, ready);
 		}
 
-		if (readyCount == connectionsCount 
-				&& !NetworkManagerCustom.singleton.GameInProgress 
-				&& GUILayout.Button("Старт!"))
+		if (readyCount == connectionsCount
+			&& !NetworkManagerCustom.singleton.GameInProgress
+			&& GUILayout.Button("Старт!")) {
 			NetworkManagerCustom.singleton.StartGame();
+		}
 		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
 			GUILayout.Label("Загрузка...");
 	}

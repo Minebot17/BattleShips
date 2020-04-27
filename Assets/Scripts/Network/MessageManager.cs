@@ -44,12 +44,7 @@ public class MessageManager {
 				break;
 		}
 	});
-	
-	public static readonly GameMessage SetNickLobbyServerMessage = new GameMessage(msg => {
-		string nick = msg.ReadMessage<StringMessage>().value;
-		GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().nickMap[msg.conn] = nick;
-	});
-	
+
 	public static readonly GameMessage SetReadyLobbyServerMessage = new GameMessage(msg => {
 		bool ready = bool.Parse(msg.ReadMessage<StringMessage>().value);
 		GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().SetReady(msg.conn, ready);
@@ -59,7 +54,7 @@ public class MessageManager {
 		NetworkIdentity id = msg.ReadMessage<NetworkIdentityMessage>().Value;
 		ResponseShipPartsClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
 			new NetworkIdentityMessage(id),
-			new StringMessage(NetworkManagerCustom.singleton.playerData[id.clientAuthorityOwner].shipJson)
+			new StringMessage(NetworkManagerCustom.singleton.playerData[id.clientAuthorityOwner].ShipJson)
 		}));
 	});
 	
@@ -83,7 +78,7 @@ public class MessageManager {
 	});
 
 	public static readonly GameMessage RequestShipEditorServerMessage = new GameMessage(msg => {
-		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerData[msg.conn].shipJson));
+		ResponseShipEditorClientMessage.SendToClient(msg.conn, new StringMessage(NetworkManagerCustom.singleton.playerData[msg.conn].ShipJson));
 	});
 	
 	public static readonly GameMessage ResponseShipEditorClientMessage = new GameMessage(msg => {
@@ -91,7 +86,7 @@ public class MessageManager {
 	});
 	
 	public static readonly GameMessage SendShipServerMessage = new GameMessage(msg => {
-		NetworkManagerCustom.singleton.playerData[msg.conn].shipJson = msg.ReadMessage<StringMessage>().value;
+		NetworkManagerCustom.singleton.playerData[msg.conn].ShipJson = msg.ReadMessage<StringMessage>().value;
 		if (--NetworkManagerCustom.singleton.lastConnections == 0) 
 			NetworkManagerCustom.singleton.ServerChangeScene("Game");
 	});
@@ -117,9 +112,9 @@ public class MessageManager {
 
 	public static readonly GameMessage RequestScoreboardInfoServerMessage = new GameMessage(msg => {
 		ResponseScoreboardInfoClientMessage.SendToClient(msg.conn, new MessagesMessage(new MessageBase[] {
-			new StringListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.shipJson).ToList()),
-			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.score).ToList()), 
-			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.kills).ToList()), 
+			new StringListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.ShipJson).ToList()),
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Score).ToList()), 
+			new IntegerListMessage(NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Kills).ToList()), 
 			new IntegerMessage(NetworkManagerCustom.singleton.scoreForWin) 
 		}));
 	});
@@ -143,7 +138,7 @@ public class MessageManager {
 	});
 	
 	public static readonly GameMessage SuicideServerMessage = new GameMessage(msg => {
-		NetworkManagerCustom.singleton.PlayerKill(null, msg.ReadMessage<NetworkIdentityMessage>().Value);
+		NetworkManagerCustom.singleton.PlayerKill(null, NetworkManagerCustom.singleton.playerData[msg.conn].ShipIdentity);
 	});
 	
 	public static readonly GameMessage RequestEnemyPointerColorServerMessage = new GameMessage(msg => {
@@ -163,6 +158,15 @@ public class MessageManager {
 			NetworkManagerCustom.singleton.enemyPointerPrefab, GameObject.Find("Canvas").transform);
 		enemyPointer.GetComponent<EnemyPointer>().Target = target.gameObject;
 		enemyPointer.GetComponentInChildren<Image>().color = color.ToColor();
+	});
+	
+	public static readonly GameMessage SendNickServerMessage = new GameMessage(msg => {
+		string nick = msg.ReadMessage<StringMessage>().value;
+		NetworkManagerCustom.singleton.playerData[msg.conn].Nick = nick.Equals("ip") ? msg.conn.address : nick;
+	});
+	
+	public static readonly GameMessage SendPlayerIdClientMessage = new GameMessage(msg => {
+		NetworkManagerCustom.singleton.clientIndex = msg.ReadMessage<IntegerMessage>().value;
 	});
 	
 	[Serializable]

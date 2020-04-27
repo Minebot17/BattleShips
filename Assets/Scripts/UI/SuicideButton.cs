@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 public class SuicideButton : MonoBehaviour {
 
@@ -10,8 +11,6 @@ public class SuicideButton : MonoBehaviour {
         if (isSuicide)
             return;
         
-        MessageManager.SuicideServerMessage.SendToServer(new NetworkIdentityMessage(
-            NetworkManagerCustom.singleton.clientShip.GetComponent<NetworkIdentity>()));
+        MessageManager.SuicideServerMessage.SendToServer(new EmptyMessage());
     }
-
 }

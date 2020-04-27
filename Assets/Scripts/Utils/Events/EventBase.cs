@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EventBase {
 
-	public GameObject Sender;
+	public object Sender;
 	public bool IsCancable;
 	private bool isCancel;
 
-	public EventBase(GameObject sender, bool isCancable) {
+	public EventBase(object sender, bool isCancable) {
 		if (GameSettings.SettingLogEvents.Value)
 			Debug.Log("[Event] Sender: " + sender + " Type: " + this);
 		Sender = sender;
