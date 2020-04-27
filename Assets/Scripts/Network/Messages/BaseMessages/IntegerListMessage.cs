@@ -4,12 +4,12 @@ using UnityEngine.Networking;
 
 [Serializable]
 public class IntegerListMessage : MessageBase {
-    public MessageManager.IntegerList Value = new MessageManager.IntegerList();
+    public MessageManagerOld.IntegerList Value = new MessageManagerOld.IntegerList();
 
     public IntegerListMessage() { }
 
     public IntegerListMessage(List<int> value) {
-        Value = new MessageManager.IntegerList();
+        Value = new MessageManagerOld.IntegerList();
         Value.AddRange(value);
     }
 	

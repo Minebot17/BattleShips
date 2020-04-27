@@ -3,12 +3,12 @@ using UnityEngine.Networking;
 
 [System.Serializable]
 public class StringListMessage : MessageBase {
-	public MessageManager.StringList Value = new MessageManager.StringList();
+	public MessageManagerOld.StringList Value = new MessageManagerOld.StringList();
 
 	public StringListMessage() { }
 
 	public StringListMessage(List<string> value) {
-		Value = new MessageManager.StringList();
+		Value = new MessageManagerOld.StringList();
 		Value.AddRange(value);
 	}
 		

@@ -52,7 +52,7 @@ public class ShipServerController : NetworkBehaviour {
             NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
         }
         
-        MessageManager.DestroyModuleClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
+        MessageManagerOld.DestroyModuleClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
             new NetworkIdentityMessage(identity),
             new StringMessage(module.transform.parent.gameObject.name)
         }));

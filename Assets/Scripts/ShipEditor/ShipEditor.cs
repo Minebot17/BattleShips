@@ -25,7 +25,7 @@ public class ShipEditor : MonoBehaviour {
         if (NetworkManagerCustom.singleton.IsServer)
             SetTimer(timeBeforeClosing);
         else
-            MessageManager.RequestTimerInEditorServerMessage.SendToServer(new EmptyMessage());
+            MessageManagerOld.RequestTimerInEditorServerMessage.SendToServer(new EmptyMessage());
 
         modules = Resources.LoadAll<EditorModule>("EditorModules/");
         moduleBackgrounds.Add(editorModules.transform.GetChild(0).GetComponent<Image>());
@@ -38,7 +38,7 @@ public class ShipEditor : MonoBehaviour {
             editorModule.GetComponent<Button>().onClick.AddListener(() => { OnSelectModuleClick(editorModule); });
         }
 
-        MessageManager.RequestShipEditorServerMessage.SendToServer(new EmptyMessage());
+        MessageManagerOld.RequestShipEditorServerMessage.SendToServer(new EmptyMessage());
     }
 
     public void SetTimer(int seconds) {
@@ -55,7 +55,7 @@ public class ShipEditor : MonoBehaviour {
         if (closingTimer > 0)
             closingTimer -= Time.deltaTime;
         else {
-            MessageManager.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
+            MessageManagerOld.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
             timerStarted = false;
         }
 
@@ -117,7 +117,7 @@ public class ShipEditor : MonoBehaviour {
     }
 
     public void OnReadyClick(GameObject buttonObject) {
-        MessageManager.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
+        MessageManagerOld.SendShipServerMessage.SendToServer(new StringMessage(Utils.SerializeShip(currentShip)));
         Destroy(buttonObject.GetComponent<Button>());
         buttonObject.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
         timerText.enabled = false;

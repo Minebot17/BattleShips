@@ -4,12 +4,12 @@ using UnityEngine.Networking.NetworkSystem;
 
 [Serializable]
 public class MessagesMessage : MessageBase {
-    public MessageManager.MessagesList Value = new MessageManager.MessagesList();
+    public MessageManagerOld.MessagesList Value = new MessageManagerOld.MessagesList();
     
     public MessagesMessage() { }
     
     public MessagesMessage(MessageBase[] value) {
-        Value = new MessageManager.MessagesList();
+        Value = new MessageManagerOld.MessagesList();
         Value.AddRange(value);
     }
 		

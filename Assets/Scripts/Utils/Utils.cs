@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -94,5 +96,9 @@ public static class Utils {
             }
         }
         Utils.localIp = localIp;
+    }
+    
+    public static IEnumerable<Type> FindChildesOfType(Type parent) {
+        return typeof(Utils).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(GameMessage)));
     }
 }

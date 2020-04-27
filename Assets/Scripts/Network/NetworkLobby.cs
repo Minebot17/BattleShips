@@ -4,7 +4,6 @@ using UnityEngine.Networking.NetworkSystem;
 public class NetworkLobby : MonoBehaviour {
 	
 	private void Awake() {
-		MessageManager.Initialize();
 		DontDestroyOnLoad(gameObject);
 	}
 
@@ -29,7 +28,7 @@ public class NetworkLobby : MonoBehaviour {
 			}
 		}
 		else {
-			MessageManager.RequestLobbyModeServerMessage.SendToServer(new EmptyMessage());
+			MessageManagerOld.RequestLobbyModeServerMessage.SendToServer(new EmptyMessage());
 		}
 
 		Destroy(GetComponent<NetworkLobby>());

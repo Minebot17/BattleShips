@@ -24,14 +24,14 @@ public class LobbyClientGUI : MonoBehaviour {
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
 		if (GUILayout.Button("OK"))
-			MessageManager.SendNickServerMessage.SendToServer(new StringMessage(nick));
+			MessageManagerOld.SendNickServerMessage.SendToServer(new StringMessage(nick));
 		
 		RenderInChild();
 
 		GUILayout.Space(20);
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
-			MessageManager.SetReadyLobbyServerMessage.SendToServer(new StringMessage(ready+""));
+			MessageManager.SendToServer(new SetReadyLobbyServerMessage(ready));
 		}
 	}
 	

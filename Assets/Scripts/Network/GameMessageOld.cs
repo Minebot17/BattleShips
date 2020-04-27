@@ -1,15 +1,15 @@
 ﻿using UnityEngine.Networking;
 
-public class GameMessage {
+public class GameMessageOld {
 
 	private short index;
 	private NetworkMessageDelegate method;
 
-	public GameMessage(NetworkMessageDelegate method) {
-		index = MessageManager.LastIndex;
+	public GameMessageOld(NetworkMessageDelegate method) {
+		index = MessageManagerOld.LastIndex;
 		this.method = method;
-		MessageManager.LastIndex++;
-		MessageManager.ToRegister.Add(this);
+		MessageManagerOld.LastIndex++;
+		MessageManagerOld.ToRegister.Add(this);
 	}
 
 	public void Register() {
@@ -23,6 +23,8 @@ public class GameMessage {
 
 	public void SendToClient(NetworkConnection connection, MessageBase message) {
 		connection.Send(index, message);
+		NetworkWriter writer = new NetworkWriter();
+		
 	}
 
 	public void SendToAllClients(MessageBase message) {

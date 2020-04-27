@@ -37,6 +37,10 @@ public class NetworkManagerCustom : NetworkManager {
 		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
 	}
 
+	public override void OnStartServer() {
+		MessageManager.Initialize();
+	}
+
 	public override void OnServerConnect(NetworkConnection conn) {
 		if (GameInProgress) {
 			conn.Disconnect();
@@ -54,7 +58,8 @@ public class NetworkManagerCustom : NetworkManager {
 			Id = id
 		});
 		
-		MessageManager.SendPlayerIdClientMessage.SendToClient(conn, new IntegerMessage(id));
+		MessageManager.SendToClient(conn, new TestMessage("Pipa"));
+		//MessageManagerOld.SendPlayerIdClientMessage.SendToClient(conn, new IntegerMessage(id));
 		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
 	
@@ -67,8 +72,9 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public override void OnClientConnect(NetworkConnection conn) {
-		if (!GameInProgress)
-			MessageManager.SendNickServerMessage.SendToServer(new StringMessage(GameSettings.SettingNick.Value));
+		MessageManager.Initialize();
+		//if (!GameInProgress)
+		//	MessageManagerOld.SendNickServerMessage.SendToServer(new StringMessage(GameSettings.SettingNick.Value));
 	}
 
 	public override void OnServerSceneChanged(string sceneName) {
@@ -101,7 +107,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
 		if (killer != null) {
 			playerData[killer.clientAuthorityOwner].Kills++;
-			MessageManager.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
+			MessageManagerOld.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
 				new NetworkIdentityMessage(killer),
 				new NetworkIdentityMessage(prey)
 			}));
