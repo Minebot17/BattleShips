@@ -51,6 +51,7 @@ public class LobbyServerGui : LobbyClientGUI {
 		if (readyCount == connectionsCount
 			&& !NetworkManagerCustom.singleton.GameInProgress
 			&& GUILayout.Button("Старт!")) {
+			OnStartGame();
 			NetworkManagerCustom.singleton.StartGame();
 		}
 		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
@@ -58,6 +59,10 @@ public class LobbyServerGui : LobbyClientGUI {
 	}
 	
 	protected override void RenderInChild() {
+		
+	}
+
+	protected virtual void OnStartGame() {
 		
 	}
 

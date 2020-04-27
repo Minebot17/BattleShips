@@ -12,19 +12,28 @@ public class LobbyServerTeamGUI : LobbyServerGui {
     protected string[] teamSlotsStr = { "2", "2" };
     protected int[] teamSlots = { 2, 2 };
 
+    private int connectEvent = -1;
+    private int disconnectEvent = -1;
+    private int changeNickEvent = -1;
+
     protected override void Start() {
         base.Start();
         observers.AddRange(NetworkManagerCustom.singleton.playerData.Keys);
 
-        NetworkManagerCustom.singleton.playerConnectedEvent.SubcribeEvent(e => {
+        connectEvent = NetworkManagerCustom.singleton.playerConnectedEvent.SubcribeEvent(e => {
             observers.Add(e.Conn);
             // TODO отправить клиентам игрока
         });
         
-        NetworkManagerCustom.singleton.playerDisconnectedEvent.SubcribeEvent(e => {
+        disconnectEvent = NetworkManagerCustom.singleton.playerDisconnectedEvent.SubcribeEvent(e => {
             int teamIndex = FindTeamOfConnection(e.Conn);
             teams[teamIndex].Remove(e.Conn);
             // TODO отправить клиентам удаление игрока
+        });
+
+        changeNickEvent = PlayerServerData.changeNickEvent.SubcribeEvent(e => {
+            PlayerServerData sender = (PlayerServerData)e.Sender;
+            // TODO отправить клиентам смену ника игрока
         });
     }
     
@@ -99,6 +108,12 @@ public class LobbyServerTeamGUI : LobbyServerGui {
             if (GUILayout.Button("Перейти"))
                 ChangeTeam(i);
         }
+    }
+    
+    protected override void OnStartGame() {
+        NetworkManagerCustom.singleton.playerConnectedEvent.UnSubcribeEvent(connectEvent);
+        NetworkManagerCustom.singleton.playerDisconnectedEvent.UnSubcribeEvent(disconnectEvent);
+        PlayerServerData.changeNickEvent.UnSubcribeEvent(changeNickEvent);
     }
 
     private void ChangeTeam(int to) {

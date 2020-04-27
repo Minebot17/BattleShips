@@ -159,15 +159,19 @@ public class MessageManager {
 		enemyPointer.GetComponent<EnemyPointer>().Target = target.gameObject;
 		enemyPointer.GetComponentInChildren<Image>().color = color.ToColor();
 	});
+
+	public static readonly GameMessage SendPlayerIdClientMessage = new GameMessage(msg => {
+		NetworkManagerCustom.singleton.clientIndex = msg.ReadMessage<IntegerMessage>().value;
+	});
+	
+	#region "Team GUI synchronization"
 	
 	public static readonly GameMessage SendNickServerMessage = new GameMessage(msg => {
 		string nick = msg.ReadMessage<StringMessage>().value;
 		NetworkManagerCustom.singleton.playerData[msg.conn].Nick = nick.Equals("ip") ? msg.conn.address : nick;
 	});
 	
-	public static readonly GameMessage SendPlayerIdClientMessage = new GameMessage(msg => {
-		NetworkManagerCustom.singleton.clientIndex = msg.ReadMessage<IntegerMessage>().value;
-	});
+	#endregion
 	
 	[Serializable]
 	public class MessagesList : List<MessageBase> { }
