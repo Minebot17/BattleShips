@@ -22,7 +22,7 @@ public class ShipEditor : MonoBehaviour {
     private List<Image> moduleBackgrounds = new List<Image>();
     private float closingTimer;
     private bool timerStarted;
-    private int numberOfInstalledModules = 0;
+    private int installedModules = 0;
     private int maxModules = 5;
 
     public void Start() {
@@ -77,17 +77,14 @@ public class ShipEditor : MonoBehaviour {
         Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
         GameObject shipCell = FindShipCell(position);
 
-        if (selectedModule == null || position.x == 0 && position.y == 0)
+        if (selectedModule == null || (position.x == 0 && position.y == 0) || installedModules > maxModules)
             return;
 
-        if (selectedModule.Equals("DeleteModule")) {
-            if (shipCell)
-            {
-                Destroy(shipCell);
-                numberOfInstalledModules--;
-            }
+        if (shipCell)
+        {
+            Destroy(shipCell);
         }
-        else if (!shipCell && GetNeighbors(position).Any(go => go) && numberOfInstalledModules < maxModules) {
+        else if (!shipCell && GetNeighbors(position).Any(go => go)) {
             string[] splittedName = selectedModule.Split(' ');
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
             cell.name = "ShipCell " + position.x + " " + position.y;
@@ -95,7 +92,6 @@ public class ShipEditor : MonoBehaviour {
             GameObject module = Instantiate(Resources.Load<GameObject>("Prefabs/Modules/" + splittedName[0]), cell.transform);
             module.name = modules[int.Parse(splittedName[1])].name;
             module.transform.localPosition = new Vector3(0, 0, -0.1f);
-            numberOfInstalledModules++;
         }
     }
 
