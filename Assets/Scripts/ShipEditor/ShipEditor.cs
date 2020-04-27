@@ -13,12 +13,17 @@ public class ShipEditor : MonoBehaviour {
     public Text timerText;
     public int timeBeforeClosing = 30;
 
+    [SerializeField]
+    private Camera mainCamera;
+
     private string selectedModule;
     private GameObject currentShip;
     private EditorModule[] modules;
     private List<Image> moduleBackgrounds = new List<Image>();
     private float closingTimer;
     private bool timerStarted;
+    private int numberOfInstalledModules = 0;
+    private int maxModules = 5;
 
     public void Start() {
         singleton = this;
@@ -67,7 +72,7 @@ public class ShipEditor : MonoBehaviour {
     }
 
     public void OnConstructorClick() {
-        Vector3 p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+        Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         p = new Vector3(p.x/Utils.sizeOfOne - 0.5f*(p.x > 0 ? -1 : 1), p.y/Utils.sizeOfOne - 0.5f*(p.y > 0 ? -1 : 1), 0f);
         Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
         GameObject shipCell = FindShipCell(position);
@@ -77,9 +82,12 @@ public class ShipEditor : MonoBehaviour {
 
         if (selectedModule.Equals("DeleteModule")) {
             if (shipCell)
+            {
                 Destroy(shipCell);
+                numberOfInstalledModules--;
+            }
         }
-        else if (!shipCell && GetNeighbors(position).Any(go => go)) {
+        else if (!shipCell && GetNeighbors(position).Any(go => go) && numberOfInstalledModules < maxModules) {
             string[] splittedName = selectedModule.Split(' ');
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
             cell.name = "ShipCell " + position.x + " " + position.y;
@@ -87,6 +95,7 @@ public class ShipEditor : MonoBehaviour {
             GameObject module = Instantiate(Resources.Load<GameObject>("Prefabs/Modules/" + splittedName[0]), cell.transform);
             module.name = modules[int.Parse(splittedName[1])].name;
             module.transform.localPosition = new Vector3(0, 0, -0.1f);
+            numberOfInstalledModules++;
         }
     }
 
