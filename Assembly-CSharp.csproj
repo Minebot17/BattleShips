@@ -80,13 +80,12 @@
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncVelocity.cs" />
      <Compile Include="Assets\Scripts\Network\GameMessageOld.cs" />
      <Compile Include="Assets\Scripts\Network\MessageManagerOld.cs" />
-     <Compile Include="Assets\Scripts\Network\MessageSystem\GameMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\MessageSystem\MessageManager.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\IntegerListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\MessagesMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\NetworkIdentityMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\StringListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\Vector3Message.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\GameMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\SetReadyLobbyServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\TestMessage.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkLobby.cs" />

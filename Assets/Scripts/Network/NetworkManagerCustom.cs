@@ -37,10 +37,6 @@ public class NetworkManagerCustom : NetworkManager {
 		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
 	}
 
-	public override void OnStartServer() {
-		MessageManager.Initialize();
-	}
-
 	public override void OnServerConnect(NetworkConnection conn) {
 		if (GameInProgress) {
 			conn.Disconnect();
@@ -58,7 +54,6 @@ public class NetworkManagerCustom : NetworkManager {
 			Id = id
 		});
 		
-		MessageManager.SendToClient(conn, new TestMessage("Pipa"));
 		//MessageManagerOld.SendPlayerIdClientMessage.SendToClient(conn, new IntegerMessage(id));
 		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
@@ -72,7 +67,6 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public override void OnClientConnect(NetworkConnection conn) {
-		MessageManager.Initialize();
 		//if (!GameInProgress)
 		//	MessageManagerOld.SendNickServerMessage.SendToServer(new StringMessage(GameSettings.SettingNick.Value));
 	}

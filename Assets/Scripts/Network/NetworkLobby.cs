@@ -4,6 +4,7 @@ using UnityEngine.Networking.NetworkSystem;
 public class NetworkLobby : MonoBehaviour {
 	
 	private void Awake() {
+		GameMessage.Initialize();
 		DontDestroyOnLoad(gameObject);
 	}
 

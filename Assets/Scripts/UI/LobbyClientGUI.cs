@@ -31,7 +31,7 @@ public class LobbyClientGUI : MonoBehaviour {
 		GUILayout.Space(20);
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
-			MessageManager.SendToServer(new SetReadyLobbyServerMessage(ready));
+			new SetReadyLobbyServerMessage(ready).SendToServer();
 		}
 	}
 	
