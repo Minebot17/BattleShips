@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class LobbyServerGui : LobbyClientGUI {
+public class LobbyServerGui : LobbyClientGui {
 
 	protected Dictionary<NetworkConnection, bool> readyMap = new Dictionary<NetworkConnection, bool>();
 	
@@ -30,19 +30,19 @@ public class LobbyServerGui : LobbyClientGUI {
 		GUILayout.Label("Вы в лобби. Подключено " + connectionsCount + " игроков");
 		GUILayout.Label("Готовы " + readyCount + " из " + connectionsCount);
 		
-		GUILayout.Space(20);
+		GUILayout.Space(10);
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
 		if (GUILayout.Button("OK"))
 			NetworkManagerCustom.singleton.FindServerPlayer().Nick = nick;
 
-		GUILayout.Space(20);
+		GUILayout.Space(10);
 		GUILayout.Label("Кол-во очков до победы");
 		NetworkManagerCustom.singleton.scoreForWin = int.Parse(GUILayout.TextField(NetworkManagerCustom.singleton.scoreForWin+""));
 		
 		RenderInChild();
 		
-		GUILayout.Space(20);
+		GUILayout.Space(10);
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
 			SetReady(NetworkManager.singleton.client.connection, ready);

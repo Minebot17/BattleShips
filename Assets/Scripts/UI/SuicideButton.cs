@@ -11,6 +11,6 @@ public class SuicideButton : MonoBehaviour {
         if (isSuicide)
             return;
         
-        MessageManagerOld.SuicideServerMessage.SendToServer(new EmptyMessage());
+        new SuicideServerMessage().SendToServer();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LobbyClientTeamGUI : LobbyClientGUI {
+public class LobbyClientTeamGui : LobbyClientGui {
     protected List<int> observers = new List<int>();
     protected List<List<int>> teams = new List<List<int>>();
     protected int teamCount = 2;
@@ -24,7 +24,7 @@ public class LobbyClientTeamGUI : LobbyClientGUI {
 
         for (int i = 0; i < teamCount; i++) {
             List<int> team = teams[i];
-            GUILayout.Space(20);
+            GUILayout.Space(10);
             GUILayout.Label("Команда #" + i);
             GUILayout.Label("Слотов: " + teamSlots[i]);
 

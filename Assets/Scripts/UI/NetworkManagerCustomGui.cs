@@ -7,7 +7,7 @@ using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(NetworkManagerCustom))]
-public class NetworkManagerCustomGUI : MonoBehaviour {
+public class NetworkManagerCustomGui : MonoBehaviour {
 	public string IpAddress;
 	public string Port;
 	private bool _started;
@@ -34,14 +34,14 @@ public class NetworkManagerCustomGUI : MonoBehaviour {
 			}
 
 			if (GUILayout.Button("Host FFA")) {
-				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "FFA");
+				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "ffa");
 				_started = true;
 				NetworkManager.singleton.networkPort = int.Parse(Port);
 				NetworkManager.singleton.StartHost();
 			}
 			
 			if (GUILayout.Button("Host Commands")) {
-				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "Commands");
+				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "commands");
 				_started = true;
 				NetworkManager.singleton.networkPort = int.Parse(Port);
 				NetworkManager.singleton.StartHost();

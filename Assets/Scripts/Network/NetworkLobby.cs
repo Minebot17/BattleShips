@@ -9,28 +9,13 @@ public class NetworkLobby : MonoBehaviour {
 	}
 
 	private void Start() {
-		LobbyClientGUI[] found = FindObjectsOfType<LobbyClientGUI>();
+		LobbyClientGui[] found = FindObjectsOfType<LobbyClientGui>();
 		GameObject old = found.Length == 0 ? null : found[0].gameObject;
 		if (old != null)
 			Destroy(old);
-
-		// TODO пизда расширяемости игровых режимов из-за этого свича (на клиенте в MessageManager тоже свич есть)
-		if (NetworkManagerCustom.singleton.IsServer) {
-			string mode = NetworkManagerCustom.singleton.StartArguments.Find(s => s.StartsWith("gamemode:")).Split(':')[1];
-			GameObject lobbyManager = GameObject.Find("LobbyManager");
 		
-			switch (mode) {
-				case "ffa":
-					lobbyManager.AddComponent<LobbyServerGui>();
-					break;
-				case "commands":
-					lobbyManager.AddComponent<LobbyServerTeamGUI>();
-					break;
-			}
-		}
-		else {
-			MessageManagerOld.RequestLobbyModeServerMessage.SendToServer(new EmptyMessage());
-		}
+		new LobbyModeMessage().SendToServer();
+		new ClientIndexMessage().SendToServer();
 
 		Destroy(GetComponent<NetworkLobby>());
 	}

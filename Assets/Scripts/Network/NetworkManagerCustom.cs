@@ -54,7 +54,6 @@ public class NetworkManagerCustom : NetworkManager {
 			Id = id
 		});
 		
-		//MessageManagerOld.SendPlayerIdClientMessage.SendToClient(conn, new IntegerMessage(id));
 		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
 	
@@ -65,12 +64,7 @@ public class NetworkManagerCustom : NetworkManager {
 		playerData.Remove(conn);
 		playerDisconnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
-
-	public override void OnClientConnect(NetworkConnection conn) {
-		//if (!GameInProgress)
-		//	MessageManagerOld.SendNickServerMessage.SendToServer(new StringMessage(GameSettings.SettingNick.Value));
-	}
-
+	
 	public override void OnServerSceneChanged(string sceneName) {
 		if (sceneName.Equals("ShipEditor"))
 			lastConnections = NetworkServer.connections.Count;
@@ -83,6 +77,15 @@ public class NetworkManagerCustom : NetworkManager {
 					StartCoroutine(WaitForReady(conn));
 			}
 		}
+	}
+
+	public override void OnClientSceneChanged(NetworkConnection conn) {
+		base.OnClientSceneChanged(conn);
+		if (networkSceneName.Equals("ShipEditor") && !GameInProgress)
+			GameInProgress = true;
+
+		if (networkSceneName.Equals("Lobby") && GameInProgress)
+			GameInProgress = false;
 	}
 
 	public PlayerServerData FindServerPlayer() {
@@ -101,10 +104,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
 		if (killer != null) {
 			playerData[killer.clientAuthorityOwner].Kills++;
-			MessageManagerOld.KillShipClientMessage.SendToAllClients(new MessagesMessage(new MessageBase[] {
-				new NetworkIdentityMessage(killer),
-				new NetworkIdentityMessage(prey)
-			}));
+			new KillShipClientMessage(killer, prey).SendToAllClient();
 		}
 
 		playerData[prey.clientAuthorityOwner].Alive = false;

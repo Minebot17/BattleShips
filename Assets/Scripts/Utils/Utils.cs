@@ -12,6 +12,21 @@ public static class Utils {
     public static System.Random rnd = new System.Random();
     public static string localIp;
     
+    [Serializable]
+    public class MessagesList : List<MessageBase> { }
+
+    [Serializable]
+    public class StringList : List<string> { }
+
+    [Serializable]
+    public class MultyStringList : List<List<string>> { }
+	
+    [Serializable]
+    public class Vector3List : List<Vector3> { }
+	
+    [Serializable]
+    public class IntegerList : List<int> {  }
+    
     public static Vector2 ToVector2(this Vector3 vec) {
         return new Vector2(vec.x, vec.y);
     }

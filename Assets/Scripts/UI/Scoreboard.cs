@@ -31,7 +31,7 @@ public class Scoreboard : MonoBehaviour {
             );
         }
         else
-            MessageManagerOld.RequestScoreboardInfoServerMessage.SendToServer(new EmptyMessage());
+            new ScoreboardInfoMessage().SendToServer();
     }
 
     public void Init(List<string> ships, List<int> score, List<int> delta, int scoreForWin) {

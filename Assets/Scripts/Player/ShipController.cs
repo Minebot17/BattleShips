@@ -34,10 +34,10 @@ public class ShipController : NetworkBehaviour {
         if (hasAuthority) 
             CameraFollower.singleton.Target = gameObject.transform;
         else
-            MessageManagerOld.RequestEnemyPointerColorServerMessage.SendToServer(new NetworkIdentityMessage(identity));
+            new EnemyPointerColorMessage(identity).SendToServer();
 
         if (!isServer) {
-            MessageManagerOld.RequestShipPartsServerMessage.SendToServer(new NetworkIdentityMessage(GetComponent<NetworkIdentity>()));
+            new ShipPartsMessage(GetComponent<NetworkIdentity>()).SendToServer();
         }
         else {
             initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;

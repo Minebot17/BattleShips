@@ -51,7 +51,6 @@ public abstract class GameMessage {
                 short index = MessageIndexes[message.GetType()];
                 NetworkManager.singleton.client.RegisterHandler(index, msg => RegisteredMessages[msg.msgType-StartIndex].OnClient(msg.reader));
             }
-            
             RegisteredOnClient = true;
         }
     }
@@ -66,8 +65,8 @@ public abstract class GameMessage {
         Writer.StartMessage(messageId);
     }
 
-    public abstract void OnClient(NetworkReader reader);
     public abstract void OnServer(NetworkReader reader, NetworkConnection conn);
+    public abstract void OnClient(NetworkReader reader);
 
     public int GetChannel() {
         return Channels.DefaultReliable;

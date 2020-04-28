@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class LobbyServerTeamGUI : LobbyServerGui {
+public class LobbyServerTeamGui : LobbyServerGui {
     
     protected List<NetworkConnection> observers = new List<NetworkConnection>();
     protected List<List<NetworkConnection>> teams = new List<List<NetworkConnection>>();
@@ -73,7 +73,7 @@ public class LobbyServerTeamGUI : LobbyServerGui {
             // TODO отправить клиентам новое кол-во команд
         }
 
-        GUILayout.Space(20);
+        GUILayout.Space(10);
         GUILayout.Label("Наблюдатели:");
         foreach (NetworkConnection conn in observers)
             GUILayout.Label("* " + NetworkManagerCustom.singleton.playerData[conn].Nick);
@@ -82,7 +82,7 @@ public class LobbyServerTeamGUI : LobbyServerGui {
 
         for (int i = 0; i < teamCount; i++) {
             List<NetworkConnection> team = teams[i];
-            GUILayout.Space(20);
+            GUILayout.Space(10);
             GUILayout.Label("Команда #" + i);
             GUILayout.Label("Слотов:");
             teamSlotsStr[i] = GUILayout.TextField(teamSlotsStr[i]);
