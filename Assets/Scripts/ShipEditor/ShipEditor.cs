@@ -13,8 +13,10 @@ public class ShipEditor : MonoBehaviour {
     public Text timerText;
     public int timeBeforeClosing = 30;
 
-    [SerializeField]
-    private Camera mainCamera;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private int maxModules = 5;
+    [SerializeField] private Text blocksLeftText;
+    [SerializeField] private GameObject readyButton;
 
     private string selectedModule;
     private GameObject currentShip;
@@ -22,8 +24,7 @@ public class ShipEditor : MonoBehaviour {
     private List<Image> moduleBackgrounds = new List<Image>();
     private float closingTimer;
     private bool timerStarted;
-    private int installedModules = 0;
-    private int maxModules = 5;
+    private int installedModules;
 
     public void Start() {
         singleton = this;
@@ -33,12 +34,11 @@ public class ShipEditor : MonoBehaviour {
             new TimerInEditorMessage().SendToServer();
 
         modules = Resources.LoadAll<EditorModule>("EditorModules/");
-        moduleBackgrounds.Add(editorModules.transform.GetChild(0).GetComponent<Image>());
         for (int i = 0; i < modules.Length; i++) {
             GameObject editorModule = Instantiate(editorModulePrefab, editorModules);
             editorModule.name = modules[i].prefab.name + " " + i;
             moduleBackgrounds.Add(editorModule.GetComponent<Image>());
-            editorModule.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -120 * i - 140);
+            editorModule.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -120 * i - 20);
             editorModule.transform.GetChild(0).GetComponent<Image>().sprite = modules[i].prefab.GetComponent<SpriteRenderer>().sprite;
             editorModule.GetComponent<Button>().onClick.AddListener(() => { OnSelectModuleClick(editorModule); });
         }
@@ -79,12 +79,11 @@ public class ShipEditor : MonoBehaviour {
 
         if (selectedModule == null || (position.x == 0 && position.y == 0) || installedModules > maxModules)
             return;
+        
+        if (GetNeighbors(position).Any(go => go)) {
+            if (shipCell)
+                Destroy(shipCell);
 
-        if (shipCell)
-        {
-            Destroy(shipCell);
-        }
-        else if (!shipCell && GetNeighbors(position).Any(go => go)) {
             string[] splittedName = selectedModule.Split(' ');
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
             cell.name = "ShipCell " + position.x + " " + position.y;
@@ -92,6 +91,10 @@ public class ShipEditor : MonoBehaviour {
             GameObject module = Instantiate(Resources.Load<GameObject>("Prefabs/Modules/" + splittedName[0]), cell.transform);
             module.name = modules[int.Parse(splittedName[1])].name;
             module.transform.localPosition = new Vector3(0, 0, -0.1f);
+            installedModules++;
+            blocksLeftText.text = (maxModules - installedModules) + " blocks left";
+            if (installedModules == maxModules)
+                OnReadyClick();
         }
     }
 
@@ -121,10 +124,11 @@ public class ShipEditor : MonoBehaviour {
         buttonObject.GetComponent<Image>().color = currentColor;
     }
 
-    public void OnReadyClick(GameObject buttonObject) {
+    public void OnReadyClick() {
         new SendShipServerMessage(Utils.SerializeShip(currentShip)).SendToServer();
-        Destroy(buttonObject.GetComponent<Button>());
-        buttonObject.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
+        Destroy(readyButton.GetComponent<Button>());
+        readyButton.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
+        blocksLeftText.enabled = false;
         timerText.enabled = false;
         timerStarted = false;
     }
