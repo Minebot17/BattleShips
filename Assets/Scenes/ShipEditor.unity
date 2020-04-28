@@ -429,6 +429,7 @@ MonoBehaviour:
     type: 3}
   timerText: {fileID: 230349390}
   timeBeforeClosing: 30
+  mainCamera: {fileID: 797140603}
 --- !u!4 &299456990
 Transform:
   m_ObjectHideFlags: 0

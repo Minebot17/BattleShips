@@ -13,12 +13,17 @@ public class ShipEditor : MonoBehaviour {
     public Text timerText;
     public int timeBeforeClosing = 30;
 
+    [SerializeField]
+    private Camera mainCamera;
+
     private string selectedModule;
     private GameObject currentShip;
     private EditorModule[] modules;
     private List<Image> moduleBackgrounds = new List<Image>();
     private float closingTimer;
     private bool timerStarted;
+    private int installedModules = 0;
+    private int maxModules = 5;
 
     public void Start() {
         singleton = this;
@@ -67,17 +72,17 @@ public class ShipEditor : MonoBehaviour {
     }
 
     public void OnConstructorClick() {
-        Vector3 p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+        Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         p = new Vector3(p.x/Utils.sizeOfOne - 0.5f*(p.x > 0 ? -1 : 1), p.y/Utils.sizeOfOne - 0.5f*(p.y > 0 ? -1 : 1), 0f);
         Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
         GameObject shipCell = FindShipCell(position);
 
-        if (selectedModule == null || position.x == 0 && position.y == 0)
+        if (selectedModule == null || (position.x == 0 && position.y == 0) || installedModules > maxModules)
             return;
 
-        if (selectedModule.Equals("DeleteModule")) {
-            if (shipCell)
-                Destroy(shipCell);
+        if (shipCell)
+        {
+            Destroy(shipCell);
         }
         else if (!shipCell && GetNeighbors(position).Any(go => go)) {
             string[] splittedName = selectedModule.Split(' ');
