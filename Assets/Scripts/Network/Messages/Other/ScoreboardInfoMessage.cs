@@ -17,7 +17,7 @@ public class ScoreboardInfoMessage : GameMessage {
         new ScoreboardInfoMessage(
             NetworkManagerCustom.singleton.playerData.Values.Select(d => d.ShipJson).ToList(),
             NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Score).ToList(),
-            NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Kills).ToList(),
+            NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerData.ToDictionary(d => d.Key, d => d.Value.Kills)).Values.ToList(),
             NetworkManagerCustom.singleton.scoreForWin
         ).SendToClient(conn);
     }

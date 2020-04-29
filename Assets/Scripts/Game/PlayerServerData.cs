@@ -61,6 +61,10 @@ public class PlayerServerData {
         set => isShoot = value;
     }
 
+    public PlayerServerData(string nick) {
+        this.nick = nick;
+    }
+
     public override bool Equals(object obj) {
         return obj is PlayerServerData data && data.conn == conn;
     }

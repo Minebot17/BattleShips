@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class LobbyServerTeamGui : LobbyServerGui {
     
     protected List<NetworkConnection> observers = new List<NetworkConnection>();
-    protected List<List<NetworkConnection>> teams = new List<List<NetworkConnection>>();
+    protected List<List<NetworkConnection>> teams = new List<List<NetworkConnection>>() { new List<NetworkConnection>(), new List<NetworkConnection>() };
     protected string teamCountStr = "2";
     protected int teamCount = 2;
     protected string[] teamSlotsStr = { "2", "2" };
@@ -16,30 +16,38 @@ public class LobbyServerTeamGui : LobbyServerGui {
     private int disconnectEvent = -1;
     private int changeNickEvent = -1;
 
+    public List<NetworkConnection> Observers => observers;
+    public List<List<NetworkConnection>> Teams => teams;
+    public int TeamCount => teamCount;
+    public int[] TeamSlots => teamSlots;
+
     protected override void Start() {
         base.Start();
         observers.AddRange(NetworkManagerCustom.singleton.playerData.Keys);
 
         connectEvent = NetworkManagerCustom.singleton.playerConnectedEvent.SubcribeEvent(e => {
             observers.Add(e.Conn);
-            // TODO отправить клиентам игрока
+            new AddTeamPlayerClientMessage(NetworkManagerCustom.singleton.playerData[e.Conn].Id).SendToAllClient(e.Conn);
         });
         
         disconnectEvent = NetworkManagerCustom.singleton.playerDisconnectedEvent.SubcribeEvent(e => {
             int teamIndex = FindTeamOfConnection(e.Conn);
-            teams[teamIndex].Remove(e.Conn);
-            // TODO отправить клиентам удаление игрока
+            if (teamIndex == -1)
+                observers.Remove(e.Conn);
+            else 
+                teams[teamIndex].Remove(e.Conn);
+            new RemoveTeamPlayerClientMessage(NetworkManagerCustom.singleton.playerData[e.Conn].Id).SendToAllClient();
         });
 
         changeNickEvent = PlayerServerData.changeNickEvent.SubcribeEvent(e => {
             PlayerServerData sender = (PlayerServerData)e.Sender;
-            // TODO отправить клиентам смену ника игрока
+            new PlayerChangeNickClientMessage(sender.Id, sender.Nick).SendToAllClient();
         });
     }
     
     protected override void RenderInChild() {
-		GUILayout.Space(20);
-        
+		GUILayout.Space(10);
+        GUILayout.Label("Кол-во команд:");
         teamCountStr = GUILayout.TextField(teamCountStr);
         if (GUILayout.Button("OK")) {
             teamCount = int.Parse(teamCountStr);
@@ -53,24 +61,27 @@ public class LobbyServerTeamGui : LobbyServerGui {
                 teams.RemoveRange(teamCount, teamSlots.Length - teamCount);
             }
             else if (teamSlots.Length < teamCount) {
-                List<List<NetworkConnection>> toAdd = new List<List<NetworkConnection>>();
                 for (int i = 0; i < teamCount - teamSlots.Length; i++)
-                    toAdd.Add(new List<NetworkConnection>());
-                
-                teams.AddRange(toAdd);
+                    teams.Add(new List<NetworkConnection>());
             }
 
+            int minSlots = teamCount < teamSlots.Length ? teamCount : teamSlots.Length;
+            
             string[] newSlotsStr = new string[teamCount];
-            for (int i = 0; i < teamCount; i++)
+            for (int i = 0; i < minSlots; i++)
                 newSlotsStr[i] = teamSlotsStr[i];
             teamSlotsStr = newSlotsStr;
+            for (int i = minSlots; i < teamSlotsStr.Length; i++)
+                teamSlotsStr[i] = "2";
             
             int[] newSlots = new int[teamCount];
-            for (int i = 0; i < teamCount; i++)
+            for (int i = 0; i < minSlots; i++)
                 newSlots[i] = teamSlots[i];
             teamSlots = newSlots;
+            for (int i = minSlots; i < teamSlots.Length; i++)
+                teamSlots[i] = 2;
             
-            // TODO отправить клиентам новое кол-во команд
+            new ChangeTeamCountClientMessage(teamCount).SendToAllClient();
         }
 
         GUILayout.Space(10);
@@ -95,7 +106,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
                     }
                 }
                 
-                // TODO отправить клиентам новое кол-во слотов в команде
+                new ChangeTeamSlotsClientMessage(i, teamSlots[i]).SendToAllClient();
             }
             
             IEnumerable<string> nicksInTeam = from pair in NetworkManagerCustom.singleton.playerData 
@@ -105,7 +116,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
             foreach (string nick in nicksInTeam) 
                 GUILayout.Label("* " + nick);
 
-            if (GUILayout.Button("Перейти"))
+            if (teams[i].Count < teamSlots[i] && GUILayout.Button("Перейти"))
                 ChangeTeam(i);
         }
     }
@@ -114,10 +125,16 @@ public class LobbyServerTeamGui : LobbyServerGui {
         NetworkManagerCustom.singleton.playerConnectedEvent.UnSubcribeEvent(connectEvent);
         NetworkManagerCustom.singleton.playerDisconnectedEvent.UnSubcribeEvent(disconnectEvent);
         PlayerServerData.changeNickEvent.UnSubcribeEvent(changeNickEvent);
+
+        NetworkManagerCustom.singleton.gameMode = new TeamGameMode(teams);
     }
 
     private void ChangeTeam(int to) {
         NetworkConnection conn = NetworkManagerCustom.singleton.FindServerPlayer().Conn;
+        ChangeTeam(conn, to);
+    }
+
+    public void ChangeTeam(NetworkConnection conn, int to) {
         int currentTeam = FindTeamOfConnection(conn);
         ChangeTeam(conn, currentTeam, to);
     }
@@ -127,7 +144,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         List<NetworkConnection> toList = to == -1 ? observers : teams[to];
         fromList.Remove(conn);
         toList.Add(conn);
-        // TODO синхронизировать с клиентами по playerId
+        new ChangeTeamMessage(NetworkManagerCustom.singleton.playerData[conn].Id, from, to).SendToAllClient();
     }
 
     private int FindTeamOfConnection(NetworkConnection conn) {

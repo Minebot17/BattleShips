@@ -13,6 +13,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public EventHandler<PlayerConnectionEvent> playerConnectedEvent = new EventHandler<PlayerConnectionEvent>();
 	public EventHandler<PlayerConnectionEvent> playerDisconnectedEvent = new EventHandler<PlayerConnectionEvent>();
 	public static int percentToDeath = 20;
+	public static GameObject lobbyManager;
 
 	public bool IsServer;
 	public bool GameInProgress;
@@ -44,13 +45,13 @@ public class NetworkManagerCustom : NetworkManager {
 		}
 
 		int id = Utils.rnd.Next();
-		playerData.Add(conn, new PlayerServerData() {
+		playerData.Add(conn, new PlayerServerData(conn.address) {
+			Conn = conn,
 			Score = 0,
 			Kills = 0,
 			ShipJson = Utils.CreateEmptyShip(),
 			Alive = true,
 			IsShoot = false,
-			Nick = conn.address,
 			Id = id
 		});
 		
@@ -58,11 +59,12 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 	
 	public override void OnServerDisconnect(NetworkConnection conn) {
+		playerDisconnectedEvent.CallListners(new PlayerConnectionEvent(conn));
+		
 		if (networkSceneName.Equals("Lobby"))
 			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
-
+		
 		playerData.Remove(conn);
-		playerDisconnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
 	
 	public override void OnServerSceneChanged(string sceneName) {
@@ -84,8 +86,9 @@ public class NetworkManagerCustom : NetworkManager {
 		if (networkSceneName.Equals("ShipEditor") && !GameInProgress)
 			GameInProgress = true;
 
-		if (networkSceneName.Equals("Lobby") && GameInProgress)
+		if (networkSceneName.Equals("Lobby") && GameInProgress) {
 			GameInProgress = false;
+		}
 	}
 
 	public PlayerServerData FindServerPlayer() {
@@ -124,8 +127,8 @@ public class NetworkManagerCustom : NetworkManager {
 			data.Kills = 0;
 
 			if (data.Score == scoreForWin) {
-				ServerChangeScene("Lobby");
 				DestroyImmediate(GameObject.Find("LobbyManager"));
+				ServerChangeScene("Lobby");
 				GameInProgress = false;
 				return;
 			}

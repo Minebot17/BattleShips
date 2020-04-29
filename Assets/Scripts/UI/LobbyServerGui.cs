@@ -33,8 +33,11 @@ public class LobbyServerGui : LobbyClientGui {
 		GUILayout.Space(10);
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
-		if (GUILayout.Button("OK"))
+		if (GUILayout.Button("OK")) {
 			NetworkManagerCustom.singleton.FindServerPlayer().Nick = nick;
+			GameSettings.SettingNick.Value = nick;
+			GameSettings.SettingNick.Save();
+		}
 
 		GUILayout.Space(10);
 		GUILayout.Label("Кол-во очков до победы");

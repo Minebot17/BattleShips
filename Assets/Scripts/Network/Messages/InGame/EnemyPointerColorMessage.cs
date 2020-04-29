@@ -6,7 +6,8 @@ public class EnemyPointerColorMessage : GameMessage {
 
     public EnemyPointerColorMessage() { }
 
-    public EnemyPointerColorMessage(NetworkIdentity target) {
+    public EnemyPointerColorMessage(NetworkIdentity from, NetworkIdentity target) {
+        Writer.Write(from);
         Writer.Write(target);
     }
 
@@ -16,8 +17,9 @@ public class EnemyPointerColorMessage : GameMessage {
     }
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
+        NetworkIdentity from = reader.ReadNetworkIdentity();
         NetworkIdentity target = reader.ReadNetworkIdentity();
-        new EnemyPointerColorMessage(target, NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(conn, target))
+        new EnemyPointerColorMessage(target, NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(from.clientAuthorityOwner, target))
             .SendToClient(conn);
     }
     

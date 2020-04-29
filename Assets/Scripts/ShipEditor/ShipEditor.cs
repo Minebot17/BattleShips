@@ -82,7 +82,7 @@ public class ShipEditor : MonoBehaviour {
         
         if (GetNeighbors(position).Any(go => go)) {
             if (shipCell)
-                Destroy(shipCell);
+                DestroyImmediate(shipCell);
 
             string[] splittedName = selectedModule.Split(' ');
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);

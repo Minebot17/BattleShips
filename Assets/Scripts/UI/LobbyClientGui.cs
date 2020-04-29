@@ -24,9 +24,12 @@ public class LobbyClientGui : MonoBehaviour {
 		GUILayout.Space(10);
 		GUILayout.Label("Никнейм:");
 		nick = GUILayout.TextField(nick);
-		if (GUILayout.Button("OK"))
+		if (GUILayout.Button("OK")) {
 			new SendNickServerMessage(nick).SendToServer();
-		
+			GameSettings.SettingNick.Value = nick;
+			GameSettings.SettingNick.Save();
+		}
+
 		RenderInChild();
 
 		GUILayout.Space(10);

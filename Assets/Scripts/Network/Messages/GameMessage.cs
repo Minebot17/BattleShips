@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -49,7 +50,10 @@ public abstract class GameMessage {
         if (NetworkManager.singleton.client != null && !RegisteredOnClient) {
             foreach (GameMessage message in RegisteredMessages) {
                 short index = MessageIndexes[message.GetType()];
-                NetworkManager.singleton.client.RegisterHandler(index, msg => RegisteredMessages[msg.msgType-StartIndex].OnClient(msg.reader));
+                NetworkManager.singleton.client.RegisterHandler(index, msg => {
+                    if (!NetworkManagerCustom.singleton.IsServer || message.WithServersClient())
+                        RegisteredMessages[msg.msgType - StartIndex].OnClient(msg.reader);
+                });
             }
             RegisteredOnClient = true;
         }
@@ -68,10 +72,14 @@ public abstract class GameMessage {
     public abstract void OnServer(NetworkReader reader, NetworkConnection conn);
     public abstract void OnClient(NetworkReader reader);
 
-    public int GetChannel() {
+    public virtual int GetChannel() {
         return Channels.DefaultReliable;
     }
-    
+
+    public virtual bool WithServersClient() {
+        return true;
+    }
+
     public void SendToServer() {
         Writer.FinishMessage();
         NetworkManager.singleton.client.SendWriter(Writer, GetChannel());
@@ -86,5 +94,12 @@ public abstract class GameMessage {
         Writer.FinishMessage();
         foreach (NetworkConnection conn in NetworkServer.connections)
             conn?.SendWriter(Writer, GetChannel());
+    }
+    
+    public void SendToAllClient(params NetworkConnection[] excepted) {
+        Writer.FinishMessage();
+        foreach (NetworkConnection conn in NetworkServer.connections)
+            if (!excepted.Contains(conn))
+                conn?.SendWriter(Writer, GetChannel());
     }
 }

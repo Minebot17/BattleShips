@@ -85,9 +85,16 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\EnemyPointerColorMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\AddTeamPlayerClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamCountClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamSlotsClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\LobbyModeMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\PlayerChangeNickClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\RemoveTeamPlayerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\SendNickServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\SetReadyLobbyServerMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\TeamStateMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ClientIndexMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ScoreboardInfoMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ShipPartsMessage.cs" />

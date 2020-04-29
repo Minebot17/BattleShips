@@ -15,6 +15,6 @@ public class SetReadyLobbyServerMessage : GameMessage {
 
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
         bool ready = reader.ReadBoolean();
-        GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().SetReady(conn, ready);
+        NetworkManagerCustom.lobbyManager.GetComponent<LobbyServerGui>().SetReady(conn, ready);
     }
 }

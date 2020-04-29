@@ -18,7 +18,7 @@ public class LobbyModeMessage : GameMessage {
         // TODO пизда расширяемости игровых режимов из-за этого свича
         NetworkManagerCustom.singleton.StartArguments = reader.ReadMessage<StringListMessage>().Value;
         string mode = NetworkManagerCustom.singleton.StartArguments.Find(s => s.StartsWith("gamemode:")).Split(':')[1];
-        GameObject lobbyManager = GameObject.Find("LobbyManager");
+        GameObject lobbyManager = NetworkManagerCustom.lobbyManager;
 		
         switch (mode) {
             case "ffa":

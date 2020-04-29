@@ -34,7 +34,9 @@ public class ShipController : NetworkBehaviour {
         if (hasAuthority) 
             CameraFollower.singleton.Target = gameObject.transform;
         else
-            new EnemyPointerColorMessage(identity).SendToServer();
+            new EnemyPointerColorMessage(
+            GameObject.FindGameObjectsWithTag("Player").First(g => g.GetComponent<NetworkIdentity>().hasAuthority).GetComponent<NetworkIdentity>(), 
+            identity).SendToServer();
 
         if (!isServer) {
             new ShipPartsMessage(GetComponent<NetworkIdentity>()).SendToServer();

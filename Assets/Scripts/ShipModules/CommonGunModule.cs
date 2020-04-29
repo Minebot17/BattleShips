@@ -20,7 +20,7 @@ public class CommonGunModule : MonoBehaviour, IGunModule {
         
         if (timerCD <= 0) {
             GameObject ammo = Instantiate(ammoPrefab);
-            ammo.transform.position = transform.position.ToVector2();
+            ammo.transform.position = transform.position.ToVector2() + vec/2f;
             ammo.transform.position += new Vector3(0, 0, -0.2f);
             ammo.GetComponent<IAmmo>().Init(transform.parent.parent.gameObject, (vec * ammoSpeed));
 
