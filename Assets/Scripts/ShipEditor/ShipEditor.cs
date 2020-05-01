@@ -81,10 +81,15 @@ public class ShipEditor : MonoBehaviour {
             return;
         
         if (GetNeighbors(position).Any(go => go)) {
-            if (shipCell)
-                DestroyImmediate(shipCell);
-
             string[] splittedName = selectedModule.Split(' ');
+            if (shipCell) {
+                GameObject oldModule = shipCell.transform.GetChild(0).gameObject;
+                if (!oldModule.name.Equals(splittedName[0]))
+                    DestroyImmediate(shipCell);
+                else 
+                    return;
+            }
+            
             GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
             cell.name = "ShipCell " + position.x + " " + position.y;
             cell.transform.localPosition = new Vector3(position.x * Utils.sizeOfOne, position.y * Utils.sizeOfOne, 0);
