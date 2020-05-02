@@ -133,6 +133,7 @@
      <Compile Include="Assets\Scripts\UI\LobbyClientTeamGui.cs" />
      <Compile Include="Assets\Scripts\UI\LobbyServerGui.cs" />
      <Compile Include="Assets\Scripts\UI\LobbyServerTeamGui.cs" />
+     <Compile Include="Assets\Scripts\UI\ModulesScrollAdapter.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGui.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
