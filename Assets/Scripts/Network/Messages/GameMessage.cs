@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -82,24 +83,36 @@ public abstract class GameMessage {
 
     public void SendToServer() {
         Writer.FinishMessage();
-        NetworkManager.singleton.client.SendWriter(Writer, GetChannel());
+        SendWriter(() => NetworkManager.singleton.client.SendWriter(Writer, GetChannel()));
     }
     
     public void SendToClient(NetworkConnection conn) {
         Writer.FinishMessage();
-        conn.SendWriter(Writer, GetChannel());
+        SendWriter(() => conn?.SendWriter(Writer, GetChannel()));
     }
     
     public void SendToAllClient() {
         Writer.FinishMessage();
         foreach (NetworkConnection conn in NetworkServer.connections)
-            conn?.SendWriter(Writer, GetChannel());
+            SendWriter(() => conn?.SendWriter(Writer, GetChannel()));
     }
     
     public void SendToAllClient(params NetworkConnection[] excepted) {
         Writer.FinishMessage();
         foreach (NetworkConnection conn in NetworkServer.connections)
             if (!excepted.Contains(conn))
-                conn?.SendWriter(Writer, GetChannel());
+                SendWriter(() => conn?.SendWriter(Writer, GetChannel()));
+    }
+
+    public void SendWriter(Action sendFunc)
+    {
+        try
+        {
+            sendFunc();
+        }
+        catch
+        {
+            Task.Delay(5000).ContinueWith(t => sendFunc());
+        }
     }
 }

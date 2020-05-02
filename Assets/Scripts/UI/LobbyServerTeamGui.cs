@@ -8,6 +8,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
     protected List<NetworkConnection> observers = new List<NetworkConnection>();
     protected List<List<NetworkConnection>> teams = new List<List<NetworkConnection>>() { new List<NetworkConnection>(), new List<NetworkConnection>() };
     protected string teamCountStr = "2";
+    protected const int MaxTeamCount = 12;
     protected int teamCount = 2;
     protected string[] teamSlotsStr = { "2", "2" };
     protected int[] teamSlots = { 2, 2 };
@@ -50,7 +51,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         GUILayout.Label("Кол-во команд:");
         teamCountStr = GUILayout.TextField(teamCountStr);
         if (GUILayout.Button("OK")) {
-            teamCount = int.Parse(teamCountStr);
+            teamCount = int.TryParse(teamCountStr, out teamCount) ? teamCount : MaxTeamCount;
             
             if (teamSlots.Length > teamCount) {
                 for (int i = teamCount; i < teamSlots.Length; i++) {
