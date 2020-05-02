@@ -13,8 +13,9 @@ public class NetworkLobby : MonoBehaviour {
 		LobbyClientGui[] found = FindObjectsOfType<LobbyClientGui>();
 		GameObject old = found.Length == 0 ? null : found[0].gameObject;
 		if (old != null)
-			Destroy(old);
+			DestroyImmediate(old);
 		
+		NetworkManagerCustom.lobbyManager = GameObject.Find("LobbyManager");
 		new LobbyModeMessage().SendToServer();
 		new ClientIndexMessage().SendToServer();
 

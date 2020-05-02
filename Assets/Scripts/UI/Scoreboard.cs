@@ -52,6 +52,9 @@ public class Scoreboard : MonoBehaviour {
             
             shipObject.transform.localEulerAngles = new Vector3(0, 0, -90);
             deltaScore[shipObject] = delta[i];
+            if (score[i] + delta[i] > scoreForWin)
+                deltaScore[shipObject] = scoreForWin - score[i];
+            
             initialPosition[shipObject] = shipObject.transform.localPosition.x;
         }
     }

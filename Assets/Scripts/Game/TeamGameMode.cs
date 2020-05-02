@@ -28,15 +28,12 @@ public class TeamGameMode : IGameMode {
     }
 
     public bool IsRoundOver() {
-        List<int> playersAlive = teams.Select(command => 
-            command.Count(id => NetworkManagerCustom.singleton.playerData[id].Alive)).ToList();
-        
+        List<int> playersAlive = getAliveInTeams();
         return playersAlive.Count(c => c == 0) == playersAlive.Count - 1;
     }
 
     public Dictionary<NetworkConnection, int> GetScoreDelta(Dictionary<NetworkConnection, int> kills) {
-        List<int> playersAlive = teams.Select(command => command.Count(conn => NetworkManagerCustom.singleton.playerData[conn].Alive)).ToList();
-        int winnersIndex = playersAlive.FindIndex(c => c != 0);
+        int winnersIndex = getAliveInTeams().FindIndex(c => c != 0);
         List<NetworkConnection> winners = teams[winnersIndex];
         
         Dictionary<NetworkConnection, int> scoreDelta = new Dictionary<NetworkConnection, int>();
@@ -44,5 +41,10 @@ public class TeamGameMode : IGameMode {
             scoreDelta.Add(conn, winners.Contains(conn) ? 1 : 0);
 
         return scoreDelta;
+    }
+
+    private List<int> getAliveInTeams() {
+        return teams.Select(command => 
+            command.Count(conn => NetworkManagerCustom.singleton.playerData[conn].Alive)).ToList();
     }
 }

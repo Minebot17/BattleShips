@@ -53,8 +53,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 1
-  m_LinearDrag: 0.75
-  m_AngularDrag: 1
+  m_LinearDrag: 1
+  m_AngularDrag: 1.25
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   enemyPointerPrefab: {fileID: 8074436548526991826, guid: 850a6f2bcc5fe5643a9b7ce08cc64733,
     type: 3}
   trustPower: 25
-  rotationPower: 10
+  rotationPower: 5
 --- !u!114 &6064448069935592005
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -122,16 +122,25 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void ScoreboardOver() {
+		bool gameOver = false;
 		foreach (PlayerServerData data in playerData.Values) {
 			data.Score += data.Kills;
 			data.Kills = 0;
 
-			if (data.Score == scoreForWin) {
-				DestroyImmediate(GameObject.Find("LobbyManager"));
-				ServerChangeScene("Lobby");
-				GameInProgress = false;
-				return;
+			if (data.Score >= scoreForWin) {
+				gameOver = true;
+				break;
 			}
+		}
+
+		if (gameOver) {
+			foreach (PlayerServerData d in playerData.Values)
+				d.Reset();
+
+			DestroyImmediate(lobbyManager);
+			ServerChangeScene("Lobby");
+			GameInProgress = false;
+			return;
 		}
 
 		ServerChangeScene("ShipEditor");

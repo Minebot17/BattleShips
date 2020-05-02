@@ -65,6 +65,14 @@ public class PlayerServerData {
         this.nick = nick;
     }
 
+    public void Reset() {
+        Score = 0;
+        Kills = 0;
+        ShipJson = Utils.CreateEmptyShip();
+        Alive = true;
+        IsShoot = false;
+    }
+
     public override bool Equals(object obj) {
         return obj is PlayerServerData data && data.conn == conn;
     }
