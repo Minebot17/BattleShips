@@ -10,7 +10,7 @@ using UnityEngine.Networking.NetworkSystem;
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
-	public EventHandler<PlayerConnectionEvent> playerConnectedEvent = new EventHandler<PlayerConnectionEvent>();
+	public EventHandler<PlayerConnectionEvent> playerConnectedEvent = new EventHandler<PlayerConnectionEvent>(); // TODO переставить эвенты в состояния
 	public EventHandler<PlayerConnectionEvent> playerDisconnectedEvent = new EventHandler<PlayerConnectionEvent>();
 	public static int percentToDeath = 20;
 	public static GameObject lobbyManager;
@@ -18,7 +18,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public bool IsServer;
 	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
-	public Dictionary<NetworkConnection, PlayerServerData> playerData = new Dictionary<NetworkConnection, PlayerServerData>();
+	public Dictionary<NetworkConnection, PlayerServerData> playerData = new Dictionary<NetworkConnection, PlayerServerData>(); // TODO удалить старую систему состояний игроков
 	public int clientIndex;
 	public int lastConnections;
 	public IGameMode gameMode = new FFAGameMode();
@@ -36,6 +36,7 @@ public class NetworkManagerCustom : NetworkManager {
 		Timer.InitializeCreate();
 		LanguageManager.Initialize();
 		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
+		Players.Initialize();
 	}
 
 	public override void OnServerConnect(NetworkConnection conn) {
@@ -54,7 +55,8 @@ public class NetworkManagerCustom : NetworkManager {
 			IsShoot = false,
 			Id = id
 		});
-		
+
+		Players.AddPlayer(conn);
 		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
 	
@@ -65,6 +67,7 @@ public class NetworkManagerCustom : NetworkManager {
 			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
 		
 		playerData.Remove(conn);
+		Players.RemovePlayer(conn);
 	}
 	
 	public override void OnServerSceneChanged(string sceneName) {

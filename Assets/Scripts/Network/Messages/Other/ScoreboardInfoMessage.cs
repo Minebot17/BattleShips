@@ -23,7 +23,7 @@ public class ScoreboardInfoMessage : GameMessage {
     }
     
     public override void OnClient(NetworkReader reader) {
-        Scoreboard.singleton.Init(
+        Scoreboard.singleton.Initialize(
             reader.ReadMessage<StringListMessage>().Value,
             reader.ReadMessage<IntegerListMessage>().Value,
             reader.ReadMessage<IntegerListMessage>().Value,

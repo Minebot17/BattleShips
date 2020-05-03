@@ -116,4 +116,10 @@ public static class Utils {
     public static IEnumerable<Type> FindChildesOfType(Type parent) {
         return typeof(Utils).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(GameMessage)));
     }
+    
+    public static U Get<T, U>(this Dictionary<T, U> dict, T key) where U : class {
+        U val;
+        dict.TryGetValue(key, out val);
+        return val;
+    }
 }

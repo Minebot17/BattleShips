@@ -13,7 +13,7 @@ public class StandartAmmo : NetworkBehaviour, IAmmo {
     private GameObject owner;
     private NetworkIdentity ownerIdentity;
 
-    public void Init(GameObject owner, Vector2 shootVector) {
+    public void Initialize(GameObject owner, Vector2 shootVector) {
         this.owner = owner;
         ownerIdentity = owner.GetComponent<NetworkIdentity>();
         GetComponent<Rigidbody2D>().AddForce(shootVector, ForceMode2D.Impulse);

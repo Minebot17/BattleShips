@@ -23,7 +23,7 @@ public class Scoreboard : MonoBehaviour {
     private void Start() {
         singleton = this;
         if (NetworkManagerCustom.singleton.IsServer) {
-            Init(
+            Initialize(
             NetworkManagerCustom.singleton.playerData.Values.Select(d => d.ShipJson).ToList(),
             NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Score).ToList(),
                 NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerData.ToDictionary(d => d.Key, d => d.Value.Kills)).Values.ToList(),
@@ -34,7 +34,7 @@ public class Scoreboard : MonoBehaviour {
             new ScoreboardInfoMessage().SendToServer();
     }
 
-    public void Init(List<string> ships, List<int> score, List<int> delta, int scoreForWin) {
+    public void Initialize(List<string> ships, List<int> score, List<int> delta, int scoreForWin) {
         SpawnBoardPart(startSprite, -partSize.x/2 * scoreForWin);
         SpawnBoardPart(endSprite, partSize.x/2 * scoreForWin);
         for (int i = 0; i < scoreForWin - 1; i++)

@@ -22,7 +22,7 @@ public class CommonGunModule : MonoBehaviour, IGunModule {
             GameObject ammo = Instantiate(ammoPrefab);
             ammo.transform.position = transform.position.ToVector2() + vec/2f;
             ammo.transform.position += new Vector3(0, 0, -0.2f);
-            ammo.GetComponent<IAmmo>().Init(transform.parent.parent.gameObject, (vec * ammoSpeed));
+            ammo.GetComponent<IAmmo>().Initialize(transform.parent.parent.gameObject, (vec * ammoSpeed));
 
             NetworkServer.Spawn(ammo);
             timerCD = ticksCD;
