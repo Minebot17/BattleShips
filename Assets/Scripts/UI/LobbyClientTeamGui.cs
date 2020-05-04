@@ -76,10 +76,6 @@ public class LobbyClientTeamGui : LobbyClientGui {
         nicks.Remove(id);
     }
 
-    public void ChangeNick(int id, string nick) {
-        nicks[id] = nick;
-    }
-
     public void ChangeTeamCount(int newTeamCount) {
         if (teamCount > newTeamCount) {
             for (int i = newTeamCount; i < teamCount; i++) {

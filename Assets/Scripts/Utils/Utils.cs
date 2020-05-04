@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public static class Utils {
     public static float sizeOfOne = 0.64f;
@@ -114,12 +115,24 @@ public static class Utils {
     }
     
     public static IEnumerable<Type> FindChildesOfType(Type parent) {
-        return typeof(Utils).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(GameMessage)));
+        return typeof(Utils).Assembly.GetTypes().Where(t => t.IsSubclassOf(parent));
     }
     
     public static U Get<T, U>(this Dictionary<T, U> dict, T key) where U : class {
         U val;
         dict.TryGetValue(key, out val);
         return val;
+    }
+
+    public static void SpawnPointer(Player from, Player to) {
+        GameObject enemyPointer = MonoBehaviour.Instantiate(
+        NetworkManagerCustom.singleton.enemyPointerPrefab, GameObject.Find("Canvas").transform);
+        enemyPointer.GetComponent<EnemyPointer>().Target = to.GetState<GameState>().ShipIdentity.Value.gameObject;
+        enemyPointer.GetComponentInChildren<Image>().color = 
+            NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(from, to).ToColor();
+    }
+
+    public static Player GetPlayerFromIdentity(NetworkIdentity identity) {
+        return Players.GetPlayer(identity.clientAuthorityOwner);
     }
 }

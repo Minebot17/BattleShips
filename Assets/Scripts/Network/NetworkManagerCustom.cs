@@ -131,7 +131,6 @@ public class NetworkManagerCustom : NetworkManager {
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
 
 		GameState gState = Players.GetPlayer(conn).GetState<GameState>();
-		Utils.DeserializeShipPartsFromJson(shipObject, gState.ShipJson.Value);
 		gState.ShipIdentity.Value = shipObject.GetComponent<NetworkIdentity>();
 		gState.Alive.Value = true;
 	}

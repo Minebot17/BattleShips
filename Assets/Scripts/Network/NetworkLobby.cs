@@ -16,7 +16,6 @@ public class NetworkLobby : MonoBehaviour {
 			DestroyImmediate(old);
 		
 		NetworkManagerCustom.lobbyManager = GameObject.Find("LobbyManager");
-		new LobbyModeMessage().SendToServer();
 		new SyncPlayersMessage().SendToServer();
 
 		Destroy(GetComponent<NetworkLobby>());

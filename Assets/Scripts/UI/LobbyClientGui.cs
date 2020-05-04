@@ -10,7 +10,7 @@ public class LobbyClientGui : MonoBehaviour {
 	protected static string incorrectNickMessage = "Incorrect Nick";
 
 	protected string nick;
-	protected bool validNick;
+	protected bool validNick = true;
 
 	protected GameState gState;
 	protected LobbyState lState;
@@ -21,6 +21,7 @@ public class LobbyClientGui : MonoBehaviour {
 		lState = Players.GetClient().GetState<LobbyState>();
 
 		gState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? Utils.localIp : GameSettings.SettingNick.Value;
+		nick = gState.Nick.Value;
 		gState.Nick.onChangeValueEvent.SubcribeEvent(e => {
 			if (!nickTemplate.IsMatch(e.NewValue)) {
 				validNick = false;

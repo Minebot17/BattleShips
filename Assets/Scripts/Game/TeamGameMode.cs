@@ -10,10 +10,16 @@ public class TeamGameMode : IGameMode {
 
     public TeamGameMode(List<List<NetworkConnection>> teams) {
         this.teams = teams;
+        
+        for(int x = 0; x < teams.Count; x++)
+            for (int y = 0; y < teams[x].Count; y++) {
+                Player player = Players.GetPlayer(this.teams[x][y]);
+                player.GetState<TeamState>().TeamIndex.Value = x;
+            }
     }
 
-    public int GetEnemyPointerColor(NetworkConnection from, NetworkIdentity to) {
-        bool isAlly = teams.Find(c => c.Contains(from)).Contains(to.clientAuthorityOwner);
+    public int GetEnemyPointerColor(Player from, Player to) {
+        bool isAlly = from.GetState<TeamState>().TeamIndex.Value == to.GetState<TeamState>().TeamIndex.Value;
         return isAlly ? Color.green.ToHex() : Color.red.ToHex();
     }
 
@@ -22,8 +28,8 @@ public class TeamGameMode : IGameMode {
             return true;
         
         NetworkConnection target = hp.gameObject.transform.parent.parent.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner;
-        List<NetworkConnection> clientCommand = teams.Find(c => c.Contains(((PlayerDamageSource) source).OwnerShip.clientAuthorityOwner));
-        bool isAlly = clientCommand.Contains(target);
+        NetworkConnection owner = ((PlayerDamageSource) source).OwnerShip.clientAuthorityOwner;
+        bool isAlly = Players.GetPlayer(target).GetState<TeamState>().TeamIndex.Value == Players.GetPlayer(owner).GetState<TeamState>().TeamIndex.Value;
         return !isAlly;
     }
 

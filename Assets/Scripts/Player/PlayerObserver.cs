@@ -23,14 +23,14 @@ public class PlayerObserver : MonoBehaviour {
         players.RemoveAll(g => !g);
         currentIndex = currentIndex + 1 >= players.Count ? 0 : currentIndex + 1;
         CameraFollower.singleton.Target = players[currentIndex].transform;
-
-        // TODO лагучая херня отсылающая кучу пакетов за клик. Закешировать команды на клиенте
+        
         EnemyPointer[] pointers = FindObjectsOfType<EnemyPointer>();
         foreach (EnemyPointer pointer in pointers)
             Destroy(pointer.gameObject);
 
+        Player currentPlayer = Utils.GetPlayerFromIdentity(players[currentIndex].GetComponent<NetworkIdentity>());
         foreach (GameObject player in players)
             if (player != players[currentIndex])
-                new EnemyPointerColorMessage(players[currentIndex].GetComponent<NetworkIdentity>(), player.GetComponent<NetworkIdentity>()).SendToServer();
+                Utils.SpawnPointer(currentPlayer, Utils.GetPlayerFromIdentity(player.GetComponent<NetworkIdentity>()));
     }
 }

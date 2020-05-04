@@ -26,12 +26,13 @@ public static class Players {
     /// <summary>
     /// Эвент вызывается при запросе игрока состояний всех других игроков на сервере
     /// </summary>
-    public static readonly EventHandler<PlayerRequestPlayersEvent> playerRequestPlayersEvent = new EventHandler<PlayerRequestPlayersEvent>();
+    public static readonly EventHandler<ConnectionEvent> playerRequestPlayersEvent = new EventHandler<ConnectionEvent>();
+    public static readonly EventHandler<PlayerEvent> playerAddedEvent = new EventHandler<PlayerEvent>();
+    public static readonly EventHandler<PlayerEvent> playerRemovedEvent = new EventHandler<PlayerEvent>();
     private static List<Type> loadedStates;
     private static readonly List<Player> players = new List<Player>();
     private static readonly Dictionary<int, Player> playerFromId = new Dictionary<int, Player>();
     private static readonly Dictionary<NetworkConnection, Player> playerFromConn = new Dictionary<NetworkConnection, Player>();
-    private static int clientId;
 
     /// <summary>
     /// Список всех игроков
@@ -41,7 +42,8 @@ public static class Players {
     /// <summary>
     /// Id этого клиента (не использовать для получения PlayerStates клиента, смотри метод GetClient)
     /// </summary>
-    public static int ClientId { set => clientId = value; }
+    public static int ClientId { set; get; }
+
     public static IEnumerable<int> Ids => playerFromId.Keys;
     public static IEnumerable<NetworkConnection> Conns => playerFromConn.Keys;
 
@@ -62,6 +64,7 @@ public static class Players {
         playerFromConn.Add(conn, player);
         
         new AddPlayerClientMessage(player.Id).SendToAllClient(conn);
+        playerAddedEvent.CallListners(new PlayerEvent(player));
         return player;
     }
     
@@ -72,6 +75,7 @@ public static class Players {
         Player player = new Player(null, id);
         players.Add(player);
         playerFromId.Add(id, player);
+        playerAddedEvent.CallListners(new PlayerEvent(player));
         return player;
     }
     
@@ -80,6 +84,8 @@ public static class Players {
         players.Remove(toRemove);
         playerFromId.Remove(toRemove.Id);
         playerFromConn.Remove(conn);
+        
+        playerRemovedEvent.CallListners(new PlayerEvent(toRemove));
         
         foreach (GeneralStateValue stateValue in toRemove.allValues.Values)
             stateValue.OnRemoveState();
@@ -91,6 +97,8 @@ public static class Players {
         Player toRemove = GetPlayer(id);
         players.Remove(toRemove);
         playerFromId.Remove(id);
+        
+        playerRemovedEvent.CallListners(new PlayerEvent(toRemove));
     }
     
     public static Player GetPlayer(int id) {
@@ -109,7 +117,7 @@ public static class Players {
     /// Возвращает состояния текущего клиента
     /// </summary>
     public static Player GetClient() {
-        return playerFromId[clientId];
+        return playerFromId[ClientId];
     }
 
     /// <summary>
@@ -136,12 +144,21 @@ public static class Players {
             message.SendToServer();
     }
 
-    public class PlayerRequestPlayersEvent : EventBase {
+    public class ConnectionEvent : EventBase {
 
         public NetworkConnection Conn;
 
-        public PlayerRequestPlayersEvent(NetworkConnection conn) : base(null, false) {
+        public ConnectionEvent(NetworkConnection conn) : base(null, false) {
             Conn = conn;
+        }
+    }
+    
+    public class PlayerEvent : EventBase {
+
+        public Player Player;
+
+        public PlayerEvent(Player player) : base(null, false) {
+            Player = player;
         }
     }
 }

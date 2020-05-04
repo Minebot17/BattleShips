@@ -29,7 +29,7 @@ public class SyncStateValueClientMessage : GameMessage {
                 Debug.LogError(name + " do not exist in any player state");
         }
 
-        stateValue.Read(reader);
+        stateValue.Read(reader, null);
     }
 
     public override bool WithServersClient() {

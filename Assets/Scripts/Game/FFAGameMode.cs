@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class FFAGameMode : IGameMode {
-    public int GetEnemyPointerColor(NetworkConnection from, NetworkIdentity to) {
+    public int GetEnemyPointerColor(Player from, Player to) {
         return Color.red.ToHex();
     }
 

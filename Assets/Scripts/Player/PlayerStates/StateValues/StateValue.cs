@@ -12,6 +12,7 @@ public abstract class StateValue<T> : GeneralStateValue {
     private bool sync;
     private bool modification;
     private int playerRequestPlayersEventId;
+    private NetworkConnection modificationBuffer;
     
     /// <summary>
     /// Эвент, срабатывающий при изменении значения параметра
@@ -30,13 +31,21 @@ public abstract class StateValue<T> : GeneralStateValue {
             if (sync && NetworkManagerCustom.singleton.IsServer) {
                 SyncStateValueClientMessage message = new SyncStateValueClientMessage(GetOwnerId(), GetName());
                 Write(message.Writer);
-                message.SendToAllClient();
+                if (modificationBuffer != null) {
+                    message.SendToAllClient(modificationBuffer);
+                    modificationBuffer = null;
+                }
+                else
+                    message.SendToAllClient();
             }
 
-            if (modification && !NetworkManagerCustom.singleton.IsServer) {
+            if (modification 
+                && !NetworkManagerCustom.singleton.IsServer 
+                && Players.ClientId != 0
+                && Players.GetClient().Equals(parent.GetParent())) {
                 ModificationStateValueServerMessage message = new ModificationStateValueServerMessage(GetOwnerId(), GetName());
                 Write(message.Writer);
-                message.SendToAllClient();
+                message.SendToServer();
             }
         }
     }
@@ -60,7 +69,7 @@ public abstract class StateValue<T> : GeneralStateValue {
             parent.GetParent().allValues.Add(name, this);
             parent.AddValue(this);
             playerRequestPlayersEventId = Players.playerRequestPlayersEvent.SubcribeEvent(e => {
-                if (this.defaultValue.Equals(value)) 
+                if (this.defaultValue == null ? value == null : this.defaultValue.Equals(value)) 
                     return;
                 
                 SyncStateValueClientMessage message = new SyncStateValueClientMessage(GetOwnerId(), GetName());
@@ -82,7 +91,8 @@ public abstract class StateValue<T> : GeneralStateValue {
         value = defaultValue;
     }
 
-    public override void Read(NetworkReader reader) {
+    public override void Read(NetworkReader reader, NetworkConnection modificationBuffer) {
+        this.modificationBuffer = modificationBuffer;
         Value = ReadValue(reader);
     }
 

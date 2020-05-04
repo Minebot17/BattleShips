@@ -13,10 +13,6 @@ public class LobbyServerTeamGui : LobbyServerGui {
     protected string[] teamSlotsStr = { "2", "2" };
     protected int[] teamSlots = { 2, 2 };
 
-    private int connectEvent = -1;
-    private int disconnectEvent = -1;
-    private int changeNickEvent = -1;
-
     public List<NetworkConnection> Observers => observers;
     public List<List<NetworkConnection>> Teams => teams;
     public int TeamCount => teamCount;
@@ -24,25 +20,20 @@ public class LobbyServerTeamGui : LobbyServerGui {
 
     protected override void Start() {
         base.Start();
-        observers.AddRange(NetworkManagerCustom.singleton.playerData.Keys);
+        observers.AddRange(Players.Conns);
 
-        connectEvent = NetworkManagerCustom.singleton.playerConnectedEvent.SubcribeEvent(e => {
-            observers.Add(e.Conn);
-            new AddTeamPlayerClientMessage(NetworkManagerCustom.singleton.playerData[e.Conn].Id).SendToAllClient(e.Conn);
+        Players.playerAddedEvent.SubcribeEvent(e => {
+            observers.Add(e.Player.Conn);
+            new AddTeamPlayerClientMessage(e.Player.Id).SendToAllClient(e.Player.Conn);
         });
-        
-        disconnectEvent = NetworkManagerCustom.singleton.playerDisconnectedEvent.SubcribeEvent(e => {
-            int teamIndex = FindTeamOfConnection(e.Conn);
+
+        Players.playerRemovedEvent.SubcribeEvent(e => {
+            int teamIndex = FindTeamOfConnection(e.Player.Conn);
             if (teamIndex == -1)
-                observers.Remove(e.Conn);
+                observers.Remove(e.Player.Conn);
             else 
-                teams[teamIndex].Remove(e.Conn);
-            new RemoveTeamPlayerClientMessage(NetworkManagerCustom.singleton.playerData[e.Conn].Id).SendToAllClient();
-        });
-
-        changeNickEvent = PlayerServerData.changeNickEvent.SubcribeEvent(e => {
-            PlayerServerData sender = (PlayerServerData)e.Sender;
-            new PlayerChangeNickClientMessage(sender.Id, sender.Nick).SendToAllClient();
+                teams[teamIndex].Remove(e.Player.Conn);
+            new RemoveTeamPlayerClientMessage(e.Player.Id).SendToAllClient();
         });
     }
     
@@ -88,7 +79,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         GUILayout.Space(10);
         GUILayout.Label("Наблюдатели:");
         foreach (NetworkConnection conn in observers)
-            GUILayout.Label("* " + NetworkManagerCustom.singleton.playerData[conn].Nick);
+            GUILayout.Label("* " + Players.GetPlayer(conn).GetState<GameState>().Nick.Value);
         if (GUILayout.Button("Перейти"))
             ChangeTeam(-1);
 
@@ -110,9 +101,9 @@ public class LobbyServerTeamGui : LobbyServerGui {
                 new ChangeTeamSlotsClientMessage(i, teamSlots[i]).SendToAllClient();
             }
             
-            IEnumerable<string> nicksInTeam = from pair in NetworkManagerCustom.singleton.playerData 
-                                              where team.Contains(pair.Key) 
-                                              select pair.Value.Nick;
+            IEnumerable<string> nicksInTeam = from player in Players.All 
+                                              where team.Contains(player.Conn) 
+                                              select player.GetState<GameState>().Nick.Value;
 
             foreach (string nick in nicksInTeam) 
                 GUILayout.Label("* " + nick);
@@ -123,16 +114,11 @@ public class LobbyServerTeamGui : LobbyServerGui {
     }
     
     protected override void OnStartGame() {
-        NetworkManagerCustom.singleton.playerConnectedEvent.UnSubcribeEvent(connectEvent);
-        NetworkManagerCustom.singleton.playerDisconnectedEvent.UnSubcribeEvent(disconnectEvent);
-        PlayerServerData.changeNickEvent.UnSubcribeEvent(changeNickEvent);
-
         NetworkManagerCustom.singleton.gameMode = new TeamGameMode(teams);
     }
 
     private void ChangeTeam(int to) {
-        NetworkConnection conn = NetworkManagerCustom.singleton.FindServerPlayer().Conn;
-        ChangeTeam(conn, to);
+        ChangeTeam(Players.GetClient().Conn, to);
     }
 
     public void ChangeTeam(NetworkConnection conn, int to) {
@@ -145,7 +131,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         List<NetworkConnection> toList = to == -1 ? observers : teams[to];
         fromList.Remove(conn);
         toList.Add(conn);
-        new ChangeTeamMessage(NetworkManagerCustom.singleton.playerData[conn].Id, from, to).SendToAllClient();
+        new ChangeTeamMessage(Players.GetPlayer(conn).Id, from, to).SendToAllClient();
     }
 
     private int FindTeamOfConnection(NetworkConnection conn) {

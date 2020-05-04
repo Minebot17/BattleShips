@@ -23,7 +23,16 @@ public class ModificationStateValueServerMessage : GameMessage {
 
         string name = reader.ReadString();
         GeneralStateValue stateValue = player.GetStateValue(name);
-        stateValue.Read(reader);
+        
+        if (stateValue == null) {
+            player.CreateStateWithValue(name);
+            stateValue = player.GetStateValue(name);
+
+            if (stateValue == null)
+                Debug.LogError(name + " do not exist in any player state");
+        }
+        
+        stateValue.Read(reader, conn);
     }
     
     public override void OnClient(NetworkReader reader) {

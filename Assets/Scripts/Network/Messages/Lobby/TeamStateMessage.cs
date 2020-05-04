@@ -25,9 +25,9 @@ public class TeamStateMessage : GameMessage {
         new TeamStateMessage(
             gui.TeamCount, 
             gui.TeamSlots.ToList(), 
-            gui.Observers.Select(c => NetworkManagerCustom.singleton.playerData[c].Id).ToList(), 
-            gui.Teams.Select(l => l.Select(c => NetworkManagerCustom.singleton.playerData[c].Id).ToList()).ToList(),
-            NetworkManagerCustom.singleton.playerData.ToDictionary(p => p.Value.Id, p => p.Value.Nick)
+            gui.Observers.Select(c => Players.GetPlayer(c).Id).ToList(), 
+            gui.Teams.Select(l => l.Select(c => Players.GetPlayer(c).Id).ToList()).ToList(),
+            Players.All.ToDictionary(p => p.Id, p => p.GetState<GameState>().Nick.Value)
         ).SendToClient(conn);
     }
     

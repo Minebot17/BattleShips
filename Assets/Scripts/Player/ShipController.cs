@@ -30,21 +30,11 @@ public class ShipController : NetworkBehaviour {
         identity = GetComponent<NetworkIdentity>();
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
-        
-        if (hasAuthority) 
-            CameraFollower.singleton.Target = gameObject.transform;
-        else
-            new EnemyPointerColorMessage(
-            GameObject.FindGameObjectsWithTag("Player").First(g => g.GetComponent<NetworkIdentity>().hasAuthority).GetComponent<NetworkIdentity>(), 
-            identity).SendToServer();
 
-        if (!isServer) {
-            new ShipPartsMessage(GetComponent<NetworkIdentity>()).SendToServer();
-        }
-        else {
-            initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
-            currentModulesCount = initialModulesCount;
-        }
+        if (hasAuthority)
+            CameraFollower.singleton.Target = gameObject.transform;
+        
+        new ShipPartsMessage(identity).SendToServer();
     }
 
     private void FixedUpdate() {
