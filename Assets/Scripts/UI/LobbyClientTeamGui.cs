@@ -7,13 +7,11 @@ public class LobbyClientTeamGui : LobbyClientGui {
     protected List<List<int>> teams = new List<List<int>>();
     protected int teamCount;
     protected int[] teamSlots = new int[0];
-    protected Dictionary<int, string> nicks = new Dictionary<int, string>();
 
     public List<int> Observers { set => observers = value; }
     public List<List<int>> Teams { set => teams = value; }
     public int TeamCount { set => teamCount = value; }
     public int[] TeamSlots { set => teamSlots = value; }
-    public Dictionary<int, string> Nicks { set => nicks = value; }
 
     protected override void Start() {
         base.Start();
@@ -24,7 +22,7 @@ public class LobbyClientTeamGui : LobbyClientGui {
         GUILayout.Space(10);
         GUILayout.Label("Наблюдатели:");
         foreach (int id in observers)
-            GUILayout.Label("* " + nicks[id]);
+            GUILayout.Label("* " + Players.GetPlayer(id).GetState<GameState>().Nick.Value);
         if (GUILayout.Button("Перейти"))
             ChangeMyTeam(-1);
 
@@ -34,9 +32,9 @@ public class LobbyClientTeamGui : LobbyClientGui {
             GUILayout.Label("Команда #" + i);
             GUILayout.Label("Слотов: " + teamSlots[i]);
 
-            IEnumerable<string> nicksInTeam = from pair in nicks
-                                              where team.Contains(pair.Key)
-                                              select pair.Value;
+            IEnumerable<string> nicksInTeam = from player in Players.All 
+                                              where team.Contains(player.Id) 
+                                              select player.GetState<GameState>().Nick.Value;
 
             foreach (string nick in nicksInTeam) 
                 GUILayout.Label("* " + nick);
@@ -64,7 +62,6 @@ public class LobbyClientTeamGui : LobbyClientGui {
 
     public void AddPlayer(int id) {
         observers.Add(id);
-        nicks[id] = $"Unknown (id={id})";
     }
 
     public void RemovePlayer(int id) {
@@ -73,7 +70,6 @@ public class LobbyClientTeamGui : LobbyClientGui {
             observers.Remove(id);
         else
             teams[team].Remove(id);
-        nicks.Remove(id);
     }
 
     public void ChangeTeamCount(int newTeamCount) {

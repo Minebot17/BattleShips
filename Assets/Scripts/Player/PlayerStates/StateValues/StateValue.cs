@@ -88,7 +88,7 @@ public abstract class StateValue<T> : GeneralStateValue {
     }
     
     public override void Reset() {
-        value = defaultValue;
+        Value = defaultValue;
     }
 
     public override void Read(NetworkReader reader, NetworkConnection modificationBuffer) {

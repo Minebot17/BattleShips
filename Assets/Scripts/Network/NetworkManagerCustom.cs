@@ -49,6 +49,9 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 	
 	public override void OnServerSceneChanged(string sceneName) {
+		if (sceneName.Equals("ShipEditor"))
+			lastConnections = Players.All.Count;
+
 		if (sceneName.Equals("Game")) {
 			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)
@@ -72,7 +75,6 @@ public class NetworkManagerCustom : NetworkManager {
 	public void StartGame() {
 		GameInProgress = true;
 		NetworkManager.singleton.ServerChangeScene("ShipEditor");
-		lastConnections = Players.All.Count;
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {

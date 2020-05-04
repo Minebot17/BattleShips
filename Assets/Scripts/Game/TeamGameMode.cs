@@ -11,9 +11,12 @@ public class TeamGameMode : IGameMode {
     public TeamGameMode(List<List<NetworkConnection>> teams) {
         this.teams = teams;
         
+        if (teams == null)
+            return;
+        
         for(int x = 0; x < teams.Count; x++)
             for (int y = 0; y < teams[x].Count; y++) {
-                Player player = Players.GetPlayer(this.teams[x][y]);
+                Player player = Players.GetPlayer(teams[x][y]);
                 player.GetState<TeamState>().TeamIndex.Value = x;
             }
     }
@@ -24,7 +27,7 @@ public class TeamGameMode : IGameMode {
     }
 
     public bool CanDamageModule(ModuleHp hp, DamageSource source) {
-        if (!(source is PlayerDamageSource))
+        if (!NetworkManagerCustom.singleton.IsServer || !(source is PlayerDamageSource))
             return true;
         
         NetworkConnection target = hp.gameObject.transform.parent.parent.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner;

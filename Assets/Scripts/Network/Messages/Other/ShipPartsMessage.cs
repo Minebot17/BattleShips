@@ -32,7 +32,10 @@ public class ShipPartsMessage : GameMessage {
 
         Player player = Players.GetPlayer(id);
         player.GetState<GameState>().ShipIdentity.Value = shipObject;
-        if (Players.GetClient().Id != id)
+        if (Players.ClientId != id)
             Utils.SpawnPointer(Players.GetClient(), player);
+
+        if (NetworkManagerCustom.singleton.IsServer)
+            shipObject.gameObject.GetComponent<ShipServerController>().enabled = true;
     }
 }

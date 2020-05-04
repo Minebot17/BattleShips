@@ -37,14 +37,18 @@ public class SyncPlayersMessage : GameMessage {
             case "ffa":
                 if (NetworkManagerCustom.singleton.IsServer)
                     lobbyManager.AddComponent<LobbyServerGui>();
-                else
+                else {
+                    NetworkManagerCustom.singleton.gameMode = new FFAGameMode();
                     lobbyManager.AddComponent<LobbyClientGui>();
+                }
                 break;
             case "commands":
                 if (NetworkManagerCustom.singleton.IsServer)
                     lobbyManager.AddComponent<LobbyServerTeamGui>();
-                else
+                else {
+                    NetworkManagerCustom.singleton.gameMode = new TeamGameMode(null); // TODO а еще вот это костыль, по нормальному должен присваиваться сразу после начала игры
                     lobbyManager.AddComponent<LobbyClientTeamGui>();
+                }
                 break;
         }
     }

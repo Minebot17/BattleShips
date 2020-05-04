@@ -67,7 +67,7 @@ public class ShipEditor : MonoBehaviour {
         Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
         GameObject shipCell = FindShipCell(position);
 
-        if (scrollAdapter.selectedModule == null || (position.x == 0 && position.y == 0) || installedModules > maxModules)
+        if (scrollAdapter.selectedModule == null || scrollAdapter.selectedModule.Equals("") || (position.x == 0 && position.y == 0) || installedModules > maxModules)
             return;
         
         if (GetNeighbors(position).Any(go => go)) {
