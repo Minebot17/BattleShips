@@ -10,18 +10,14 @@ using UnityEngine.Networking.NetworkSystem;
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
-	public EventHandler<PlayerConnectionEvent> playerConnectedEvent = new EventHandler<PlayerConnectionEvent>(); // TODO переставить эвенты в состояния
-	public EventHandler<PlayerConnectionEvent> playerDisconnectedEvent = new EventHandler<PlayerConnectionEvent>();
 	public static int percentToDeath = 20;
 	public static GameObject lobbyManager;
 
 	public bool IsServer;
 	public bool GameInProgress;
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
-	public Dictionary<NetworkConnection, PlayerServerData> playerData = new Dictionary<NetworkConnection, PlayerServerData>(); // TODO удалить старую систему состояний игроков
-	public int clientIndex;
-	public int lastConnections;
 	public IGameMode gameMode = new FFAGameMode();
+	public int lastConnections;
 	
 	public int scoreForWin = 2;
 	public GameObject enemyPointerPrefab;
@@ -45,37 +41,16 @@ public class NetworkManagerCustom : NetworkManager {
 			return;
 		}
 
-		int id = Utils.rnd.Next();
-		playerData.Add(conn, new PlayerServerData(conn.address) {
-			Conn = conn,
-			Score = 0,
-			Kills = 0,
-			ShipJson = Utils.CreateEmptyShip(),
-			Alive = true,
-			IsShoot = false,
-			Id = id
-		});
-
 		Players.AddPlayer(conn);
-		playerConnectedEvent.CallListners(new PlayerConnectionEvent(conn));
 	}
 	
 	public override void OnServerDisconnect(NetworkConnection conn) {
-		playerDisconnectedEvent.CallListners(new PlayerConnectionEvent(conn));
-		
-		if (networkSceneName.Equals("Lobby"))
-			GameObject.Find("LobbyManager").GetComponent<LobbyServerGui>().RemoveConnection(conn);
-		
-		playerData.Remove(conn);
 		Players.RemovePlayer(conn);
 	}
 	
 	public override void OnServerSceneChanged(string sceneName) {
-		if (sceneName.Equals("ShipEditor"))
-			lastConnections = NetworkServer.connections.Count;
-		
 		if (sceneName.Equals("Game")) {
-			foreach (NetworkConnection conn in playerData.Keys) {
+			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)
 					SpawnClientShip(conn);
 				else
@@ -93,27 +68,20 @@ public class NetworkManagerCustom : NetworkManager {
 			GameInProgress = false;
 		}
 	}
-
-	public PlayerServerData FindServerPlayer() {
-		return FindPlayerById(clientIndex);
-	}
-
-	public PlayerServerData FindPlayerById(int id) {
-		return playerData.First(p => p.Value.Id == id).Value;
-	}
-
+	
 	public void StartGame() {
 		GameInProgress = true;
 		NetworkManager.singleton.ServerChangeScene("ShipEditor");
+		lastConnections = Players.All.Count;
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
 		if (killer != null) {
-			playerData[killer.clientAuthorityOwner].Kills++;
+			Players.GetPlayer(killer.clientAuthorityOwner).GetState<GameState>().Kills.Value++;
 			new KillShipClientMessage(killer, prey).SendToAllClient();
 		}
 
-		playerData[prey.clientAuthorityOwner].Alive = false;
+		Players.GetPlayer(prey.clientAuthorityOwner).GetState<GameState>().Alive.Value = false;
 		prey.GetComponent<IDeath>().OnDead(null);
 		if (gameMode.IsRoundOver())
 			Invoke(nameof(RoundOver), 1.9f);
@@ -126,19 +94,19 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void ScoreboardOver() {
 		bool gameOver = false;
-		foreach (PlayerServerData data in playerData.Values) {
-			data.Score += data.Kills;
-			data.Kills = 0;
+		foreach (GameState gState in Players.GetStates<GameState>()) {
+			gState.Score.Value += gState.Kills.Value;
+			gState.Kills.Value = 0;
 
-			if (data.Score >= scoreForWin) {
+			if (gState.Score.Value >= scoreForWin) {
 				gameOver = true;
 				break;
 			}
 		}
 
 		if (gameOver) {
-			foreach (PlayerServerData d in playerData.Values)
-				d.Reset();
+			foreach (Player player in Players.All)
+				player.ResetStates();
 
 			DestroyImmediate(lobbyManager);
 			ServerChangeScene("Lobby");
@@ -161,9 +129,11 @@ public class NetworkManagerCustom : NetworkManager {
 		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
 		shipObject.transform.position = spawnPosition.ToVector3();
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
-		Utils.DeserializeShipPartsFromJson(shipObject, playerData[conn].ShipJson);
-		playerData[conn].ShipIdentity = shipObject.GetComponent<NetworkIdentity>();
-		playerData[conn].Alive = true;
+
+		GameState gState = Players.GetPlayer(conn).GetState<GameState>();
+		Utils.DeserializeShipPartsFromJson(shipObject, gState.ShipJson.Value);
+		gState.ShipIdentity.Value = shipObject.GetComponent<NetworkIdentity>();
+		gState.Alive.Value = true;
 	}
 
 	private Vector2 GetSpawnPoint() {
@@ -186,13 +156,5 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void Reset() {
 		ResetValuesToDefault();
-	}
-
-	public class PlayerConnectionEvent : EventBase {
-		public NetworkConnection Conn;
-
-		public PlayerConnectionEvent(NetworkConnection conn) : base(singleton, false) {
-			Conn = conn;
-		}
 	}
 }

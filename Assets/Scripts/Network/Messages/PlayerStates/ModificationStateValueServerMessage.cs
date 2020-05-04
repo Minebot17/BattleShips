@@ -12,8 +12,8 @@ public class ModificationStateValueServerMessage : GameMessage {
     }
 
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
-        PlayerStates states = Players.GetPlayer(conn);
-        int senderId = states.Id;
+        Player player = Players.GetPlayer(conn);
+        int senderId = player.Id;
         int id = reader.ReadInt32();
         if (senderId != id) {
             Debug.LogError("Try modification not own state value");
@@ -22,7 +22,7 @@ public class ModificationStateValueServerMessage : GameMessage {
         }
 
         string name = reader.ReadString();
-        GeneralStateValue stateValue = states.GetStateValue(name);
+        GeneralStateValue stateValue = player.GetStateValue(name);
         stateValue.Read(reader);
     }
     

@@ -37,7 +37,7 @@ public class TeamGameMode : IGameMode {
         List<NetworkConnection> winners = teams[winnersIndex];
         
         Dictionary<NetworkConnection, int> scoreDelta = new Dictionary<NetworkConnection, int>();
-        foreach (NetworkConnection conn in NetworkManagerCustom.singleton.playerData.Keys) 
+        foreach (NetworkConnection conn in Players.Conns) 
             scoreDelta.Add(conn, winners.Contains(conn) ? 1 : 0);
 
         return scoreDelta;
@@ -45,6 +45,6 @@ public class TeamGameMode : IGameMode {
 
     private List<int> getAliveInTeams() {
         return teams.Select(command => 
-            command.Count(conn => NetworkManagerCustom.singleton.playerData[conn].Alive)).ToList();
+            command.Count(conn => Players.GetPlayer(conn).GetState<GameState>().Alive.Value)).ToList();
     }
 }

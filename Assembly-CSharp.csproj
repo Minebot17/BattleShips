@@ -67,7 +67,6 @@
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
      <Compile Include="Assets\Scripts\Game\FFAGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\IGameMode.cs" />
-     <Compile Include="Assets\Scripts\Game\PlayerServerData.cs" />
      <Compile Include="Assets\Scripts\Game\TeamGameMode.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncAngular.cs" />
@@ -95,16 +94,16 @@
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\SendNickServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\SetReadyLobbyServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\TeamStateMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\Other\ClientIndexMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ScoreboardInfoMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ShipPartsMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\AddPlayerStateClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\AddPlayerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\ModificationStateValueServerMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\RemovePlayerStateClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\RemovePlayerClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\RemoveStateMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\RemoveStatesMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\SyncPlayersMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\SyncStateValueClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\ShipEditor\SendShipServerMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\ShipEditor\ShipEditorMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\ShipEditor\TimerInEditorMessage.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkLobby.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManagerCustom.cs" />
@@ -113,7 +112,7 @@
      <Compile Include="Assets\Scripts\Player\IInputHandler.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerInputHandler.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerObserver.cs" />
-     <Compile Include="Assets\Scripts\Player\PlayerStates\PlayerStates.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\Players.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\BoolStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\GeneralStateValue.cs" />

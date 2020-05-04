@@ -10,7 +10,7 @@ public class SendNickServerMessage : GameMessage {
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
         string nick = reader.ReadString();
-        NetworkManagerCustom.singleton.playerData[conn].Nick = nick.Equals("ip") ? conn.address : nick;
+        Players.GetPlayer(conn).GetState<GameState>().Nick.Value = nick.Equals("ip") ? conn.address : nick;
     }
     
     public override void OnClient(NetworkReader reader) {

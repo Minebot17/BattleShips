@@ -14,10 +14,11 @@ public class ScoreboardInfoMessage : GameMessage {
     }
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
+        IEnumerable<GameState> gStates = Players.GetStates<GameState>();
         new ScoreboardInfoMessage(
-            NetworkManagerCustom.singleton.playerData.Values.Select(d => d.ShipJson).ToList(),
-            NetworkManagerCustom.singleton.playerData.Values.Select(d => d.Score).ToList(),
-            NetworkManagerCustom.singleton.gameMode.GetScoreDelta(NetworkManagerCustom.singleton.playerData.ToDictionary(d => d.Key, d => d.Value.Kills)).Values.ToList(),
+        gStates.Select(d => d.ShipJson.Value).ToList(),
+        gStates.Select(d => d.Score.Value).ToList(),
+            NetworkManagerCustom.singleton.gameMode.GetScoreDelta(gStates.ToDictionary(d => d.GetParent().Conn, d => d.Kills.Value)).Values.ToList(),
             NetworkManagerCustom.singleton.scoreForWin
         ).SendToClient(conn);
     }

@@ -18,12 +18,12 @@ public class SyncStateValueClientMessage : GameMessage {
     public override void OnClient(NetworkReader reader) {
         int id = reader.ReadInt32();
         string name = reader.ReadString();
-        PlayerStates states = Players.GetPlayer(id) ?? Players.AddPlayer(id);
-        GeneralStateValue stateValue = states.GetStateValue(name);
+        Player player = Players.GetPlayer(id) ?? Players.AddPlayer(id);
+        GeneralStateValue stateValue = player.GetStateValue(name);
 
         if (stateValue == null) {
-            states.CreateStateWithValue(name);
-            stateValue = states.GetStateValue(name);
+            player.CreateStateWithValue(name);
+            stateValue = player.GetStateValue(name);
 
             if (stateValue == null)
                 Debug.LogError(name + " do not exist in any player state");

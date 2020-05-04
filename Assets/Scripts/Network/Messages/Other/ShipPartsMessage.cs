@@ -15,7 +15,7 @@ public class ShipPartsMessage : GameMessage {
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
         NetworkIdentity id = reader.ReadNetworkIdentity();
-        new ShipPartsMessage(id, NetworkManagerCustom.singleton.playerData[id.clientAuthorityOwner].ShipJson).SendToClient(conn);
+        new ShipPartsMessage(id, Players.GetPlayer(id.clientAuthorityOwner).GetState<GameState>().ShipJson.Value).SendToClient(conn);
     }
     
     public override void OnClient(NetworkReader reader) {

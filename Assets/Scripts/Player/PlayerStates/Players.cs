@@ -5,16 +5,16 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Система состояний игроков. Позволяет присваивать параметры игрокам.
-/// Каждый игрок имеет свой id, по который выдается сервером при заходе, и создается новый экземпляр PlayerStates под этим id.
+/// Каждый игрок имеет свой id, по который выдается сервером при заходе, и создается новый экземпляр Player под этим id.
 /// Зная id можно получить любого игрока на сервере или на клиенте. Сервер может так же получить игрока по его NetworkConnection
 /// Клиент может получить свой экземпляр напрямую
 /// Параметры могут синхронизироваться между всеми клиентами при их изменении на сервере (sync у параметра)
 /// Так же клиенты могут изменять параметры, которые им разрешено менять, чтобы они сихронизировались между сервером и клиентами (modification у параметра)
 /// Не все параметры могут синхронизироваться и отправлять значение серверу! Надо смотреть на параметры sync и modification при их определении в конструкторе в классе состояния
 /// Параметры разделены на состояния (или группы) (PlayerState). Это сделано для оптимизации хранения множества параметром, т.к. некоторые из них не всегда нужны
-/// Id игрока или его connection хранится в PlayerStates, а не в каком-либо конкретном состоянии
+/// При первом доступе к состоянию, оно создается (без синхронизации создания). При удалении, оно удаляется на всех клиентах и сервере (даже если удаление было вызвано на клиенте)
+/// Id игрока или его connection хранится в Player, а не в каком-либо конкретном состоянии
 /// Чтобы создать свое состояние, надо унаследовать класс PlayerState, и в ней объявить нужные параметры (регистрировать ничего не надо, все на рефлексии)
-/// Группы будут создаваться на клиентах и сервере при их первом использовании
 /// Так же можно создавать свой тип параметров наследуя StateValue
 /// Кешировать полученные состояния не обязательно, так как всё делается через хеш таблицы (сложность O(1))
 /// Пример получения своего ника: Players.GetClient().GetState<GameState>().Nick.Value
@@ -27,20 +27,22 @@ public static class Players {
     /// </summary>
     public static readonly EventHandler<PlayerRequestPlayersEvent> playerRequestPlayersEvent = new EventHandler<PlayerRequestPlayersEvent>();
     private static List<Type> loadedStates;
-    private static readonly List<PlayerStates> players = new List<PlayerStates>();
-    private static readonly Dictionary<int, PlayerStates> playerFromId = new Dictionary<int, PlayerStates>();
-    private static readonly Dictionary<NetworkConnection, PlayerStates> playerFromConn = new Dictionary<NetworkConnection, PlayerStates>();
+    private static readonly List<Player> players = new List<Player>();
+    private static readonly Dictionary<int, Player> playerFromId = new Dictionary<int, Player>();
+    private static readonly Dictionary<NetworkConnection, Player> playerFromConn = new Dictionary<NetworkConnection, Player>();
     private static int clientId;
 
     /// <summary>
     /// Список всех игроков
     /// </summary>
-    public static List<PlayerStates> All => players;
+    public static List<Player> All => players;
     
     /// <summary>
     /// Id этого клиента (не использовать для получения PlayerStates клиента, смотри метод GetClient)
     /// </summary>
     public static int ClientId { set => clientId = value; }
+    public static IEnumerable<int> Ids => playerFromId.Keys;
+    public static IEnumerable<NetworkConnection> Conns => playerFromConn.Keys;
 
     public static void Initialize() {
         if (loadedStates != null)
@@ -49,31 +51,31 @@ public static class Players {
         loadedStates = Utils.FindChildesOfType(typeof(PlayerState)).ToList();
     }
 
-    public static PlayerStates AddPlayer(NetworkConnection conn) {
+    public static Player AddPlayer(NetworkConnection conn) {
         if (playerFromConn.ContainsKey(conn))
             return playerFromConn[conn];
         
-        PlayerStates states = new PlayerStates(conn, Utils.rnd.Next());
-        players.Add(states);
-        playerFromId.Add(states.Id, states);
-        playerFromConn.Add(conn, states);
+        Player player = new Player(conn, Utils.rnd.Next());
+        players.Add(player);
+        playerFromId.Add(player.Id, player);
+        playerFromConn.Add(conn, player);
         
-        new AddPlayerStateClientMessage(states.Id).SendToAllClient(conn);
-        return states;
+        new AddPlayerClientMessage(player.Id).SendToAllClient(conn);
+        return player;
     }
     
-    public static PlayerStates AddPlayer(int id) {
+    public static Player AddPlayer(int id) {
         if (playerFromId.ContainsKey(id))
             return playerFromId[id];
         
-        PlayerStates states = new PlayerStates(null, id);
-        players.Add(states);
-        playerFromId.Add(id, states);
-        return states;
+        Player player = new Player(null, id);
+        players.Add(player);
+        playerFromId.Add(id, player);
+        return player;
     }
     
     public static void RemovePlayer(NetworkConnection conn) {
-        PlayerStates toRemove = GetPlayer(conn);
+        Player toRemove = GetPlayer(conn);
         players.Remove(toRemove);
         playerFromId.Remove(toRemove.Id);
         playerFromConn.Remove(conn);
@@ -81,20 +83,20 @@ public static class Players {
         foreach (GeneralStateValue stateValue in toRemove.allValues.Values)
             stateValue.OnRemoveState();
         
-        new RemovePlayerStateClientMessage(toRemove.Id).SendToAllClient(conn);
+        new RemovePlayerClientMessage(toRemove.Id).SendToAllClient(conn);
     }
     
     public static void RemovePlayer(int id) {
-        PlayerStates toRemove = GetPlayer(id);
+        Player toRemove = GetPlayer(id);
         players.Remove(toRemove);
         playerFromId.Remove(id);
     }
     
-    public static PlayerStates GetPlayer(int id) {
+    public static Player GetPlayer(int id) {
         return playerFromId.Get(id);
     }
     
-    public static PlayerStates GetPlayer(NetworkConnection conn) {
+    public static Player GetPlayer(NetworkConnection conn) {
         return playerFromConn.Get(conn);
     }
 
@@ -105,8 +107,32 @@ public static class Players {
     /// <summary>
     /// Возвращает состояния текущего клиента
     /// </summary>
-    public static PlayerStates GetClient() {
+    public static Player GetClient() {
         return playerFromId[clientId];
+    }
+
+    /// <summary>
+    /// Используется для получения указанного состояния всех игроков 
+    /// </summary>
+    public static IEnumerable<T> GetStates<T>() where T : PlayerState {
+        return All.Select(s => s.GetState<T>());
+    }
+
+    /// <summary>
+    /// Удаляет указанное состояние у всех игроков
+    /// </summary>
+    public static void RemoveStates(Type stateType, bool sync = true) {
+        foreach (Player player in All) 
+            player.RemoveState(stateType, false);
+
+        if (!sync) 
+            return;
+        
+        RemoveStatesMessage message = new RemoveStatesMessage(stateType.ToString());
+        if (NetworkManagerCustom.singleton.IsServer)
+            message.SendToAllClient();
+        else
+            message.SendToServer();
     }
 
     public class PlayerRequestPlayersEvent : EventBase {

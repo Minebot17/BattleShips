@@ -34,7 +34,7 @@ public class ShipServerController : NetworkBehaviour {
             if (!(UnityEngine.Object)guns[i])
                 continue;
             
-            if (NetworkManagerCustom.singleton.playerData[identity.clientAuthorityOwner].IsShoot)
+            if (Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value)
                 guns[i].Shoot(commonController.GetForward());
         }
     }

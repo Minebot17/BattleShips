@@ -1,19 +1,39 @@
+using System.Collections.Generic;
+
 public class PlayerState {
 
-    private PlayerStates parent;
+    private List<GeneralStateValue> valuesList = new List<GeneralStateValue>();
+    private Player parent;
     private bool isTest;
     
     // Такой конструктор обязателен у детей!
-    public PlayerState(PlayerStates parent, bool isTest) {
+    public PlayerState(Player parent, bool isTest) {
         this.parent = parent;
         this.isTest = isTest;
     }
 
-    public PlayerStates GetParent() {
+    public Player GetParent() {
         return parent;
     }
 
     public bool IsTest() {
         return isTest;
+    }
+
+    public void AddValue(GeneralStateValue value) {
+        valuesList.Add(value);
+    }
+
+    public void ResetValues() {
+        foreach (GeneralStateValue value in valuesList)
+            value.Reset();
+    }
+
+    public void OnRemoveState() {
+        Dictionary<string, GeneralStateValue> fromRemove = GetParent().allValues;
+
+        foreach (GeneralStateValue value in valuesList) {
+            fromRemove.Remove(value.GetName());
+        }
     }
 }

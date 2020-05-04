@@ -72,8 +72,4 @@ public class LobbyServerGui : LobbyClientGui {
 	public void SetReady(NetworkConnection conn, bool ready) {
 		readyMap[conn] = ready;
 	}
-
-	public void RemoveConnection(NetworkConnection conn) {
-		readyMap.Remove(conn);
-	}
 }

@@ -1,10 +1,10 @@
 using UnityEngine.Networking;
 
-public class RemovePlayerStateClientMessage : GameMessage {
+public class AddPlayerClientMessage : GameMessage {
 
-    public RemovePlayerStateClientMessage() { }
+    public AddPlayerClientMessage() { }
 
-    public RemovePlayerStateClientMessage(int id) {
+    public AddPlayerClientMessage(int id) {
         Writer.Write(id);
     }
     
@@ -13,7 +13,7 @@ public class RemovePlayerStateClientMessage : GameMessage {
     }
     
     public override void OnClient(NetworkReader reader) {
-        Players.RemovePlayer(reader.ReadInt32());
+        Players.AddPlayer(reader.ReadInt32());
     }
 
     public override bool WithServersClient() {

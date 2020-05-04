@@ -67,11 +67,11 @@ public abstract class StateValue<T> : GeneralStateValue {
         return parent.GetParent().Id;
     }
 
-    protected string GetName() {
+    public override string GetName() {
         return name;
     }
     
-    public void Reset() {
+    public override void Reset() {
         value = defaultValue;
     }
 

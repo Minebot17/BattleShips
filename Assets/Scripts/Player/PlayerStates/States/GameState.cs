@@ -8,7 +8,7 @@ public class GameState : PlayerState {
     public BoolStateValue Alive;
     public BoolStateValue IsShoot;
 
-    public GameState(PlayerStates parent, bool isTest = false) : base(parent, isTest) {
+    public GameState(Player parent, bool isTest = false) : base(parent, isTest) {
         ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, true);
         Score = new IntStateValue(this, "Score", 0, true);
         Kills = new IntStateValue(this, "Kills", 0, true);
