@@ -27,7 +27,7 @@ public class EnemyPointerColorMessage : GameMessage {
         NetworkIdentity target = reader.ReadNetworkIdentity();
         int color = reader.ReadInt32();
 		
-        GameObject enemyPointer = MonoBehaviour.Instantiate(
+        GameObject enemyPointer = Object.Instantiate(
         NetworkManagerCustom.singleton.enemyPointerPrefab, GameObject.Find("Canvas").transform);
         enemyPointer.GetComponent<EnemyPointer>().Target = target.gameObject;
         enemyPointer.GetComponentInChildren<Image>().color = color.ToColor();

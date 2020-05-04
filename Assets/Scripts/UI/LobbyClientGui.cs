@@ -7,6 +7,8 @@ public class LobbyClientGui : MonoBehaviour {
 
 	protected bool ready;
 	protected string nick;
+	protected bool validNick = true;
+	protected string incorrectNickMessage = "Incorrect Nick";
 
 	protected virtual void Start() {
 		Utils.UpdateLocalIPAddress();
@@ -22,13 +24,12 @@ public class LobbyClientGui : MonoBehaviour {
 		GUILayout.Label("Вы в лобби у " + NetworkManager.singleton.client.serverIp);
 		
 		GUILayout.Space(10);
-		GUILayout.Label("Никнейм:");
+		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
-		if (GUILayout.Button("OK")) {
+
+		validNick = SendNickServerMessage.nickTemplate.IsMatch(nick);
+		if (GUILayout.Button("OK") && validNick)
 			new SendNickServerMessage(nick).SendToServer();
-			GameSettings.SettingNick.Value = nick;
-			GameSettings.SettingNick.Save();
-		}
 
 		RenderInChild();
 
@@ -36,6 +37,19 @@ public class LobbyClientGui : MonoBehaviour {
 		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
 			ready = !ready;
 			new SetReadyLobbyServerMessage(ready).SendToServer();
+		}
+	}
+
+	public void SetNick(bool valid)
+	{
+		if (valid)
+		{
+			GameSettings.SettingNick.Value = nick;
+			GameSettings.SettingNick.Save();
+		}
+		else
+		{
+			validNick = false;
 		}
 	}
 	

@@ -90,6 +90,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamSlotsClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\LobbyModeMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\RemoveTeamPlayerClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\Lobby\SendNickServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\TeamStateMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ScoreboardInfoMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ShipPartsMessage.cs" />
