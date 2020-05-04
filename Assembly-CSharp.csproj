@@ -89,10 +89,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamSlotsClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\LobbyModeMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\Lobby\PlayerChangeNickClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\RemoveTeamPlayerClientMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\Lobby\SendNickServerMessage.cs" />
-     <Compile Include="Assets\Scripts\Network\Messages\Lobby\SetReadyLobbyServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\TeamStateMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ScoreboardInfoMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Other\ShipPartsMessage.cs" />
@@ -121,6 +118,7 @@
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StringStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\GameState.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\States\LobbyState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\TeamState.cs" />
      <Compile Include="Assets\Scripts\Player\ShipController.cs" />

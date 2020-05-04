@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public abstract class StateValue<T> : GeneralStateValue {
@@ -51,7 +52,13 @@ public abstract class StateValue<T> : GeneralStateValue {
         if (isTest) 
             parent.GetParent().testValues.Add(name, this);
         else {
+            if (parent.GetParent().allValues.ContainsKey(name)) {
+                Debug.LogError("StateValue with name: \"" + name + "\" already created");
+                Debug.LogError(Environment.StackTrace);
+            }
+
             parent.GetParent().allValues.Add(name, this);
+            parent.AddValue(this);
             playerRequestPlayersEventId = Players.playerRequestPlayersEvent.SubcribeEvent(e => {
                 if (this.defaultValue.Equals(value)) 
                     return;
