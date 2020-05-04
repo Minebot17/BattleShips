@@ -37,10 +37,17 @@ public class EventHandler<T> : Exception where T : EventBase {
 	/// <param name="e">Эвент</param>
 	/// <returns>Эвент, прогнаный через слушателей</returns>
 	public T CallListners(T e) {
-		foreach (Listner<T> listner in listners) {
-			listner.CallMethod(e);
+		List<Listner<T>> toUnsubscribe = new List<Listner<T>>();
+		foreach (Listner<T> listener in listners) {
+			listener.CallMethod(e);
+
+			if (e.IsUnsubscribe) {
+				e.IsUnsubscribe = false;
+				toUnsubscribe.Add(listener);
+			}
 		}
 
+		listners.RemoveAll(l => toUnsubscribe.Contains(l));
 		return e;
 	}
 

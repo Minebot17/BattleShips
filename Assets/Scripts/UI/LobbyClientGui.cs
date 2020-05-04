@@ -1,19 +1,37 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class LobbyClientGui : MonoBehaviour {
 
-	protected bool ready;
+	protected static Regex nickTemplate = new Regex("([a-zA-Z0-9.]){1,16}");
+	protected static string incorrectNickMessage = "Incorrect Nick";
+
 	protected string nick;
-	protected bool validNick = true;
-	protected string incorrectNickMessage = "Incorrect Nick";
+	protected bool validNick;
+
+	protected GameState gState;
+	protected LobbyState lState;
 
 	protected virtual void Start() {
 		Utils.UpdateLocalIPAddress();
-		nick = GameSettings.SettingNick.Value.Equals("ip") ? Utils.localIp : GameSettings.SettingNick.Value;
-		new SendNickServerMessage(GameSettings.SettingNick.Value).SendToServer();
+		gState = Players.GetClient().GetState<GameState>();
+		lState = Players.GetClient().GetState<LobbyState>();
+
+		gState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? Utils.localIp : GameSettings.SettingNick.Value;
+		gState.Nick.onChangeValueEvent.SubcribeEvent(e => {
+			if (!nickTemplate.IsMatch(e.NewValue)) {
+				validNick = false;
+				e.IsCancel = true;
+			}
+			else {
+				validNick = true;
+				GameSettings.SettingNick.Value = nick;
+				GameSettings.SettingNick.Save();
+			}
+		});
 	}
 
 	protected virtual void OnGUI() {
@@ -27,32 +45,16 @@ public class LobbyClientGui : MonoBehaviour {
 		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
 
-		validNick = SendNickServerMessage.nickTemplate.IsMatch(nick);
-		if (GUILayout.Button("OK") && validNick)
-			new SendNickServerMessage(nick).SendToServer();
+		if (GUILayout.Button("OK"))
+			gState.Nick.Value = nick;
 
 		RenderInChild();
 
 		GUILayout.Space(10);
-		if (GUILayout.Button(ready ? "Не готов" : "Готов")) {
-			ready = !ready;
-			new SetReadyLobbyServerMessage(ready).SendToServer();
-		}
+		if (GUILayout.Button(lState.Ready.Value ? "Не готов" : "Готов"))
+			lState.Ready.Value = !lState.Ready.Value;
 	}
 
-	public void SetNick(bool valid)
-	{
-		if (valid)
-		{
-			GameSettings.SettingNick.Value = nick;
-			GameSettings.SettingNick.Save();
-		}
-		else
-		{
-			validNick = false;
-		}
-	}
-	
 	protected virtual void RenderInChild() {
 		
 	}
