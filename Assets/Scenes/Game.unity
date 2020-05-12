@@ -952,7 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2072155905}
-  touch: 0
+  touch: 1
   leftJoystick: {fileID: 743183633}
   gunButton: {fileID: 1683275969}
   screenButton: {fileID: 815699959}

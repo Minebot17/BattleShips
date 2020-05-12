@@ -11,8 +11,7 @@ using UnityEngine.UI;
 public static class Utils {
     public static float sizeOfOne = 0.64f;
     public static System.Random rnd = new System.Random();
-    public static string localIp;
-    
+
     [Serializable]
     public class MessagesList : List<MessageBase> { }
 
@@ -101,19 +100,6 @@ public static class Utils {
         return hex;
     }
 
-    public static void UpdateLocalIPAddress() {
-        IPHostEntry host;
-        string localIp = "";
-        host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in host.AddressList) {
-            if (ip.AddressFamily == AddressFamily.InterNetwork) {
-                localIp = ip.ToString();
-                break;
-            }
-        }
-        Utils.localIp = localIp;
-    }
-    
     public static IEnumerable<Type> FindChildesOfType(Type parent) {
         return typeof(Utils).Assembly.GetTypes().Where(t => t.IsSubclassOf(parent));
     }
