@@ -102,16 +102,18 @@ public static class Utils {
     }
 
     public static void UpdateLocalIPAddress() {
-        IPHostEntry host;
+        /*IPHostEntry host;
         string localIp = "";
-        host = Dns.GetHostEntry(Dns.GetHostName());
+        //host = Dns.GetHostEntry(Dns.GetHostName());
+        host = 123;
         foreach (IPAddress ip in host.AddressList) {
             if (ip.AddressFamily == AddressFamily.InterNetwork) {
                 localIp = ip.ToString();
                 break;
             }
         }
-        Utils.localIp = localIp;
+        Utils.localIp = localIp;*/
+        Utils.localIp = "123";
     }
     
     public static IEnumerable<Type> FindChildesOfType(Type parent) {
