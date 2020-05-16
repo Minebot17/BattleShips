@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public static class Utils {
     public static float sizeOfOne = 0.64f;
     public static System.Random rnd = new System.Random();
+    public static LayerMask shipCellsMask = 1 << 8;
 
     [Serializable]
     public class MessagesList : List<MessageBase> { }
@@ -34,6 +35,11 @@ public static class Utils {
     public static Vector3 ToVector3(this Vector2 vec) {
         return new Vector3(vec.x, vec.y, 0);
     }
+    
+    public static Vector3 ToVector3(this Vector2 vec, float z) {
+        return new Vector3(vec.x, vec.y, z);
+    }
+
 
     public static int RoundSinged(float number) {
         return (int)(number > 0 ? Mathf.Floor(number) : Mathf.Ceil(number));
@@ -120,5 +126,11 @@ public static class Utils {
 
     public static Player GetPlayerFromIdentity(NetworkIdentity identity) {
         return Players.GetPlayer(identity.clientAuthorityOwner);
+    }
+
+    public static void MarkServerChange(this Rigidbody2D rigidbody) { // TODO не работает со взрывами
+        NetworkSyncVelocity syncVelocity = rigidbody.gameObject.GetComponent<NetworkSyncVelocity>();
+        if (syncVelocity)
+            syncVelocity.TargetMarkChangeVelocity(rigidbody.GetComponent<NetworkIdentity>().clientAuthorityOwner, rigidbody.velocity);
     }
 }

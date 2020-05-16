@@ -54,6 +54,12 @@ public class NetworkSyncVelocity : NetworkVectors {
 		lastVelocity = velocity;
 	}
 
+	[TargetRpc]
+	public void TargetMarkChangeVelocity(NetworkConnection target, Vector3 velocity) {
+		rigidbody2D.velocity = velocity;
+		lastVelocity = velocity;
+	}
+
 	public override int GetNetworkChannel() {
 		return Channels.DefaultUnreliable;
 	}

@@ -53,10 +53,10 @@ public class ShipController : NetworkBehaviour {
             lastGunButton = gunButton;
         }
 
-        if (rotation != 0)
+        if (Mathf.Abs(rotation) > 0.25f)
             rigidbody.AddTorque(rotation * (rotationPower + gyrodines.Sum(e => e.RotationPower)), ForceMode2D.Force);
         
-        if (trust != 0)
+        if (Mathf.Abs(trust) > 0.25f)
             rigidbody.AddForce(GetForward() * (trustPower + engines.Sum(e => e.TrustPower)), ForceMode2D.Force);        
     }
 
