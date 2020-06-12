@@ -2,39 +2,33 @@ using UnityEngine;
 
 public abstract class AbstractGunModule : MonoBehaviour {
 
-    [SerializeField]
-    int coolDown = 0;
-    [SerializeField]
-    int recoilForce  = 0;
+    [SerializeField] int coolDown = 0;
+    [SerializeField] float recoilForce = 0;
 
     private int timerCoolDown;
 
     Rigidbody2D rigidbody;
     private Transform forwardPointer;
 
-    private void Start()
-    {
+    private void Start() {
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
     }
 
-    public void TryShoot(Vector2 vec)
-    {
-        if (!NetworkManagerCustom.singleton.IsServer)
+    public void TryShoot(Vector2 vec) {
+        if (!NetworkManagerCustom.singleton.IsServer || timerCoolDown > 0)
             return;
-
-        if (coolDown <= 0)
-        {
-            Shoot(vec);
+        
+        Shoot(vec);
+        if (recoilForce != 0) {
+            rigidbody.AddForce(vec * -recoilForce, ForceMode2D.Impulse);
+            rigidbody.MarkServerChange();
         }
-
-        rigidbody.AddForce((forwardPointer.parent.position - forwardPointer.position).ToVector2() * recoilForce, ForceMode2D.Force);
 
         timerCoolDown = coolDown;
     }
 
-    public void FixedUpdate()
-    {
+    public void FixedUpdate() {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
@@ -42,5 +36,5 @@ public abstract class AbstractGunModule : MonoBehaviour {
             timerCoolDown--;
     }
 
-    abstract public void Shoot(Vector2 vec);
+    public abstract void Shoot(Vector2 vec);
 }
