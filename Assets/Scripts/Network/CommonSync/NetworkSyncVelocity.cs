@@ -15,6 +15,10 @@ public class NetworkSyncVelocity : NetworkVectors {
 	private Vector3 lastVelocity;
 	private Rigidbody2D rigidbody2D;
 
+	public Vector3 LastVelocity {
+		set => lastVelocity = value;
+	}
+
 	private void Start() {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 	}

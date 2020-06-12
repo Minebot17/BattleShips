@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class ExplosionManager : MonoBehaviour {
     public static ExplosionManager singleton;
-    public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 2, 500);
+    public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 1.5f, 5);
 
     [SerializeField]
     private GameObject[] explosionPrefabs;
@@ -70,7 +70,7 @@ public class ExplosionManager : MonoBehaviour {
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {
                 Rigidbody2D rigidbody = pair.Key.gameObject.GetComponent<Rigidbody2D>();
-                rigidbody.AddForce(pair.Value.normalized * kickForce);
+                rigidbody.AddForce(pair.Value.normalized * kickForce, ForceMode2D.Impulse);
                 rigidbody.MarkServerChange();
             }
 

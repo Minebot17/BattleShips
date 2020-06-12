@@ -130,7 +130,9 @@ public static class Utils {
 
     public static void MarkServerChange(this Rigidbody2D rigidbody) { // TODO не работает со взрывами
         NetworkSyncVelocity syncVelocity = rigidbody.gameObject.GetComponent<NetworkSyncVelocity>();
-        if (syncVelocity)
+        if (syncVelocity) {
+            syncVelocity.LastVelocity = rigidbody.velocity;
             syncVelocity.TargetMarkChangeVelocity(rigidbody.GetComponent<NetworkIdentity>().clientAuthorityOwner, rigidbody.velocity);
+        }
     }
 }
