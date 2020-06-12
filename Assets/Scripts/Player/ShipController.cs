@@ -7,8 +7,6 @@ public class ShipController : NetworkBehaviour {
     
     public EventHandler<ModuleDeathEvent> moduleDeathEvent = new EventHandler<ModuleDeathEvent>();
     public GameObject enemyPointerPrefab;
-    public float trustPower = 1f;
-    public float rotationPower = 1f;
 
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();   
@@ -54,10 +52,10 @@ public class ShipController : NetworkBehaviour {
         }
 
         if (Mathf.Abs(rotation) > 0.25f)
-            rigidbody.AddTorque(rotation * (rotationPower + gyrodines.Sum(e => e.RotationPower)), ForceMode2D.Force);
+            rigidbody.AddTorque(rotation * (gyrodines.Sum(e => e.RotationPower)), ForceMode2D.Force);
         
         if (Mathf.Abs(trust) > 0.25f)
-            rigidbody.AddForce(GetForward() * (trustPower + engines.Sum(e => e.TrustPower)), ForceMode2D.Force);        
+            rigidbody.AddForce(GetForward() * (engines.Sum(e => e.TrustPower)), ForceMode2D.Force);        
     }
 
     public Vector2 GetForward() {
