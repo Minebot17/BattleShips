@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-abstract class MeleeAbstractModule
+public interface IMelee
 {
-    abstract public void OnCollideWithBlock(GameObject block);
-
+    void OnCollideWithBlock(GameObject block);
 }
 

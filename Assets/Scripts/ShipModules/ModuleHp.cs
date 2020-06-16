@@ -13,8 +13,9 @@ public class ModuleHp : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        IAmmo ammo = null;
-        if ((ammo = other.gameObject.GetComponent<IAmmo>()) != null && 
+       
+        AbstractAmmo ammo = null;
+        if ((ammo = other.gameObject.GetComponent<AbstractAmmo>()) != null && 
                 NetworkManagerCustom.singleton.gameMode.CanDamageModule(this, ammo.GetDamageSource()))
             ammo.OnCollide(this);
     }

@@ -15,7 +15,7 @@ public abstract class AbstractGunModule : MonoBehaviour {
     private void Start()
     {
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
-        forwardPointer = transform.Find("ForwardPointer");
+        forwardPointer = transform.parent.parent.Find("ForwardPointer");
     }
 
     public void TryShoot(Vector2 vec)
@@ -23,14 +23,12 @@ public abstract class AbstractGunModule : MonoBehaviour {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
-        if (coolDown <= 0)
+        if (timerCoolDown <= 0)
         {
             Shoot(vec);
-        }
-
-        rigidbody.AddForce((forwardPointer.parent.position - forwardPointer.position).ToVector2() * recoilForce, ForceMode2D.Force);
-
-        timerCoolDown = coolDown;
+            rigidbody.AddForce((forwardPointer.parent.position - forwardPointer.position).ToVector2() * recoilForce, ForceMode2D.Force);
+            timerCoolDown = coolDown;
+        }    
     }
 
     public void FixedUpdate()
@@ -42,5 +40,5 @@ public abstract class AbstractGunModule : MonoBehaviour {
             timerCoolDown--;
     }
 
-    abstract public void Shoot(Vector2 vec);
+    abstract protected void Shoot(Vector2 vec);
 }

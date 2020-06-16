@@ -148,7 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee036012c8a4187a4569c439256e08f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ticksCD: 25
+  coolDown: 20
+  recoilForce: 100
   ammoSpeed: 0.2
   ammoPrefab: {fileID: 8577016000011909186, guid: 12d20a47d742fa144ad1cbfc481aa334,
     type: 3}
+  bulletCount: 1
