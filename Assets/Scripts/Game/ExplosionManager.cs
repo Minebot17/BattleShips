@@ -26,7 +26,7 @@ public class ExplosionManager : MonoBehaviour {
 
     public class Explosion {
         private int prefabType;
-        private int damage;
+        private float damage;
         private float lifeTime;
         private float radius;
         private float kickForce;
@@ -36,7 +36,7 @@ public class ExplosionManager : MonoBehaviour {
         /// <param name="lifeTime">Время жизни префаба в секундах</param>
         /// <param name="radius">Радиус взрыва. Измеряется в метрах</param>
         /// <param name="kickForce">Сила отталкивания взрывом. Итоговый вектор расчитывается с учетом всех задевшихся блоков</param>
-        public Explosion(int prefabType, int damage, float lifeTime, float radius, float kickForce) {
+        public Explosion(int prefabType, float damage, float lifeTime, float radius, float kickForce) {
             this.prefabType = prefabType;
             this.damage = damage;
             this.lifeTime = lifeTime;

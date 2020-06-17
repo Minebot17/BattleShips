@@ -8,8 +8,6 @@ public class StandartAmmo : AbstractAmmo {
     [SerializeField]
     private int numberOfBounces;
 
-    private new Rigidbody2D rigidbody2D;
-
     public override void Initialize(BulletInfo playerDamageSource, Vector2 shootVector) {
         base.Initialize(playerDamageSource, shootVector);
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -21,7 +19,8 @@ public class StandartAmmo : AbstractAmmo {
         base.OnCollisionEnter2D(collision);
         if (collision.gameObject.TryGetComponent(out ModuleHp moduleHp))
         {
-            if (moduleHp.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
+            if (moduleHp.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject
+              && NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, bulletInfo))
             {
                 moduleHp.Damage(GetInfo());
                 numberOfBounces--;

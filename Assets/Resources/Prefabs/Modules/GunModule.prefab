@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6383962261766084145}
   - component: {fileID: -2623553081203189224}
   - component: {fileID: -115750464473500727}
+  - component: {fileID: 2712939868869200314}
   m_Layer: 10
   m_Name: GunModule
   m_TagString: Untagged
@@ -150,6 +151,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coolDown: 25
   recoilForce: 1
+  damage: 10
   ammoSpeed: 0.2
   ammoPrefab: {fileID: 8577016000011909186, guid: 12d20a47d742fa144ad1cbfc481aa334,
     type: 3}
+  bulletCount: 1
+--- !u!114 &2712939868869200314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5021091399960907665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68279f3a2bad6474cb64747c1b22fe59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeK: 1

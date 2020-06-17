@@ -11,6 +11,8 @@ public abstract class AbstractAmmo : NetworkBehaviour
 
     protected int lifeSpanTimer = 999999;
 
+    protected new Rigidbody2D rigidbody2D;
+
     virtual public void Initialize(BulletInfo bulletInfo, Vector2 shootVector)
     {
         this.bulletInfo = bulletInfo;
@@ -30,7 +32,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
         if (collision.gameObject.TryGetComponent(out EffectModule effectModule) 
             && effectModule.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
         {
-                effectModule.AddEffects(bulletInfo.effects.Select(e => e.Create()));
+            effectModule.AddEffects(bulletInfo.effects.Select(e => e.Create()));
         }
     }
 
