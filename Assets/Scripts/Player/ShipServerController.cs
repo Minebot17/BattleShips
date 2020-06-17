@@ -39,12 +39,12 @@ public class ShipServerController : NetworkBehaviour {
         }
     }
 
-    public void OnModuleDeath(DamageSource damageSource, GameObject module) {
+    public void OnModuleDeath(BulletInfo bulletInfo, GameObject module) {
         if (isDead)
             return;
 
         currentModulesCount--;
-        NetworkIdentity killerIdentity = damageSource is PlayerDamageSource pds ? pds.OwnerShip : null;
+        NetworkIdentity killerIdentity = bulletInfo.OwnerShip;
         if (module.name.Equals("AICoreModule") ||
             currentModulesCount * (100/NetworkManagerCustom.percentToDeath) <= initialModulesCount ||
             (guns.Count(g => (UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<AbstractGunModule>())) {

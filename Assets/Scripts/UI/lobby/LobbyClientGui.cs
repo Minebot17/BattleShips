@@ -16,11 +16,10 @@ public class LobbyClientGui : MonoBehaviour {
 	protected LobbyState lState;
 
 	protected virtual void Start() {
-		Utils.UpdateLocalIPAddress();
 		gState = Players.GetClient().GetState<GameState>();
 		lState = Players.GetClient().GetState<LobbyState>();
 
-		gState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? Utils.localIp : GameSettings.SettingNick.Value;
+		gState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? ("Player " + gState.GetParent().Id) : GameSettings.SettingNick.Value;
 		nick = gState.Nick.Value;
 		gState.Nick.onChangeValueEvent.SubcribeEvent(e => {
 			if (!nickTemplate.IsMatch(e.NewValue)) {
@@ -57,6 +56,9 @@ public class LobbyClientGui : MonoBehaviour {
 	}
 
 	protected virtual void RenderInChild() {
-		
+		GUILayout.Space(10);
+		GUILayout.Label("Игроки:");
+		foreach (GameState state in Players.GetStates<GameState>())
+			GUILayout.Label(state.Nick.Value + " (" + (state.GetParent().GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")");
 	}
 }

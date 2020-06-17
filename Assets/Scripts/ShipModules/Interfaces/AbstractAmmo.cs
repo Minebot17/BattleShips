@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -5,27 +6,32 @@ public abstract class AbstractAmmo : NetworkBehaviour
 {
     [SerializeField]
     protected int lifeSpan;
-    [SerializeField]
-    protected int damage;
 
-    protected GameObject owner;
-
-    private NetworkIdentity ownerIdentity;
+    protected BulletInfo bulletInfo;
 
     protected int lifeSpanTimer = 999999;
 
-    virtual public void Initialize(GameObject owner, Vector2 shootVector)
+    virtual public void Initialize(BulletInfo bulletInfo, Vector2 shootVector)
     {
-        this.owner = owner;
-        ownerIdentity = owner.GetComponent<NetworkIdentity>();
+        this.bulletInfo = bulletInfo;
         lifeSpanTimer = lifeSpan;
     }
 
-    abstract public void OnCollide(ModuleHp hp);
-
-    public DamageSource GetDamageSource()
+    public BulletInfo GetInfo()
     {
-        return new PlayerDamageSource(damage, ownerIdentity);
+        return bulletInfo;
+    }
+
+    public virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!isServer)
+            return;
+
+        if (collision.gameObject.TryGetComponent(out EffectModule effectModule) 
+            && effectModule.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
+        {
+                effectModule.AddEffects(bulletInfo.effects.Select(e => e.Create()));
+        }
     }
 
     private void FixedUpdate()

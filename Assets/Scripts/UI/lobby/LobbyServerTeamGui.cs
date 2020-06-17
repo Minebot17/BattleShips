@@ -79,7 +79,8 @@ public class LobbyServerTeamGui : LobbyServerGui {
         GUILayout.Space(10);
         GUILayout.Label("Наблюдатели:");
         foreach (NetworkConnection conn in observers)
-            GUILayout.Label("* " + Players.GetPlayer(conn).GetState<GameState>().Nick.Value);
+            GUILayout.Label("* " + Players.GetPlayer(conn).GetState<GameState>().Nick.Value
+                            + " (" + (Players.GetPlayer(conn).GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")");
         if (GUILayout.Button("Перейти"))
             ChangeTeam(-1);
 
@@ -103,7 +104,8 @@ public class LobbyServerTeamGui : LobbyServerGui {
             
             IEnumerable<string> nicksInTeam = from player in Players.All 
                                               where team.Contains(player.Conn) 
-                                              select player.GetState<GameState>().Nick.Value;
+                                              select player.GetState<GameState>().Nick.Value 
+                                                     + " (" + (player.GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")";
 
             foreach (string nick in nicksInTeam) 
                 GUILayout.Label("* " + nick);

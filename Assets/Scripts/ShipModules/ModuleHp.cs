@@ -2,21 +2,12 @@
 
 public class ModuleHp : MonoBehaviour {
     
-    [SerializeField]
-    private int health;
+    [SerializeField] private float health;
 
-    public void Damage(DamageSource source) {
-        health -= source.Amount;
+    public void Damage(BulletInfo bulletInfo) {
+        health -= bulletInfo.Damage;
         
         if (health <= 0)
-            GetComponent<IDeath>().OnDead(source);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-       
-        AbstractAmmo ammo = null;
-        if ((ammo = other.gameObject.GetComponent<AbstractAmmo>()) != null && 
-                NetworkManagerCustom.singleton.gameMode.CanDamageModule(this, ammo.GetDamageSource()))
-            ammo.OnCollide(this);
+            GetComponent<IDeath>().OnDead(bulletInfo);
     }
 }

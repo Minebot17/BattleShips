@@ -6,8 +6,7 @@ using UnityEngine.Networking;
 public class ShipController : NetworkBehaviour {
     
     public EventHandler<ModuleDeathEvent> moduleDeathEvent = new EventHandler<ModuleDeathEvent>();
-    public GameObject enemyPointerPrefab;
-
+    
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();   
     
@@ -47,14 +46,14 @@ public class ShipController : NetworkBehaviour {
             if (isServer)
                 Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value = gunButton;
             else
-                CmdSendGunVector(gunButton);
+                CmdSendGunButton(gunButton);
             lastGunButton = gunButton;
         }
 
-        if (rotation != 0)
+        if (Mathf.Abs(rotation) > 0.25f)
             rigidbody.AddTorque(rotation * (gyrodines.Sum(e => e.RotationPower)), ForceMode2D.Force);
         
-        if (trust != 0)
+        if (Mathf.Abs(trust) > 0.25f)
             rigidbody.AddForce(GetForward() * (engines.Sum(e => e.TrustPower)), ForceMode2D.Force);        
     }
 
@@ -76,7 +75,7 @@ public class ShipController : NetworkBehaviour {
     }
 
     [Command(channel = Channels.DefaultUnreliable)]
-    private void CmdSendGunVector(bool gunButton) {
+    private void CmdSendGunButton(bool gunButton) {
         Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value = gunButton;
     }
     

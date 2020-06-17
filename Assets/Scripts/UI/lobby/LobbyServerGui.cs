@@ -57,7 +57,10 @@ public class LobbyServerGui : LobbyClientGui {
 	}
 	
 	protected override void RenderInChild() {
-		
+		GUILayout.Space(10);
+		GUILayout.Label("Игроки:");
+		foreach (GameState state in Players.GetStates<GameState>())
+			GUILayout.Label(state.Nick.Value + " (" + (state.GetParent().GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")");
 	}
 
 	protected virtual void OnStartGame() {

@@ -3,9 +3,21 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class DeathStandart : MonoBehaviour, IDeath {
-    public void OnDead(DamageSource source) {
-        Destroy(gameObject);
+
+    private bool isDead;
+    
+    public void OnDead(BulletInfo bulletInfo) {
+        if (IsDead())
+            return;
+            
+        isDead = true;
+        ExplosionManager.moduleSmallExplosion.Explode(transform.position.ToVector2(), bulletInfo.OwnerShip); // TODO
         Destroy(transform.parent.GetComponent<BoxCollider2D>());
-        transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(source, gameObject);
+        Destroy(gameObject);
+        transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(bulletInfo, gameObject);
+    }
+
+    public bool IsDead() {
+        return isDead;
     }
 }
