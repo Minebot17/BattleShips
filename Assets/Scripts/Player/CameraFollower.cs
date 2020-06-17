@@ -5,15 +5,14 @@ public class CameraFollower : MonoBehaviour {
 
 	public static CameraFollower singleton;
 	public EventHandler<ChangeTargetEvent> changeTargetEvent = new EventHandler<ChangeTargetEvent>();
-	[SerializeField] private Transform target;
-	[SerializeField] private Camera camera;
-	[SerializeField] private BoxCollider2D leftBorder;
-	[SerializeField] private BoxCollider2D rightBorder;
-	[SerializeField] private BoxCollider2D topBorder;
-	[SerializeField] private BoxCollider2D bottomBorder;
+	[SerializeField] Transform target;
+	[SerializeField] Camera camera;
+	[SerializeField] BoxCollider2D leftBorder;
+	[SerializeField] BoxCollider2D rightBorder;
+	[SerializeField] BoxCollider2D topBorder;
+	[SerializeField] BoxCollider2D bottomBorder;
 
-	[SerializeField]
-	private float speed;
+	[SerializeField] float speed;
 
 	public Transform Target {
 		set {
@@ -23,11 +22,11 @@ public class CameraFollower : MonoBehaviour {
 		}
 	}
 
-	private void Awake() {
+	void Awake() {
 		singleton = this;
 	}
 
-	private void LateUpdate() {
+	void LateUpdate() {
 		if (!target)
 			return;
 		

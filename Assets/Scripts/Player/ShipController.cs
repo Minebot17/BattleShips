@@ -8,21 +8,21 @@ public class ShipController : NetworkBehaviour {
     public EventHandler<ModuleDeathEvent> moduleDeathEvent = new EventHandler<ModuleDeathEvent>();
     
     public List<IEngineModule> engines = new List<IEngineModule>();
-    public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();   
-    
-    private bool lastGunButton;
-    private Rigidbody2D rigidbody;
-    private Transform forwardPointer;
-    private NetworkIdentity identity;
-    private IInputHandler inputHandler;
-    
-    private int initialModulesCount;
-    private int currentModulesCount;
+    public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();
+
+    bool lastGunButton;
+    Rigidbody2D rigidbody;
+    Transform forwardPointer;
+    NetworkIdentity identity;
+    IInputHandler inputHandler;
+
+    int initialModulesCount;
+    int currentModulesCount;
 
     public int InitialModulesCount => initialModulesCount;
     public int CurrentModulesCount => currentModulesCount;
 
-    private void Start() {
+    void Start() {
         inputHandler = PlayerInputHandler.singleton;
         identity = GetComponent<NetworkIdentity>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -34,7 +34,7 @@ public class ShipController : NetworkBehaviour {
         new ShipPartsMessage(identity).SendToServer();
     }
 
-    private void FixedUpdate() {
+    void FixedUpdate() {
         if (!hasAuthority)
             return;
 
@@ -75,7 +75,7 @@ public class ShipController : NetworkBehaviour {
     }
 
     [Command(channel = Channels.DefaultUnreliable)]
-    private void CmdSendGunButton(bool gunButton) {
+    void CmdSendGunButton(bool gunButton) {
         Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value = gunButton;
     }
     

@@ -34,7 +34,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (!isServer)
             return;

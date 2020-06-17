@@ -5,25 +5,21 @@ using UnityEngine.Networking;
 
 [AddComponentMenu("NetworkCustom/NetworkSyncVelocity")]
 public class NetworkSyncVelocity : NetworkVectors {
-	[SerializeField]
-	private float velocityLerpRate = 15;
-	[SerializeField]
-	private float velocityThreshold = 0.1f;
-	[SerializeField]
-	private bool fromLocalPlayer;
-	[SyncVar]
-	private Vector3 lastVelocity;
-	private Rigidbody2D rigidbody2D;
+	[SerializeField] float velocityLerpRate = 15;
+	[SerializeField] float velocityThreshold = 0.1f;
+	[SerializeField] bool fromLocalPlayer;
+	[SyncVar] Vector3 lastVelocity;
+	Rigidbody2D rigidbody2D;
 
 	public Vector3 LastVelocity {
 		set => lastVelocity = value;
 	}
 
-	private void Start() {
+	void Start() {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
-	private void FixedUpdate() {
+	void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority) {
 				InterpolateVelocity();
@@ -42,19 +38,19 @@ public class NetworkSyncVelocity : NetworkVectors {
 		}
 	}
 
-	private bool IsVelocityChanged() {
+	bool IsVelocityChanged() {
 		Vector2 velocity = new Vector2(X ? rigidbody2D.velocity.x : lastVelocity.x, Y ? rigidbody2D.velocity.y : lastVelocity.y);
 		return Vector2.Distance(velocity, lastVelocity) > velocityThreshold;
 	}
 
-	private void InterpolateVelocity() {
+	void InterpolateVelocity() {
 		Vector3 velocity = rigidbody2D.velocity;
 		Vector3 newVelocity = Vector3.Lerp(rigidbody2D.velocity, lastVelocity, Time.deltaTime * velocityLerpRate);
 		rigidbody2D.velocity = new Vector3(X ? newVelocity.x : velocity.x, Y ? newVelocity.y : velocity.y, Z ? newVelocity.z : velocity.z);
 	}
 
 	[Command(channel = Channels.DefaultUnreliable)]
-	private void CmdSendVelocity(Vector3 velocity) {
+	void CmdSendVelocity(Vector3 velocity) {
 		lastVelocity = velocity;
 	}
 

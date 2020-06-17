@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 
 public class PlayerState {
-
-    private List<GeneralStateValue> valuesList = new List<GeneralStateValue>();
-    private Player parent;
-    private bool isTest;
+    List<GeneralStateValue> valuesList = new List<GeneralStateValue>();
+    Player parent;
+    bool isTest;
     
     // Такой конструктор обязателен у детей!
     public PlayerState(Player parent, bool isTest) {

@@ -8,7 +8,7 @@ public class LanguageText : Text {
 
 	public string LangKey;
 
-	private void Start () {
+	void Start () {
 		text = LanguageManager.GetValue(LangKey);
 		LanguageManager.ChangeLanguageEvent.SubcribeEvent(x => text = LanguageManager.GetValue(LangKey));
 	}

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3425463063505343813}
   - component: {fileID: 193888882229425173}
   - component: {fileID: 2286609509503361665}
+  - component: {fileID: 4825067350521949125}
   m_Layer: 10
   m_Name: EngineModule
   m_TagString: Untagged
@@ -149,3 +150,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trustPower: 10
+--- !u!114 &4825067350521949125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8846053260266170038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68279f3a2bad6474cb64747c1b22fe59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeK: 1

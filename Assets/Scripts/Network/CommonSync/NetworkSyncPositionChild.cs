@@ -5,23 +5,20 @@ using UnityEngine.Networking;
 
 [AddComponentMenu("NetworkCustom/NetworkSyncPositionChild")]
 public class NetworkSyncPositionChild : NetworkBehaviour {
-	[SerializeField]
-	private float posLerpRate = 15;
-	[SerializeField]
-	private float posThreshold = 0.1f;
-	[SerializeField]
-	private bool fromLocalPlayer;
+	[SerializeField] float posLerpRate = 15;
+	[SerializeField] float posThreshold = 0.1f;
+	[SerializeField] bool fromLocalPlayer;
 	public List<ChildVector> Childs = new List<ChildVector>();
 
-	private Vector3[] lastPositions;
+	Vector3[] lastPositions;
 
-	private void Awake() {
+	void Awake() {
 		lastPositions = new Vector3[Childs.Count];
 		for (int i = 0; i < Childs.Count; i++)
 			lastPositions[i] = Childs[i].Child.localPosition;
 	}
 
-	private void Update() {
+	void Update() {
 		if (fromLocalPlayer) {
 			if (hasAuthority)
 				return;
@@ -36,7 +33,7 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 		}
 	}
 
-	private void FixedUpdate() {
+	void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority)
 				return;
@@ -60,7 +57,7 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 		}
 	}
 
-	private bool IsPositionChanged(int index) {
+	bool IsPositionChanged(int index) {
 		Vector3 position = new Vector3(Childs[index].X ? Childs[index].Child.localPosition.x : lastPositions[index].x, Childs[index].Y ? Childs[index].Child.localPosition.y : lastPositions[index].y, Childs[index].Z ? Childs[index].Child.localPosition.z : lastPositions[index].z);
 		return Vector3.Distance(position, lastPositions[index]) > posThreshold;
 	}
@@ -74,14 +71,14 @@ public class NetworkSyncPositionChild : NetworkBehaviour {
 	}
 
 	[Command]
-	private void CmdSendToServer(Vector3[] array, int[] indexes) {
+	void CmdSendToServer(Vector3[] array, int[] indexes) {
 		for (int i = 0; i < array.Length; i++)
 			lastPositions[indexes[i]] = array[i];
 		RpcSendToClients(array, indexes);
 	}
 
 	[ClientRpc]
-	private void RpcSendToClients(Vector3[] array, int[] indexes) {
+	void RpcSendToClients(Vector3[] array, int[] indexes) {
 		if (hasAuthority)
 			return;
 		for (int i = 0; i < array.Length; i++)

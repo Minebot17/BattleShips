@@ -5,8 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class TeamGameMode : IGameMode {
-    
-    private List<List<NetworkConnection>> teams;
+    List<List<NetworkConnection>> teams;
 
     public TeamGameMode(List<List<NetworkConnection>> teams) {
         this.teams = teams;
@@ -52,7 +51,7 @@ public class TeamGameMode : IGameMode {
         return scoreDelta;
     }
 
-    private List<int> getAliveInTeams() {
+    List<int> getAliveInTeams() {
         return teams.Select(command => 
             command.Count(conn => Players.GetPlayer(conn).GetState<GameState>().Alive.Value)).ToList();
     }

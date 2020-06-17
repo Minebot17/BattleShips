@@ -4,8 +4,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class SuicideButton : MonoBehaviour {
-
-    private bool isSuicide;
+    bool isSuicide;
     
     public void OnClick() {
         if (isSuicide)

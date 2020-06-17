@@ -1,6 +1,5 @@
 public class HpBar : ProgressBar {
-    
-    private int eventId = -1;
+    int eventId = -1;
     
     protected override void Start() {
         base.Start();
@@ -22,7 +21,7 @@ public class HpBar : ProgressBar {
         });
     }
 
-    private void UpdateProgressBar(int currentHp, int maxHp) {
+    void UpdateProgressBar(int currentHp, int maxHp) {
         float percent = NetworkManagerCustom.percentToDeath / 100f;
         Value = (currentHp - maxHp * percent) / (maxHp * (1f - percent));
     }

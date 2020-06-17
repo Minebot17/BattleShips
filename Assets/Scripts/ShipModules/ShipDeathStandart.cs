@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class ShipDeathStandart : MonoBehaviour, IDeath {
 
-    [SerializeField] private GameObject effectPrefab;
-    [SerializeField] private int destroyTime;
-    private GameObject effect;
-    private bool isDead;
+    [SerializeField] GameObject effectPrefab;
+    [SerializeField] int destroyTime;
+    GameObject effect;
+    bool isDead;
     
     public void OnDead(BulletInfo bulletInfo) {
         if (IsDead())

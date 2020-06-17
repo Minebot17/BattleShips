@@ -126,7 +126,7 @@ public class NetworkManagerCustom : NetworkManager {
 		SpawnClientShip(conn);
 	}
 
-	private void SpawnClientShip(NetworkConnection conn) {
+	void SpawnClientShip(NetworkConnection conn) {
 		Vector2 spawnPosition = GetSpawnPoint();
 		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
 		shipObject.transform.position = spawnPosition.ToVector3();
@@ -137,7 +137,7 @@ public class NetworkManagerCustom : NetworkManager {
 		gState.Alive.Value = true;
 	}
 
-	private Vector2 GetSpawnPoint() {
+	Vector2 GetSpawnPoint() {
 		GameObject points = GameObject.Find("SpawnPoints");
 		int index = Utils.rnd.Next(points.transform.childCount);
 		Vector2 result = new Vector2(points.transform.GetChild(index).position.x, points.transform.GetChild(index).position.y);
@@ -145,7 +145,7 @@ public class NetworkManagerCustom : NetworkManager {
 		return result;
 	}
 
-	private void ResetValuesToDefault() {
+	void ResetValuesToDefault() {
 		IsServer = true;
 		GameInProgress = false;
 		StartArguments = new List<string>();

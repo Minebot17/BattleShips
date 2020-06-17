@@ -6,7 +6,7 @@ public class EventBase {
 
 	public object Sender;
 	public bool IsCancable;
-	private bool isUnsubscribe;
+	bool isUnsubscribe;
 
 	public EventBase(object sender, bool isCancable) {
 		if (GameSettings.SettingLogEvents.Value)

@@ -5,10 +5,9 @@ using UnityEngine.Networking;
 
 public class StandartAmmo : AbstractAmmo {
 
-    [SerializeField]
-    private int numberOfBounces;
+    [SerializeField] int numberOfBounces;
 
-    private new Rigidbody2D rigidbody2D;
+    new Rigidbody2D rigidbody2D;
 
     public override void Initialize(BulletInfo playerDamageSource, Vector2 shootVector) {
         base.Initialize(playerDamageSource, shootVector);

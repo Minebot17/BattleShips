@@ -6,19 +6,18 @@ using UnityEngine.Networking;
 [AddComponentMenu("NetworkCustom/NetworkSyncScaleChild")]
 public class NetworkSyncScaleChild : NetworkBehaviour {
 
-	[SerializeField]
-	private bool fromLocalPlayer;
+	[SerializeField] bool fromLocalPlayer;
 	public List<ChildVector> Childs = new List<ChildVector>();
 
-	private Vector3[] lastScales;
+	Vector3[] lastScales;
 
-	private void Awake() {
+	void Awake() {
 		lastScales = new Vector3[Childs.Count];
 		for (int i = 0; i < Childs.Count; i++)
 			lastScales[i] = Childs[i].Child.localScale;
 	}
-	
-	private void FixedUpdate() {
+
+	void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority)
 				return;
@@ -41,7 +40,7 @@ public class NetworkSyncScaleChild : NetworkBehaviour {
 		}
 	}
 
-	private bool IsScaleChanged(int index) {
+	bool IsScaleChanged(int index) {
 		Vector3 scale = new Vector3(Childs[index].X ? Childs[index].Child.localScale.x : lastScales[index].x, Childs[index].Y ? Childs[index].Child.localScale.y : lastScales[index].y, Childs[index].Z ? Childs[index].Child.localScale.z : lastScales[index].z);
 		return !scale.Equals(lastScales[index]);
 	}
@@ -55,14 +54,14 @@ public class NetworkSyncScaleChild : NetworkBehaviour {
 	}
 
 	[Command]
-	private void CmdSendToServer(Vector3[] array, int[] indexes) {
+	void CmdSendToServer(Vector3[] array, int[] indexes) {
 		for (int i = 0; i < array.Length; i++)
 			lastScales[indexes[i]] = array[i];
 		RpcSendToClients(array, indexes);
 	}
 
 	[ClientRpc]
-	private void RpcSendToClients(Vector3[] array, int[] indexes) {
+	void RpcSendToClients(Vector3[] array, int[] indexes) {
 		for (int i = 0; i < array.Length; i++)
 			lastScales[indexes[i]] = array[i];
 		if (fromLocalPlayer) {

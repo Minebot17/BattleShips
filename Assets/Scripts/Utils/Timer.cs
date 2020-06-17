@@ -6,7 +6,7 @@ using System;
 /// Пользовательский таймер для Unity by Minebot
 /// </summary>
 public class Timer {
-	private static GameObject storage;
+	static GameObject storage;
 
 	/// <summary>
 	/// Инициализация алгоритма. Должна вызываться 1 раз при запуске сцены. Создает таймер
@@ -84,14 +84,14 @@ public class Timer {
 	/// Оболочка для интерфейса ITimer
 	/// </summary>
 	public class TimerSkin : MonoBehaviour {
-		private ITimer timer;
+		ITimer timer;
 
 		public void Initialize(ITimer timer, params System.Object[] args) {
 			this.timer = timer;
 			this.timer.Initialize(this, args);
 		}
 
-		private void Update() {
+		void Update() {
 			timer.Update();
 		}
 

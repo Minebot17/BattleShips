@@ -6,16 +6,15 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
-    
-    private AbstractGunModule[] guns = null;
-    private NetworkIdentity identity;
-    private ShipController commonController;
-    
-    private int initialModulesCount;
-    private int currentModulesCount;
-    private bool isDead = false;
+    AbstractGunModule[] guns = null;
+    NetworkIdentity identity;
+    ShipController commonController;
 
-    private void Start() {
+    int initialModulesCount;
+    int currentModulesCount;
+    bool isDead = false;
+
+    void Start() {
         identity = GetComponent<NetworkIdentity>();
         if (!isServer)
             return;
@@ -26,7 +25,7 @@ public class ShipServerController : NetworkBehaviour {
         commonController = GetComponent<ShipController>();
     }
 
-    private void FixedUpdate() {
+    void FixedUpdate() {
         if (!isServer || !identity)
             return;
 

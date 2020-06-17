@@ -46,7 +46,7 @@ public class LobbyClientTeamGui : LobbyClientGui {
         }
     }
 
-    private void ChangeMyTeam(int to) {
+    void ChangeMyTeam(int to) {
         new ChangeTeamMessage(to).SendToServer();
     }
     
@@ -94,7 +94,7 @@ public class LobbyClientTeamGui : LobbyClientGui {
         teamSlots[team] = newSlots;
     }
 
-    private int FindTeamOfConnection(int id) {
+    int FindTeamOfConnection(int id) {
         if (observers.Contains(id))
             return -1;
         
