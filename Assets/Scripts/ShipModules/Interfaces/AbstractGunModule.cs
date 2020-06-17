@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public abstract class AbstractGunModule : AbstractModule {
 
-    [SerializeField] int coolDown = 0;
-    [SerializeField] float recoilForce = 0;
+    [SerializeField] int coolDown;
+    [SerializeField] float recoilForce;
     [SerializeField] protected int damage;
 
     protected BulletInfo bulletInfo;

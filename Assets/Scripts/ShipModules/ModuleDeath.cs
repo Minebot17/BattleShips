@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class DeathStandart : MonoBehaviour, IDeath {
+public class ModuleDeath : MonoBehaviour, IDeath {
 
     bool isDead;
 
