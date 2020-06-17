@@ -13,8 +13,7 @@ public class ExplosionManager : MonoBehaviour {
     public static ExplosionManager singleton;
     public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 1.5f, 5);
 
-    [SerializeField]
-    private GameObject[] explosionPrefabs;
+    [SerializeField] private GameObject[] explosionPrefabs;
 
     public void Awake() {
         singleton = this;
@@ -48,7 +47,7 @@ public class ExplosionManager : MonoBehaviour {
         /// <summary>
         /// Вызывает взрыв. Вызывать только на сервере
         /// </summary>
-        public void Explode(Vector2 position) {
+        public void Explode(Vector2 position, NetworkIdentity identity = null) {
             if (!NetworkManagerCustom.singleton.IsServer)
                 return;
 
@@ -65,7 +64,7 @@ public class ExplosionManager : MonoBehaviour {
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new DamageSource((int) Math.Ceiling(damage * (toAdd.magnitude/radius))));
+                    hp.Damage(new BulletInfo((float) Math.Ceiling(damage * (toAdd.magnitude / radius)), identity));
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {

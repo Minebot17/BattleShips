@@ -8,7 +8,7 @@ public class ShipDeathStandart : MonoBehaviour, IDeath {
     private GameObject effect;
     private bool isDead;
     
-    public void OnDead(DamageSource source) {
+    public void OnDead(BulletInfo bulletInfo) {
         if (IsDead())
             return;
             

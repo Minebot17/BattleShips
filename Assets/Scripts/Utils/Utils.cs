@@ -127,7 +127,7 @@ public static class Utils {
     public static Player GetPlayerFromIdentity(NetworkIdentity identity) {
         return Players.GetPlayer(identity.clientAuthorityOwner);
     }
-
+    
     public static void MarkServerChange(this Rigidbody2D rigidbody) {
         NetworkSyncVelocity syncVelocity = rigidbody.gameObject.GetComponent<NetworkSyncVelocity>();
         if (!syncVelocity) 

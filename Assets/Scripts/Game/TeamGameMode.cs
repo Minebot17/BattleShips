@@ -26,12 +26,12 @@ public class TeamGameMode : IGameMode {
         return isAlly ? Color.green.ToHex() : Color.red.ToHex();
     }
 
-    public bool CanDamageModule(ModuleHp hp, DamageSource source) {
-        if (!NetworkManagerCustom.singleton.IsServer || !(source is PlayerDamageSource))
+    public bool CanDamageModule(ModuleHp hp, BulletInfo source) {
+        if (!NetworkManagerCustom.singleton.IsServer || !(source.OwnerShip == null))
             return true;
         
         NetworkConnection target = hp.gameObject.transform.parent.parent.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner;
-        NetworkConnection owner = ((PlayerDamageSource) source).OwnerShip.clientAuthorityOwner;
+        NetworkConnection owner = source.OwnerShip.clientAuthorityOwner;
         bool isAlly = Players.GetPlayer(target).GetState<TeamState>().TeamIndex.Value == Players.GetPlayer(owner).GetState<TeamState>().TeamIndex.Value;
         return !isAlly;
     }

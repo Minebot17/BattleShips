@@ -1,46 +1,35 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class StandartAmmo : NetworkBehaviour, IAmmo {
+public class StandartAmmo : AbstractAmmo {
 
-    [SerializeField] 
-    private int damage;
+    [SerializeField]
+    private int numberOfBounces;
 
-    [SerializeField] 
-    private int lifeSpan;
-    
-    private int lifeSpanTimer = 999999;
-    private GameObject owner;
-    private NetworkIdentity ownerIdentity;
+    private new Rigidbody2D rigidbody2D;
 
-    public void Initialize(GameObject owner, Vector2 shootVector) {
-        this.owner = owner;
-        ownerIdentity = owner.GetComponent<NetworkIdentity>();
-        GetComponent<Rigidbody2D>().AddForce(shootVector, ForceMode2D.Impulse);
-        lifeSpanTimer = lifeSpan;
+    public override void Initialize(BulletInfo playerDamageSource, Vector2 shootVector) {
+        base.Initialize(playerDamageSource, shootVector);
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D.AddForce(shootVector, ForceMode2D.Impulse);
     }
 
-    public void OnCollide(ModuleHp hp) {
-        if (!isServer)
-            return;
-
-        if (hp.gameObject.transform.parent.parent.gameObject != owner) {
-            hp.Damage(GetDamageSource());
-            NetworkServer.Destroy(gameObject);
+    public override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+        if (collision.gameObject.TryGetComponent(out ModuleHp moduleHp))
+        {
+            if (moduleHp.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
+            {
+                moduleHp.Damage(GetInfo());
+                numberOfBounces--;
+            }
         }
-    }
+        else numberOfBounces--;
 
-    public DamageSource GetDamageSource() {
-        return new PlayerDamageSource(damage, ownerIdentity);
-    }
-
-    private void FixedUpdate() {
-        if (!isServer)
-            return;
-
-        if (lifeSpanTimer <= 0)
+        if (numberOfBounces == 0)
             NetworkServer.Destroy(gameObject);
-        else
-            lifeSpanTimer--;
     }
 }

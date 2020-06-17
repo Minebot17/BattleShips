@@ -1,32 +1,35 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class AbstractGunModule : MonoBehaviour {
+public abstract class AbstractGunModule : AbstractModule {
 
     [SerializeField] int coolDown = 0;
     [SerializeField] float recoilForce = 0;
+    [SerializeField] protected int damage;
 
-    private int timerCoolDown;
-
+    protected BulletInfo bulletInfo;
+    int timerCoolDown;
     Rigidbody2D rigidbody;
-    private Transform forwardPointer;
 
-    private void Start() {
+    protected override void Start() {
+        base.Start();
+        bulletInfo = new BulletInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
+        effects = GetComponents<IModuleEffect>().ToList()
+        };
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
-        forwardPointer = transform.Find("ForwardPointer");
     }
 
     public void TryShoot(Vector2 vec) {
         if (!NetworkManagerCustom.singleton.IsServer || timerCoolDown > 0)
             return;
-        
-        Shoot(vec);
-        if (recoilForce != 0) {
-            rigidbody.AddForce(vec * -recoilForce, ForceMode2D.Impulse);
-            rigidbody.MarkServerChange();
-            Vector2 a = Quaternion.Euler(0, 0, 14) * new Vector2();
-        }
 
-        timerCoolDown = coolDown;
+        if (timerCoolDown <= 0) {
+            Shoot(vec);
+            rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
+            timerCoolDown = (int) (coolDown * effectModule.freezeK);
+        }
     }
 
     public void FixedUpdate() {
@@ -37,5 +40,5 @@ public abstract class AbstractGunModule : MonoBehaviour {
             timerCoolDown--;
     }
 
-    public abstract void Shoot(Vector2 vec);
+    protected abstract void Shoot(Vector2 vec);
 }

@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 
-class SimpleGyrodineEngine : MonoBehaviour, IGyrodineModule
+class SimpleGyrodineEngine : AbstractModule, IGyrodineModule
 {
     [SerializeField]
     private float rotationPower;
-    public float RotationPower { get { return rotationPower; } }
+    public float RotationPower { get { return rotationPower * effectModule.freezeK; } }
     private ShipController shipController;
 
-    private void Start() {
+    protected override void Start() {
+        base.Start();
         shipController = transform.GetComponentInParent<ShipController>();
-        
         if (shipController)
             shipController.gyrodines.Add(this);
     }

@@ -1,16 +1,21 @@
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class CommonGunModule : AbstractGunModule {
+    [SerializeField] float ammoSpeed;
+    [SerializeField] GameObject ammoPrefab;
+    [SerializeField] int bulletCount;
 
-    [SerializeField] private float ammoSpeed;
-    [SerializeField] private GameObject ammoPrefab;
+    protected override void Shoot(Vector2 vec) {
+        for (float i = -(bulletCount - 1) / 2; i <= bulletCount / 2; i++) {
+            Vector2 newVec = Quaternion.Euler(0, 0, i * 10) * vec;
+            GameObject ammo = Instantiate(ammoPrefab);
+            ammo.transform.position = transform.position.ToVector2() + newVec / 2f;
+            ammo.transform.position += new Vector3(0, 0, -0.2f);
+            ammo.GetComponent<AbstractAmmo>().Initialize(bulletInfo, (newVec * ammoSpeed));
 
-    public override void Shoot(Vector2 vec) {
-        GameObject ammo = Instantiate(ammoPrefab);
-        ammo.transform.position = transform.position.ToVector2() + vec / 2f;
-        ammo.transform.position += new Vector3(0, 0, -0.2f);
-        ammo.GetComponent<IAmmo>().Initialize(transform.parent.parent.gameObject, (vec * ammoSpeed));
-        NetworkServer.Spawn(ammo);
+            NetworkServer.Spawn(ammo);
+        }
     }
 }
