@@ -70,7 +70,7 @@ public class ExplosionManager : MonoBehaviour {
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {
                 Rigidbody2D rigidbody = pair.Key.gameObject.GetComponent<Rigidbody2D>();
-                rigidbody.AddForce(pair.Value.normalized * kickForce, ForceMode2D.Impulse);
+                rigidbody.AddForce(pair.Value.normalized * kickForce, ForceMode2D.Impulse); // TODO сделать уменьшение силы при удалении от эпицентра
                 rigidbody.MarkServerChange();
             }
 

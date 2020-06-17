@@ -128,7 +128,7 @@ public static class Utils {
         return Players.GetPlayer(identity.clientAuthorityOwner);
     }
 
-    public static void MarkServerChange(this Rigidbody2D rigidbody) { // TODO не работает со взрывами
+    public static void MarkServerChange(this Rigidbody2D rigidbody) {
         NetworkSyncVelocity syncVelocity = rigidbody.gameObject.GetComponent<NetworkSyncVelocity>();
         if (!syncVelocity) 
             return;

@@ -23,6 +23,7 @@ public abstract class AbstractGunModule : MonoBehaviour {
         if (recoilForce != 0) {
             rigidbody.AddForce(vec * -recoilForce, ForceMode2D.Impulse);
             rigidbody.MarkServerChange();
+            Vector2 a = Quaternion.Euler(0, 0, 14) * new Vector2();
         }
 
         timerCoolDown = coolDown;
