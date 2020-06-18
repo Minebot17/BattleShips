@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 // server only
 public interface IGameMode {
     int GetEnemyPointerColor(Player from, Player to);
-    bool CanDamageModule(ModuleHp hp, BulletInfo source);
+    bool CanDamageModule(ModuleHp hp, DamageInfo source);
     bool IsRoundOver();
     Dictionary<NetworkConnection, int> GetScoreDelta(Dictionary<NetworkConnection, int> kills);
 }

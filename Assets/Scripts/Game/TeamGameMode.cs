@@ -26,7 +26,7 @@ public class TeamGameMode : IGameMode {
         return isAlly ? Color.green.ToHex() : Color.red.ToHex();
     }
 
-    public bool CanDamageModule(ModuleHp hp, BulletInfo source) {
+    public bool CanDamageModule(ModuleHp hp, DamageInfo source) {
         if (!NetworkManagerCustom.singleton.IsServer || !(source.OwnerShip == null))
             return true;
         

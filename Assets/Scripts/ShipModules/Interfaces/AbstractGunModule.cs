@@ -3,20 +3,20 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class AbstractGunModule : AbstractModule {
+public abstract class AbstractGunModule : AbstractModule, IGunModule {
 
-    [SerializeField] int coolDown = 0;
+    [SerializeField] protected float coolDown = 0;
     [SerializeField] float recoilForce = 0;
     [SerializeField] protected int damage;
 
-    protected BulletInfo bulletInfo;
-    int timerCoolDown;
-    Rigidbody2D rigidbody;
+    protected DamageInfo bulletInfo;
+    protected float timerCoolDown;
+    private new Rigidbody2D rigidbody;
 
     protected override void Start() {
         base.Start();
-        bulletInfo = new BulletInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
-        effects = GetComponents<IModuleEffect>().ToList()
+        bulletInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
+            effects = GetComponents<IEffectFabric>().ToList()
         };
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
     }
@@ -25,19 +25,17 @@ public abstract class AbstractGunModule : AbstractModule {
         if (!NetworkManagerCustom.singleton.IsServer || timerCoolDown > 0)
             return;
 
-        if (timerCoolDown <= 0) {
-            Shoot(vec);
-            rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
-            timerCoolDown = (int) (coolDown * effectModule.freezeK);
-        }
+        timerCoolDown = coolDown * effectModule.freezeK;
+        Shoot(vec);
+        rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
     }
 
-    public void FixedUpdate() {
+    public virtual void FixedUpdate() {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
         if (timerCoolDown > 0)
-            timerCoolDown--;
+            timerCoolDown -= Time.fixedDeltaTime; 
     }
 
     protected abstract void Shoot(Vector2 vec);

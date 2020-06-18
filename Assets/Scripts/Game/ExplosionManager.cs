@@ -64,7 +64,7 @@ public class ExplosionManager : MonoBehaviour {
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new BulletInfo((float) Math.Ceiling(damage * (toAdd.magnitude / radius)), identity));
+                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (toAdd.magnitude / radius)), identity));
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {

@@ -6,7 +6,7 @@ public class DeathStandart : MonoBehaviour, IDeath {
 
     bool isDead;
 
-    public void OnDead(BulletInfo bulletInfo) {
+    public void OnDead(DamageInfo bulletInfo) {
         if (IsDead())
             return;
 

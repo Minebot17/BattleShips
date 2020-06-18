@@ -11,7 +11,7 @@ public class TorpedoAmmo : AbstractAmmo {
 
     private Vector2 shootVector;
 
-    public override void Initialize(BulletInfo playerDamageSource, Vector2 shootVector) {
+    public override void Initialize(DamageInfo playerDamageSource, Vector2 shootVector) {
         base.Initialize(playerDamageSource, shootVector);
         this.shootVector = shootVector;
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -19,19 +19,14 @@ public class TorpedoAmmo : AbstractAmmo {
         StartCoroutine(TorpedoMove());
     }
 
-    public override void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnMapTrigger(Collider2D collider)
     {
-        base.OnCollisionEnter2D(collision);
-        if (collision.gameObject.TryGetComponent(out ModuleHp moduleHp))
-        {
-            if (moduleHp.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject
-              && NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, bulletInfo))
-            {       
-                moduleHp.Damage(GetInfo());
-                NetworkServer.Destroy(gameObject);
-            }
-        }
-        else NetworkServer.Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
+    }
+    protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp)
+    {
+        moduleHp.Damage(GetInfo());
+        NetworkServer.Destroy(gameObject);
     }
 
     private IEnumerator TorpedoMove()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Networking;
 
 public interface IDeath {
-    void OnDead(BulletInfo bulletInfo);
+    void OnDead(DamageInfo bulletInfo);
     bool IsDead();
 }

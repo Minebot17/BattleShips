@@ -7,7 +7,7 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
     
-    private AbstractGunModule[] guns = null;
+    private IGunModule[] guns = null;
     private NetworkIdentity identity;
     private ShipController commonController;
     
@@ -20,7 +20,7 @@ public class ShipServerController : NetworkBehaviour {
         if (!isServer)
             return;
         
-        guns = GetComponentsInChildren<AbstractGunModule>();
+        guns = GetComponentsInChildren<IGunModule>();
         initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
         currentModulesCount = initialModulesCount;
         commonController = GetComponent<ShipController>();
@@ -39,7 +39,7 @@ public class ShipServerController : NetworkBehaviour {
         }
     }
 
-    public void OnModuleDeath(BulletInfo bulletInfo, GameObject module) {
+    public void OnModuleDeath(DamageInfo bulletInfo, GameObject module) {
         if (isDead)
             return;
 
