@@ -53,6 +53,8 @@ public class NetworkManagerCustom : NetworkManager {
 			lastConnections = Players.All.Count;
 
 		if (sceneName.Equals("Game")) {
+			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+			
 			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)
 					SpawnClientShip(conn);
@@ -79,11 +81,11 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
 		if (killer != null) {
-			Players.GetPlayer(killer.clientAuthorityOwner).GetState<GameState>().Kills.Value++;
+			Players.GetPlayer(killer.clientAuthorityOwner).GetState<CommonState>().Kills.Value++;
 			new KillShipClientMessage(killer, prey).SendToAllClient();
 		}
 
-		Players.GetPlayer(prey.clientAuthorityOwner).GetState<GameState>().Alive.Value = false;
+		Players.GetPlayer(prey.clientAuthorityOwner).GetState<CommonState>().Alive.Value = false;
 		prey.GetComponent<IDeath>().OnDead(null);
 		if (gameMode.IsRoundOver())
 			Invoke(nameof(RoundOver), 1.9f);
@@ -96,7 +98,7 @@ public class NetworkManagerCustom : NetworkManager {
 
 	public void ScoreboardOver() {
 		bool gameOver = false;
-		foreach (GameState gState in Players.GetStates<GameState>()) {
+		foreach (CommonState gState in Players.GetStates<CommonState>()) {
 			gState.Score.Value += gState.Kills.Value;
 			gState.Kills.Value = 0;
 
@@ -132,7 +134,7 @@ public class NetworkManagerCustom : NetworkManager {
 		shipObject.transform.position = spawnPosition.ToVector3();
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
 
-		GameState gState = Players.GetPlayer(conn).GetState<GameState>();
+		CommonState gState = Players.GetPlayer(conn).GetState<CommonState>();
 		gState.ShipIdentity.Value = shipObject.GetComponent<NetworkIdentity>();
 		gState.Alive.Value = true;
 	}

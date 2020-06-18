@@ -22,7 +22,7 @@ public class Scoreboard : MonoBehaviour {
 
     void Start() {
         singleton = this;
-        IEnumerable<GameState> gStates = Players.GetStates<GameState>();
+        IEnumerable<CommonState> gStates = Players.GetStates<CommonState>();
         if (NetworkManagerCustom.singleton.IsServer) {
             Initialize(
             gStates.Select(d => d.ShipJson.Value).ToList(),

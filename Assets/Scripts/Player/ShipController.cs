@@ -44,7 +44,7 @@ public class ShipController : NetworkBehaviour {
 
         if (lastGunButton != gunButton) {
             if (isServer)
-                Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value = gunButton;
+                Players.GetPlayer(identity.clientAuthorityOwner).GetState<CommonState>().IsShoot.Value = gunButton;
             else
                 CmdSendGunButton(gunButton);
             lastGunButton = gunButton;
@@ -76,7 +76,7 @@ public class ShipController : NetworkBehaviour {
 
     [Command(channel = Channels.DefaultUnreliable)]
     void CmdSendGunButton(bool gunButton) {
-        Players.GetPlayer(identity.clientAuthorityOwner).GetState<GameState>().IsShoot.Value = gunButton;
+        Players.GetPlayer(identity.clientAuthorityOwner).GetState<CommonState>().IsShoot.Value = gunButton;
     }
     
     public override int GetNetworkChannel() {

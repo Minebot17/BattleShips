@@ -14,7 +14,7 @@ public class ScoreboardInfoMessage : GameMessage {
     }
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
-        IEnumerable<GameState> gStates = Players.GetStates<GameState>();
+        IEnumerable<CommonState> gStates = Players.GetStates<CommonState>();
         new ScoreboardInfoMessage(
         gStates.Select(d => d.ShipJson.Value).ToList(),
         gStates.Select(d => d.Score.Value).ToList(),

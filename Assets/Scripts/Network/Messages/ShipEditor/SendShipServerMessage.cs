@@ -9,7 +9,7 @@ public class SendShipServerMessage : GameMessage {
     }
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
-        Players.GetPlayer(conn).GetState<GameState>().ShipJson.Value = reader.ReadString();
+        Players.GetPlayer(conn).GetState<CommonState>().ShipJson.Value = reader.ReadString();
         if (--NetworkManagerCustom.singleton.lastConnections == 0) 
             NetworkManagerCustom.singleton.ServerChangeScene("Game");
     }

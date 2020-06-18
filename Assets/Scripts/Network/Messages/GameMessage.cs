@@ -104,6 +104,10 @@ public abstract class GameMessage {
                 SendWriter(() => conn?.SendWriter(Writer, GetChannel()));
     }
 
+    public void SendToAllClientExceptHost() {
+        SendToAllClient(Players.HostConn);
+    }
+
     public void SendWriter(Action sendFunc)
     {
         try

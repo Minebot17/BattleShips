@@ -2,13 +2,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MapTurret : AbstractModule {
-    [SerializeField] int coolDown;
-    [SerializeField] protected int damage;
-    [SerializeField] float ammoSpeed;
+public class MapTurret : AbstractModuleNetwork {
+    [SyncVar] [SerializeField] int coolDown;
+    [SyncVar] [SerializeField] protected int damage;
+    [SyncVar] [SerializeField] float ammoSpeed;
     [SerializeField] GameObject ammoPrefab;
-    [SerializeField] int bulletCount;
-    [SerializeField] float rotateSpeed;
+    [SyncVar] [SerializeField] int bulletCount;
+    [SyncVar] [SerializeField] float rotateSpeed;
     [SerializeField] Transform forwardPointer;
     
     protected BulletInfo bulletInfo;
@@ -16,6 +16,7 @@ public class MapTurret : AbstractModule {
 
     protected override void Start() {
         base.Start();
+        
         bulletInfo = new BulletInfo(damage, null) {
             effects = GetComponents<IModuleEffect>().ToList()
         };

@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public static class Utils {
+    public const string mapNotSelected = "Not selected";
     public static float sizeOfOne = 0.64f;
     public static System.Random rnd = new System.Random();
     public static LayerMask shipCellsMask = 1 << 8;
@@ -119,7 +120,7 @@ public static class Utils {
     public static void SpawnPointer(Player from, Player to) {
         GameObject enemyPointer = MonoBehaviour.Instantiate(
         NetworkManagerCustom.singleton.enemyPointerPrefab, GameObject.Find("Canvas").transform);
-        enemyPointer.GetComponent<EnemyPointer>().Target = to.GetState<GameState>().ShipIdentity.Value.gameObject;
+        enemyPointer.GetComponent<EnemyPointer>().Target = to.GetState<CommonState>().ShipIdentity.Value.gameObject;
         enemyPointer.GetComponentInChildren<Image>().color = 
             NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(from, to).ToColor();
     }

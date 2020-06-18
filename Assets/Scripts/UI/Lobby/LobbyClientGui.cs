@@ -12,16 +12,18 @@ public class LobbyClientGui : MonoBehaviour {
 	protected string nick;
 	protected bool validNick = true;
 
-	protected GameState gState;
+	protected CommonState cState;
 	protected LobbyState lState;
+	protected GlobalState global;
 
 	protected virtual void Start() {
-		gState = Players.GetClient().GetState<GameState>();
+		cState = Players.GetClient().GetState<CommonState>();
 		lState = Players.GetClient().GetState<LobbyState>();
+		global = Players.GetGlobal();
 
-		gState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? ("Player " + gState.GetParent().Id) : GameSettings.SettingNick.Value;
-		nick = gState.Nick.Value;
-		gState.Nick.onChangeValueEvent.SubcribeEvent(e => {
+		cState.Nick.Value = GameSettings.SettingNick.Value.Equals("ip") ? ("Player " + cState.GetParent().Id) : GameSettings.SettingNick.Value;
+		nick = cState.Nick.Value;
+		cState.Nick.onChangeValueEvent.SubcribeEvent(e => {
 			if (!nickTemplate.IsMatch(e.NewValue)) {
 				validNick = false;
 				e.IsCancel = true;
@@ -40,13 +42,14 @@ public class LobbyClientGui : MonoBehaviour {
 		
 		GUILayout.Space(20);
 		GUILayout.Label("Вы в лобби у " + NetworkManager.singleton.client.serverIp);
+		GUILayout.Label("Выбранная карта: " + global.CurrentMapName.Value);
 		
 		GUILayout.Space(10);
 		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
 
 		if (GUILayout.Button("OK"))
-			gState.Nick.Value = nick;
+			cState.Nick.Value = nick;
 
 		RenderInChild();
 
@@ -58,7 +61,7 @@ public class LobbyClientGui : MonoBehaviour {
 	protected virtual void RenderInChild() {
 		GUILayout.Space(10);
 		GUILayout.Label("Игроки:");
-		foreach (GameState state in Players.GetStates<GameState>())
+		foreach (CommonState state in Players.GetStates<CommonState>())
 			GUILayout.Label(state.Nick.Value + " (" + (state.GetParent().GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")");
 	}
 }

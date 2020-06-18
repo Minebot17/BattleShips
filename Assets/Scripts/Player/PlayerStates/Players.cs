@@ -44,6 +44,12 @@ public static class Players {
     /// </summary>
     public static int ClientId { set; get; }
 
+    /// <summary>
+    /// Id игрока хоста
+    /// </summary>
+    public static int HostId { set; get; }
+    public static NetworkConnection HostConn { set; get; }
+
     public static IEnumerable<int> Ids => playerFromId.Keys;
     public static IEnumerable<NetworkConnection> Conns => playerFromConn.Keys;
 
@@ -59,6 +65,11 @@ public static class Players {
             return playerFromConn[conn];
         
         Player player = new Player(conn, Utils.rnd.Next());
+        if (players.Count == 0) {
+            HostId = player.Id;
+            HostConn = conn;
+        }
+
         players.Add(player);
         playerFromId.Add(player.Id, player);
         playerFromConn.Add(conn, player);
@@ -118,6 +129,13 @@ public static class Players {
     /// </summary>
     public static Player GetClient() {
         return playerFromId[ClientId];
+    }
+
+    /// <summary>
+    /// Возвращает глобальное состояние
+    /// </summary>
+    public static GlobalState GetGlobal() {
+        return playerFromId[HostId].GetState<GlobalState>();
     }
 
     /// <summary>

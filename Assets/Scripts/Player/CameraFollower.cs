@@ -7,10 +7,10 @@ public class CameraFollower : MonoBehaviour {
 	public EventHandler<ChangeTargetEvent> changeTargetEvent = new EventHandler<ChangeTargetEvent>();
 	[SerializeField] Transform target;
 	[SerializeField] Camera camera;
-	[SerializeField] BoxCollider2D leftBorder;
-	[SerializeField] BoxCollider2D rightBorder;
-	[SerializeField] BoxCollider2D topBorder;
-	[SerializeField] BoxCollider2D bottomBorder;
+	public BoxCollider2D leftBorder;
+	public BoxCollider2D rightBorder;
+	public BoxCollider2D topBorder;
+	public BoxCollider2D bottomBorder;
 
 	[SerializeField] float speed;
 
@@ -27,7 +27,7 @@ public class CameraFollower : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		if (!target)
+		if (!target || !leftBorder)
 			return;
 		
 		Vector2 newPosition = Vector2.Lerp(transform.position, target.position, speed * Time.deltaTime);

@@ -1,4 +1,4 @@
-public class GameState : PlayerState {
+public class CommonState : PlayerState {
 
     public NetworkIdentityStateValue ShipIdentity;
     public IntStateValue Score;
@@ -8,7 +8,7 @@ public class GameState : PlayerState {
     public BoolStateValue Alive;
     public BoolStateValue IsShoot;
 
-    public GameState(Player parent, bool isTest) : base(parent, isTest) {
+    public CommonState(Player parent, bool isTest) : base(parent, isTest) {
         ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, true);
         Score = new IntStateValue(this, "Score", 0, true);
         Kills = new IntStateValue(this, "Kills", 0, true);

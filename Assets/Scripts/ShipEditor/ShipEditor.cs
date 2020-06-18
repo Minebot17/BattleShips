@@ -33,7 +33,7 @@ public class ShipEditor : MonoBehaviour {
         modules = Resources.LoadAll<EditorModule>("EditorModules/");
         scrollAdapter.SetModules(modules);
 
-        OpenShip(Players.GetClient().GetState<GameState>().ShipJson.Value);
+        OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
     }
 
     public void SetTimer(int seconds) {

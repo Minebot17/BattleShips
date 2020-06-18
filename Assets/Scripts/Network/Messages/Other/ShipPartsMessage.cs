@@ -17,7 +17,7 @@ public class ShipPartsMessage : GameMessage {
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
         NetworkIdentity id = reader.ReadNetworkIdentity();
         Player player = Players.GetPlayer(id.clientAuthorityOwner);
-        new ShipPartsMessage(id, player.GetState<GameState>().ShipJson.Value, player.Id).SendToClient(conn);
+        new ShipPartsMessage(id, player.GetState<CommonState>().ShipJson.Value, player.Id).SendToClient(conn);
     }
     
     public override void OnClient(NetworkReader reader) {
@@ -31,7 +31,7 @@ public class ShipPartsMessage : GameMessage {
             controller.OnInitializePartsOnClient();
 
         Player player = Players.GetPlayer(id);
-        player.GetState<GameState>().ShipIdentity.Value = shipObject;
+        player.GetState<CommonState>().ShipIdentity.Value = shipObject;
         if (Players.ClientId != id)
             Utils.SpawnPointer(Players.GetClient(), player);
 

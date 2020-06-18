@@ -68,7 +68,9 @@
      <Compile Include="Assets\Scripts\Game\ExplosionManager.cs" />
      <Compile Include="Assets\Scripts\Game\FFAGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\IGameMode.cs" />
+     <Compile Include="Assets\Scripts\Game\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapElementDeath.cs" />
+     <Compile Include="Assets\Scripts\Game\Map\MapElementPacker.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapTurret.cs" />
      <Compile Include="Assets\Scripts\Game\TeamGameMode.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
@@ -84,6 +86,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\StringListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\GameMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateExplosionClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateMapClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyModuleClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
@@ -119,7 +122,8 @@
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\NetworkIdentityStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StringStateValue.cs" />
-     <Compile Include="Assets\Scripts\Player\PlayerStates\States\GameState.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\States\CommonState.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\States\GlobalState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\LobbyState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\TeamState.cs" />
@@ -137,6 +141,7 @@
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\AbstractAmmo.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\AbstractGunModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\AbstractModule.cs" />
+     <Compile Include="Assets\Scripts\ShipModules\Interfaces\AbstractModuleNetwork.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IDeath.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IEngineModule.cs" />
      <Compile Include="Assets\Scripts\ShipModules\Interfaces\IGyrodineModule.cs" />
@@ -152,14 +157,14 @@
      <Compile Include="Assets\Scripts\UI\EnemyPointer.cs" />
      <Compile Include="Assets\Scripts\UI\HoldButton.cs" />
      <Compile Include="Assets\Scripts\UI\HpBar.cs" />
+     <Compile Include="Assets\Scripts\UI\Lobby\LobbyClientGui.cs" />
+     <Compile Include="Assets\Scripts\UI\Lobby\LobbyClientTeamGui.cs" />
+     <Compile Include="Assets\Scripts\UI\Lobby\LobbyServerGui.cs" />
+     <Compile Include="Assets\Scripts\UI\Lobby\LobbyServerTeamGui.cs" />
      <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGui.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\UI\SuicideButton.cs" />
-     <Compile Include="Assets\Scripts\UI\lobby\LobbyClientGui.cs" />
-     <Compile Include="Assets\Scripts\UI\lobby\LobbyClientTeamGui.cs" />
-     <Compile Include="Assets\Scripts\UI\lobby\LobbyServerGui.cs" />
-     <Compile Include="Assets\Scripts\UI\lobby\LobbyServerTeamGui.cs" />
      <Compile Include="Assets\Scripts\Utils\BulletInfo.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventBase.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventHandler.cs" />

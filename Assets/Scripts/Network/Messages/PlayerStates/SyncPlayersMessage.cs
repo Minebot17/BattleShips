@@ -7,9 +7,10 @@ public class SyncPlayersMessage : GameMessage {
 
     public SyncPlayersMessage() { }
 
-    public SyncPlayersMessage(List<int> players, int clientId, List<string> startArguments) {
+    public SyncPlayersMessage(List<int> players, int clientId, int hostId, List<string> startArguments) {
         Writer.Write(new IntegerListMessage(players));
         Writer.Write(clientId);
+        Writer.Write(hostId);
         Writer.Write(new StringListMessage(startArguments));
     }
 
@@ -18,6 +19,7 @@ public class SyncPlayersMessage : GameMessage {
         new SyncPlayersMessage(
             Players.All.Select(s => s.Id).ToList(), 
             Players.GetPlayer(conn).Id,
+            Players.HostId,
             NetworkManagerCustom.singleton.StartArguments
         ).SendToClient(conn);
     }
@@ -25,6 +27,7 @@ public class SyncPlayersMessage : GameMessage {
     public override void OnClient(NetworkReader reader) {
         List<int> ids = reader.ReadMessage<IntegerListMessage>().Value;
         int clientId = reader.ReadInt32();
+        Players.HostId = reader.ReadInt32();
         Players.ClientId = clientId;
         ids.ForEach(id => Players.AddPlayer(id));
         

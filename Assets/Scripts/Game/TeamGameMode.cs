@@ -53,6 +53,6 @@ public class TeamGameMode : IGameMode {
 
     List<int> getAliveInTeams() {
         return teams.Select(command => 
-            command.Count(conn => Players.GetPlayer(conn).GetState<GameState>().Alive.Value)).ToList();
+            command.Count(conn => Players.GetPlayer(conn).GetState<CommonState>().Alive.Value)).ToList();
     }
 }

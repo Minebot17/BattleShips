@@ -8,6 +8,14 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class LobbyServerGui : LobbyClientGui {
 
+	string[] maps;
+	
+	protected virtual void Start() {
+		base.Start();
+		GameObject[] goMaps = Resources.LoadAll<GameObject>("Maps/");
+		maps = goMaps.Select(go => go.name).ToArray();
+	}
+
 	protected override void OnGUI() {
 		if (NetworkManagerCustom.singleton.GameInProgress)
 			return;
@@ -27,14 +35,20 @@ public class LobbyServerGui : LobbyClientGui {
 		GUILayout.Space(20);
 		GUILayout.Label("Вы в лобби. Подключено " + connectionsCount + " игроков");
 		GUILayout.Label("Готовы " + readyCount + " из " + connectionsCount);
-		
+		GUILayout.Label("Выбранная карта: " + global.CurrentMapName.Value);
+		GUILayout.Label("Доступные карты:");
+		foreach (string map in maps) {
+			if (GUILayout.Button(map))
+				global.CurrentMapName.Value = map;
+		}
+
 		GUILayout.Space(10);
 		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
 
 		if (GUILayout.Button("OK"))
-			gState.Nick.Value = nick;
-
+			cState.Nick.Value = nick;
+		
 		GUILayout.Space(10);
 		GUILayout.Label("Кол-во очков до победы");
 		NetworkManagerCustom.singleton.scoreForWin = int.Parse(GUILayout.TextField(NetworkManagerCustom.singleton.scoreForWin+""));
@@ -54,13 +68,6 @@ public class LobbyServerGui : LobbyClientGui {
 		}
 		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
 			GUILayout.Label("Загрузка...");
-	}
-	
-	protected override void RenderInChild() {
-		GUILayout.Space(10);
-		GUILayout.Label("Игроки:");
-		foreach (GameState state in Players.GetStates<GameState>())
-			GUILayout.Label(state.Nick.Value + " (" + (state.GetParent().GetState<LobbyState>().Ready.Value ? "Готов" : "Не готов") + ")");
 	}
 
 	protected virtual void OnStartGame() {
