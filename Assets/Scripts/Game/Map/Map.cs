@@ -70,8 +70,9 @@ public class Map : MonoBehaviour {
             
             GameObject element = Instantiate(mapElements[child.name]);
             element.transform.position = child.transform.localPosition;
+            element.transform.localEulerAngles = child.transform.localEulerAngles;
             NetworkServer.Spawn(element);
         }
-        new CreateMapClientMessage().SendToAllClientExceptHost();
+        new CreateMapClientMessage(mapName, map.size).SendToAllClientExceptHost();
     }
 }

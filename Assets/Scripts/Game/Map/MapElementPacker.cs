@@ -8,7 +8,7 @@ public class MapElementPacker : MonoBehaviour {
     }
 
     IEnumerator WaitMapSpawn() {
-        if (!Map.singleton)
+        if (!Map.singleton || Map.singleton == null)
             yield return new WaitForSeconds(0.1f);
 
         transform.parent = Map.singleton.gameObject.transform;

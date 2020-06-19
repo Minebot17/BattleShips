@@ -55,6 +55,8 @@ public class ExplosionManager : MonoBehaviour {
             Dictionary<NetworkIdentity, Vector2> kickVectors = new Dictionary<NetworkIdentity, Vector2>();
             foreach (Collider2D col in colliders) {
                 NetworkIdentity parent = col.gameObject.transform.parent.gameObject.GetComponent<NetworkIdentity>();
+                if (!parent)
+                    continue;
 
                 if (parent && !kickVectors.ContainsKey(parent) && parent.gameObject.tag.Equals("Player"))
                     kickVectors[parent] = new Vector2();
