@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class CommonGunModule : AbstractGunModule {
+public class SimpleGunModule : AbstractGunModule {
     [SerializeField] float ammoSpeed;
     [SerializeField] GameObject ammoPrefab;
     [SerializeField] int bulletCount;

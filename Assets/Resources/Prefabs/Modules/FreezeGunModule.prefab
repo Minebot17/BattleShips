@@ -21,6 +21,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -115750464473500727, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: coolDown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 371312427416351069, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: m_Color.r

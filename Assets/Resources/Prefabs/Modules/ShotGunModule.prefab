@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 2834446011575045580, guid: 594f24af3f36ae446a3f2621411ee433,
         type: 3}
       propertyPath: coolDown
-      value: 30
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7477251468432792715, guid: 594f24af3f36ae446a3f2621411ee433,
         type: 3}

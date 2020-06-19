@@ -133,8 +133,8 @@
     <Compile Include="Assets\Scripts\ShipEditor\ShipEditor.cs" />
     <Compile Include="Assets\Scripts\ShipEditor\ShipModule.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Ammo\GrenadeAmmo.cs" />
+    <Compile Include="Assets\Scripts\ShipModules\Ammo\LauncherAmmo.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Ammo\MineAmmo.cs" />
-    <Compile Include="Assets\Scripts\ShipModules\Ammo\RailGunAmmo.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Ammo\StandartAmmo.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Ammo\TorpedoAmmo.cs" />
     <Compile Include="Assets\Scripts\ShipModules\DeathStandart.cs" />
@@ -144,9 +144,10 @@
     <Compile Include="Assets\Scripts\ShipModules\Effects\FireEffect.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Effects\FreezeEffect.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Effects\IEffect.cs" />
-    <Compile Include="Assets\Scripts\ShipModules\Guns\CommonGunModule.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Guns\Flamethrower.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Guns\MinigunModule.cs" />
+    <Compile Include="Assets\Scripts\ShipModules\Guns\RailgunModule.cs" />
+    <Compile Include="Assets\Scripts\ShipModules\Guns\SimpleGunModule.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Guns\SimpleSpikes.cs" />
     <Compile Include="Assets\Scripts\ShipModules\IEffectFabric.cs" />
     <Compile Include="Assets\Scripts\ShipModules\Interfaces\AbstractAmmo.cs" />
