@@ -20,13 +20,13 @@ public class GrenadeAmmo : AbstractAmmo {
 
     protected override void OnMapTrigger(Collider2D collider)
     {
-        new ExplosionManager.Explosion(0, bulletInfo.Damage, 1, 1.5f, 5).Explode(transform.position, bulletInfo.OwnerShip);
+        new ExplosionManager.Explosion(0, damageInfo.Damage, 1, 1.5f, 5).Explode(transform.position, damageInfo.OwnerShip);
         NetworkServer.Destroy(gameObject);
     }
 
     protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp)
     {
-        new ExplosionManager.Explosion(0, bulletInfo.Damage, 1, 1.5f, 5).Explode(transform.position, bulletInfo.OwnerShip);
+        new ExplosionManager.Explosion(0, damageInfo.Damage, 1, 1.5f, 5).Explode(transform.position, damageInfo.OwnerShip);
         NetworkServer.Destroy(gameObject);
     }
 

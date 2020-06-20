@@ -9,20 +9,20 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     [SerializeField] float recoilForce = 0;
     [SerializeField] protected int damage;
 
-    protected DamageInfo bulletInfo;
+    protected DamageInfo damageInfo;
     protected float timerCoolDown;
     private new Rigidbody2D rigidbody;
 
     protected override void Start() {
         base.Start();
-        bulletInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
+        damageInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
             effects = GetComponents<IEffectFabric>().ToList()
         };
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
     }
 
     public void TryShoot(Vector2 vec) {
-        if (!NetworkManagerCustom.singleton.IsServer || timerCoolDown > 0)
+        if (timerCoolDown > 0)
             return;
 
         timerCoolDown = coolDown * effectModule.freezeK;

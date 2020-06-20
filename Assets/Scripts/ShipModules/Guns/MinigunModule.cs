@@ -25,7 +25,7 @@ class MinigunModule : AbstractGunModule
         GameObject ammo = Instantiate(ammoPrefab);
         ammo.transform.position = transform.position.ToVector2() + vec / 2f;
         ammo.transform.position += new Vector3(0, 0, -0.2f);
-        ammo.GetComponent<AbstractAmmo>().Initialize(bulletInfo, (vec * ammoSpeed));
+        ammo.GetComponent<AbstractAmmo>().Initialize(damageInfo, (vec * ammoSpeed));
 
         NetworkServer.Spawn(ammo);
         

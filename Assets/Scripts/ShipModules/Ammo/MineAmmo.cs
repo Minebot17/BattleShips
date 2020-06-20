@@ -29,7 +29,7 @@ public class MineAmmo : AbstractAmmo {
     {
         if (ready)
         {
-            new ExplosionManager.Explosion(0, bulletInfo.Damage, 1, 1.5f, 5).Explode(transform.position, bulletInfo.OwnerShip);
+            new ExplosionManager.Explosion(0, damageInfo.Damage, 1, 1.5f, 5).Explode(transform.position, damageInfo.OwnerShip);
             NetworkServer.Destroy(gameObject);
         }
     }
@@ -37,7 +37,7 @@ public class MineAmmo : AbstractAmmo {
     {
         if (ready)
         {
-            new ExplosionManager.Explosion(0, bulletInfo.Damage, 1, 1.5f, 5).Explode(transform.position, bulletInfo.OwnerShip);
+            new ExplosionManager.Explosion(0, damageInfo.Damage, 1, 1.5f, 5).Explode(transform.position, damageInfo.OwnerShip);
             NetworkServer.Destroy(gameObject);
         }
     }

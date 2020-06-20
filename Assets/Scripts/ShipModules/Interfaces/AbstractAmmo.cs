@@ -7,7 +7,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
     [SerializeField]
     protected int lifeSpan;
 
-    protected DamageInfo bulletInfo;
+    protected DamageInfo damageInfo;
 
     protected int lifeSpanTimer = 999999;
 
@@ -15,13 +15,13 @@ public abstract class AbstractAmmo : NetworkBehaviour
 
     virtual public void Initialize(DamageInfo bulletInfo, Vector2 shootVector)
     {
-        this.bulletInfo = bulletInfo;
+        this.damageInfo = bulletInfo;
         lifeSpanTimer = lifeSpan;
     }
 
     public DamageInfo GetInfo()
     {
-        return bulletInfo;
+        return damageInfo;
     }
 
     private void FixedUpdate()
@@ -39,14 +39,14 @@ public abstract class AbstractAmmo : NetworkBehaviour
     {
         if (!isServer)
             return;
-
+        
         if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
         {
-            if (moduleHp.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
-                if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, bulletInfo))
+            if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
+                if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo))
                 {
                     if (collider.gameObject.TryGetComponent(out EffectModule effectModule))
-                        effectModule.AddEffects(bulletInfo.effects.Select(e => e.Create()));
+                        effectModule.AddEffects(damageInfo.effects.Select(e => e.Create()));
 
                     OnEnemyTrigger(collider, moduleHp);
                 }

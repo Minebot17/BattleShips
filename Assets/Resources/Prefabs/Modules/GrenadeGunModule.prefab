@@ -43,6 +43,12 @@ PrefabInstance:
       propertyPath: bulletCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5566212116025243134, guid: 1aba31ee442e62f498455c6c7fdef111,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f3b16da3f50654c449b1d3186d0711fa,
+        type: 3}
     - target: {fileID: 8569706238718649901, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}
       propertyPath: m_LocalPosition.x

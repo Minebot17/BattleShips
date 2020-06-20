@@ -206,8 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836f37bd488f7d141b8105074069748d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSpan: 250
-  redirectRate: 2
+  lifeSpan: 500
+  redirectRate: 0.1
 --- !u!70 &5308901175325790362
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
