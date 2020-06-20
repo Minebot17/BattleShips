@@ -8,7 +8,7 @@ public class FFAGameMode : IGameMode {
         return Color.red.ToHex();
     }
 
-    public bool CanDamageModule(ModuleHp hp, BulletInfo source) {
+    public bool CanDamageModule(ModuleHp hp, DamageInfo source) {
         return true;
     }
 

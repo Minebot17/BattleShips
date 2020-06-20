@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public interface IMelee
+public interface IMeleeModule
 {
-    void OnCollideWithBlock(GameObject block);
+    void OnTriggerEnter2D(Collider2D block);
 }
 

@@ -6,10 +6,11 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
-    AbstractGunModule[] guns = null;
+
+    IGunModule[] guns = null;
     NetworkIdentity identity;
     ShipController commonController;
-
+    
     int initialModulesCount;
     int currentModulesCount;
     bool isDead = false;
@@ -19,7 +20,7 @@ public class ShipServerController : NetworkBehaviour {
         if (!isServer)
             return;
         
-        guns = GetComponentsInChildren<AbstractGunModule>();
+        guns = GetComponentsInChildren<IGunModule>();
         initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
         currentModulesCount = initialModulesCount;
         commonController = GetComponent<ShipController>();
@@ -38,12 +39,12 @@ public class ShipServerController : NetworkBehaviour {
         }
     }
 
-    public void OnModuleDeath(BulletInfo bulletInfo, GameObject module) {
+    public void OnModuleDeath(DamageInfo damageInfo, GameObject module) {
         if (isDead)
             return;
 
         currentModulesCount--;
-        NetworkIdentity killerIdentity = bulletInfo.OwnerShip;
+        NetworkIdentity killerIdentity = damageInfo.OwnerShip;
         if (module.name.Equals("AICoreModule") ||
             currentModulesCount * (100/NetworkManagerCustom.percentToDeath) <= initialModulesCount ||
             (guns.Count(g => (UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<AbstractGunModule>())) {

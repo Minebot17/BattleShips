@@ -25,7 +25,7 @@ public class MapSpike : NetworkBehaviour {
 
             ModuleHp hp = other.gameObject.transform.GetChild(0).gameObject.GetComponent<ModuleHp>();
             if (hp) {
-                hp.Damage(new BulletInfo(damage, null));
+                hp.Damage(new DamageInfo(damage, null));
             }
         }
     }

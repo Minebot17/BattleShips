@@ -6,15 +6,15 @@ public class ModuleDeath : MonoBehaviour, IDeath {
 
     bool isDead;
 
-    public void OnDead(BulletInfo bulletInfo) {
+    public void OnDead(DamageInfo damageInfo) {
         if (IsDead())
             return;
 
         isDead = true;
-        ExplosionManager.moduleSmallExplosion.Explode(transform.position.ToVector2(), bulletInfo.OwnerShip);
+        ExplosionManager.moduleSmallExplosion.Explode(transform.position.ToVector2(), damageInfo.OwnerShip);
         Destroy(transform.parent.GetComponent<BoxCollider2D>());
         Destroy(gameObject);
-        transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(bulletInfo, gameObject);
+        transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(damageInfo, gameObject);
     }
 
     public bool IsDead() {

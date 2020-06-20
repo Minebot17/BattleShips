@@ -7,34 +7,24 @@ public abstract class AbstractAmmo : NetworkBehaviour
     [SerializeField]
     protected int lifeSpan;
 
-    protected BulletInfo bulletInfo;
+    protected DamageInfo damageInfo;
 
     protected int lifeSpanTimer = 999999;
 
-    virtual public void Initialize(BulletInfo bulletInfo, Vector2 shootVector)
+    protected new Rigidbody2D rigidbody2D;
+
+    virtual public void Initialize(DamageInfo damageInfo, Vector2 shootVector)
     {
-        this.bulletInfo = bulletInfo;
+        this.damageInfo = damageInfo;
         lifeSpanTimer = lifeSpan;
     }
 
-    public BulletInfo GetInfo()
+    public DamageInfo GetInfo()
     {
-        return bulletInfo;
+        return damageInfo;
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!isServer)
-            return;
-
-        if (collision.gameObject.TryGetComponent(out EffectModule effectModule) 
-            && effectModule.transform.parent.parent.gameObject != bulletInfo.OwnerShip.gameObject)
-        {
-                effectModule.AddEffects(bulletInfo.effects.Select(e => e.Create()));
-        }
-    }
-
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!isServer)
             return;
@@ -44,4 +34,31 @@ public abstract class AbstractAmmo : NetworkBehaviour
         else
             lifeSpanTimer--;
     }
+    
+    protected virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (!isServer)
+            return;
+
+        if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
+        {
+            if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
+                if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo))
+                {
+                    if (collider.gameObject.TryGetComponent(out EffectModule effectModule))
+                        effectModule.AddEffects(damageInfo.effects.Select(e => e.Create()));
+
+                    OnEnemyTrigger(collider, moduleHp);
+                }
+                else
+                    OnFriendTrigger(collider, moduleHp);
+        }     
+        else
+            OnMapTrigger(collider);
+    }
+
+    protected virtual void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp) { }
+    protected virtual void OnFriendTrigger(Collider2D collider, ModuleHp moduleHp) { }
+    protected virtual void OnMapTrigger(Collider2D collider) { }
+
 }

@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class FreezeModule : MonoBehaviour, IModuleEffect
+public class FreezeModule : MonoBehaviour, IEffectFabric
 {
     [SerializeField] float freezeK = 1;
     [SerializeField] float duration;
     
-    public FreezeEffect Create()
+    public IEffect Create()
     {
         return new FreezeEffect(freezeK, duration);
     }

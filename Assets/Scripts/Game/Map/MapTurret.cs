@@ -11,14 +11,14 @@ public class MapTurret : AbstractModuleNetwork {
     [SyncVar] [SerializeField] float rotateSpeed;
     [SerializeField] Transform forwardPointer;
     
-    protected BulletInfo bulletInfo;
+    protected DamageInfo damageInfo;
     int timerCoolDown;
 
     protected override void Start() {
         base.Start();
         
-        bulletInfo = new BulletInfo(damage, null) {
-            effects = GetComponents<IModuleEffect>().ToList()
+        damageInfo = new DamageInfo(damage, null) {
+            effects = GetComponents<IEffectFabric>().ToList()
         };
     }
 
@@ -37,7 +37,7 @@ public class MapTurret : AbstractModuleNetwork {
                 GameObject ammo = Instantiate(ammoPrefab);
                 ammo.transform.position = transform.position.ToVector2() + newVec / 2f;
                 ammo.transform.position += new Vector3(0, 0, -0.2f);
-                ammo.GetComponent<AbstractAmmo>().Initialize(bulletInfo, newVec * ammoSpeed);
+                ammo.GetComponent<AbstractAmmo>().Initialize(damageInfo, newVec * ammoSpeed);
                 NetworkServer.Spawn(ammo);
             }
             timerCoolDown = (int) (coolDown * effectModule.freezeK);

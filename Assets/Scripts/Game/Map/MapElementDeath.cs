@@ -7,7 +7,7 @@ public class MapElementDeath : MonoBehaviour, IDeath {
     bool destroyParent;
     bool isDead;
 
-    public void OnDead(BulletInfo bulletInfo) {
+    public void OnDead(DamageInfo damageInfo) {
         if (IsDead())
             return;
 

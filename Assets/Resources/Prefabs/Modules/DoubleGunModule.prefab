@@ -73,6 +73,11 @@ PrefabInstance:
       propertyPath: bulletCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4818603585402676349, guid: 243806742e3628347bb480a94cdf93cb,
+        type: 3}
+      propertyPath: coolDown
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8724980977707882533, guid: 243806742e3628347bb480a94cdf93cb,
         type: 3}
       propertyPath: m_Name

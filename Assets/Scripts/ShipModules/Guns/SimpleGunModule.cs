@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class CommonGunModule : AbstractGunModule {
+public class SimpleGunModule : AbstractGunModule {
     [SerializeField] float ammoSpeed;
     [SerializeField] GameObject ammoPrefab;
     [SerializeField] int bulletCount;
@@ -13,7 +13,7 @@ public class CommonGunModule : AbstractGunModule {
             GameObject ammo = Instantiate(ammoPrefab);
             ammo.transform.position = transform.position.ToVector2() + newVec / 2f;
             ammo.transform.position += new Vector3(0, 0, -0.2f);
-            ammo.GetComponent<AbstractAmmo>().Initialize(bulletInfo, (newVec * ammoSpeed));
+            ammo.GetComponent<AbstractAmmo>().Initialize(damageInfo, (newVec * ammoSpeed));
 
             NetworkServer.Spawn(ammo);
         }
