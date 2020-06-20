@@ -46,6 +46,12 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 371312427416351069, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3df78ac4abdcfb5468aa8a86394c652f,
+        type: 3}
     - target: {fileID: 4536730840620081806, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -105,6 +111,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FreezeGunModule
+      objectReference: {fileID: 0}
+    - target: {fileID: 8735949007591709286, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8735949007591709286, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39437903cdb5c214582ebaae9e418334, type: 3}

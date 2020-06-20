@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,6 +16,7 @@ class Flamethrower : AbstractModule, IGunModule
     private new ParticleSystem particleSystem;
     private float timerFiring = 0;
     private Collider2D fireCollider;
+    private bool isFiring;
     protected override void Start()
     {
         base.Start();
@@ -33,10 +35,8 @@ class Flamethrower : AbstractModule, IGunModule
    
     public void TryShoot(Vector2 vec)
     {
-        if (!NetworkManagerCustom.singleton.IsServer)
-            return;
-
         timerFiring = damageSpeed;
+
         rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
     }
 
@@ -45,23 +45,33 @@ class Flamethrower : AbstractModule, IGunModule
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
-        if (timerFiring > 0)
+        if (timerFiring > 0 && !isFiring)
         {
+            isFiring = true;
             particleSystem.Play();
+            new FlamethrowerClientMessage(damageInfo.OwnerShip, transform.parent.parent == null ? -1 : transform.parent.GetSiblingIndex(), true).SendToAllClient();        
         }
-        else particleSystem.Stop();
-
+        else if(timerFiring < 0 && isFiring)
+        {
+            particleSystem.Stop();
+            new FlamethrowerClientMessage(damageInfo.OwnerShip, transform.parent.parent == null ? -1 : transform.parent.GetSiblingIndex(), false).SendToAllClient();
+            isFiring = false;
+        }
         timerFiring -= Time.fixedDeltaTime;
     }
 
     private IEnumerator Fire()
-    {     
+    {
+        ContactFilter2D filter = new ContactFilter2D()
+        {
+            useTriggers = true
+        };
         while (true)
         {
-            if (timerFiring > 0)
+            if (timerFiring > 0 && isFiring)
             {
-                Collider2D[] colliders = { };
-                fireCollider.OverlapCollider(new ContactFilter2D(), colliders);
+                List<Collider2D> colliders = new List<Collider2D>();
+                fireCollider.OverlapCollider(filter, colliders);
                 foreach(Collider2D collider in colliders)
                 {
                     if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))

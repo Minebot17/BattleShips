@@ -5,9 +5,9 @@ public class DestroyModuleClientMessage : GameMessage {
 
     public DestroyModuleClientMessage() { }
 
-    public DestroyModuleClientMessage(NetworkIdentity identity, string cellName) {
+    public DestroyModuleClientMessage(NetworkIdentity identity, int childIndex) {
         Writer.Write(identity);
-        Writer.Write(cellName);
+        Writer.Write(childIndex);
     }
     
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
@@ -16,8 +16,6 @@ public class DestroyModuleClientMessage : GameMessage {
     
     public override void OnClient(NetworkReader reader) {
         NetworkIdentity identity = reader.ReadNetworkIdentity();
-        string cellName = reader.ReadString();
-        Transform cellTransform = identity.transform.Find(cellName);
-        identity.gameObject.GetComponent<ShipController>().OnModuleDeath(cellTransform);
+        identity.gameObject.GetComponent<ShipController>().OnModuleDeath(identity.transform.GetChild(reader.ReadInt32()));
     }
 }

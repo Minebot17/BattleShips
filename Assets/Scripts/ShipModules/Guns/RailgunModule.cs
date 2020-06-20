@@ -17,12 +17,14 @@ class RailgunModule : AbstractGunModule, IGunModule
     protected override void Shoot(Vector2 vec)
     {
         List<RaycastHit2D> hits = Physics2D.RaycastAll(transform.position, vec, 100).ToList();
-        hits.ToList().RemoveAll(h => h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
-            && moduleHp.transform.parent.parent.gameObject == damageInfo.OwnerShip.gameObject);
+        hits.RemoveAll(h => h.collider.transform.parent == null 
+                            || h.collider.transform.parent.gameObject == damageInfo.OwnerShip.gameObject 
+                            || (h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
+                                && moduleHp.transform.parent.parent.gameObject == damageInfo.OwnerShip.gameObject));
         
         if (blocksThrough != 0)
             hits = hits.Take(blocksThrough).ToList();
-
+        
         hits.ForEach(h =>
         {
             if (h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
@@ -33,11 +35,11 @@ class RailgunModule : AbstractGunModule, IGunModule
                 moduleHp.Damage(damageInfo);
             }
         });
+        new RailgunClientMessage(damageInfo.OwnerShip, transform.parent.parent == null ? -1 : transform.parent.GetSiblingIndex(), hits.Last().point).SendToAllClient();
         StartCoroutine(RenderLine(hits.Last().point));
-
     }
 
-    private IEnumerator RenderLine(Vector3 lastHit)
+    public IEnumerator RenderLine(Vector3 lastHit)
     {
         lineRenderer.positionCount = 2;
         lineRenderer.SetPositions(new [] { transform.position, lastHit});

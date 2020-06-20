@@ -89,7 +89,9 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateExplosionClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateMapClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyModuleClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\FlamethrowerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\RailgunClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\AddTeamPlayerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamCountClientMessage.cs" />

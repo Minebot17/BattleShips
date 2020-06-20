@@ -39,7 +39,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
     {
         if (!isServer)
             return;
-
+        
         if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
         {
             if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)

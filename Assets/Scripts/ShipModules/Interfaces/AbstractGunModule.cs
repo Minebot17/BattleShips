@@ -24,7 +24,7 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     }
 
     public void TryShoot(Vector2 vec) {
-        if (!NetworkManagerCustom.singleton.IsServer || timerCoolDown > 0)
+        if (timerCoolDown > 0)
             return;
 
         timerCoolDown = coolDown * effectModule.freezeK;

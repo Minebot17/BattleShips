@@ -80,7 +80,7 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
-		if (killer != null) {
+		if (killer != null && killer.clientAuthorityOwner != null) {
 			Players.GetPlayer(killer.clientAuthorityOwner).GetState<CommonState>().Kills.Value++;
 			new KillShipClientMessage(killer, prey).SendToAllClient();
 		}
