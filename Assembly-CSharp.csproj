@@ -183,6 +183,7 @@
      <Compile Include="Assets\Scripts\Utils\Events\EventPriority.cs" />
      <Compile Include="Assets\Scripts\Utils\Language\LanguageManager.cs" />
      <Compile Include="Assets\Scripts\Utils\Language\LanguageText.cs" />
+     <Compile Include="Assets\Scripts\Utils\Rotator.cs" />
      <Compile Include="Assets\Scripts\Utils\Settings\BoolSettingValue.cs" />
      <Compile Include="Assets\Scripts\Utils\Settings\FloatSettingValue.cs" />
      <Compile Include="Assets\Scripts\Utils\Settings\GameSettings.cs" />

@@ -13,9 +13,11 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     protected float timerCoolDown;
     private new Rigidbody2D rigidbody;
 
+    public float CoolDown => timerCoolDown;
+
     protected override void Start() {
         base.Start();
-        damageInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>()) {
+        damageInfo = new DamageInfo(damage, GetComponentInParent<NetworkIdentity>() ?? GetComponent<NetworkIdentity>()) {
             effects = GetComponents<IEffectFabric>().ToList()
         };
         rigidbody = transform.GetComponentInParent<Rigidbody2D>();
@@ -27,7 +29,9 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
 
         timerCoolDown = coolDown * effectModule.freezeK;
         Shoot(vec);
-        rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
+        
+        if (recoilForce != 0 && rigidbody)
+            rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
     }
 
     public virtual void FixedUpdate() {

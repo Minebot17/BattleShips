@@ -6,7 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 class RailgunModule : AbstractGunModule, IGunModule
 {
-    [SerializeField] private float lineTime;
+    [SerializeField] private float lineTime = 1;
+    [SerializeField] private int blocksThrough = 5;
     private LineRenderer lineRenderer;
     protected override void Start()
     {
@@ -18,7 +19,9 @@ class RailgunModule : AbstractGunModule, IGunModule
         List<RaycastHit2D> hits = Physics2D.RaycastAll(transform.position, vec, 100).ToList();
         hits.ToList().RemoveAll(h => h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
             && moduleHp.transform.parent.parent.gameObject == damageInfo.OwnerShip.gameObject);
-        hits = hits.Take(5).ToList();
+        
+        if (blocksThrough != 0)
+            hits = hits.Take(blocksThrough).ToList();
 
         hits.ForEach(h =>
         {
@@ -37,7 +40,7 @@ class RailgunModule : AbstractGunModule, IGunModule
     private IEnumerator RenderLine(Vector3 lastHit)
     {
         lineRenderer.positionCount = 2;
-        lineRenderer.SetPositions(new Vector3[2] { transform.position, lastHit});
+        lineRenderer.SetPositions(new [] { transform.position, lastHit});
         yield return new WaitForSeconds(lineTime);
         lineRenderer.positionCount = 0;
     }
