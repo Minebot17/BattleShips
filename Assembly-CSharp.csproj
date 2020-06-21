@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\Game\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapElementDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapElementPacker.cs" />
+     <Compile Include="Assets\Scripts\Game\Map\MapLaser.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapSpike.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapTurret.cs" />
      <Compile Include="Assets\Scripts\Game\TeamGameMode.cs" />

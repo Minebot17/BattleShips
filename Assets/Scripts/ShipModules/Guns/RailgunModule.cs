@@ -4,16 +4,18 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-class RailgunModule : AbstractGunModule, IGunModule
+class RailgunModule : AbstractGunModule
 {
     [SerializeField] private float lineTime = 1;
     [SerializeField] private int blocksThrough = 5;
     private LineRenderer lineRenderer;
+    
     protected override void Start()
     {
         base.Start();
         lineRenderer = GetComponent<LineRenderer>();
     }
+    
     protected override void Shoot(Vector2 vec)
     {
         List<RaycastHit2D> hits = Physics2D.RaycastAll(transform.position, vec, 100).ToList();
