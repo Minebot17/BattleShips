@@ -53,7 +53,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
                 else
                     OnFriendTrigger(collider, moduleHp);
         }     
-        else
+        else if (!collider.gameObject.CompareTag("TransparentForBullets"))
             OnMapTrigger(collider);
     }
 

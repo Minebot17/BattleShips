@@ -82,17 +82,17 @@ PrefabInstance:
     - target: {fileID: 4818603585402676349, guid: 243806742e3628347bb480a94cdf93cb,
         type: 3}
       propertyPath: coolDown
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5010123369003077074, guid: 243806742e3628347bb480a94cdf93cb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.32
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 5010123369003077074, guid: 243806742e3628347bb480a94cdf93cb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.32
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 8724980977707882533, guid: 243806742e3628347bb480a94cdf93cb,
         type: 3}
