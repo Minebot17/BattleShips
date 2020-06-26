@@ -7,10 +7,10 @@ public class VariableJoystick : Joystick
 {
     public float MoveThreshold { get { return moveThreshold; } set { moveThreshold = Mathf.Abs(value); } }
 
-    [SerializeField] float moveThreshold = 1;
-    [SerializeField] JoystickType joystickType = JoystickType.Fixed;
+    [SerializeField] private float moveThreshold = 1;
+    [SerializeField] private JoystickType joystickType = JoystickType.Fixed;
 
-    Vector2 fixedPosition = Vector2.zero;
+    private Vector2 fixedPosition = Vector2.zero;
 
     public void SetMode(JoystickType joystickType)
     {

@@ -4,18 +4,19 @@ using UnityEngine.UI;
 
 public class ProgressBar : MonoBehaviour {
 
-    [SerializeField] RectTransform leftProgressBar;
-    [SerializeField] RectTransform centerProgressBar;
-    [SerializeField] RectTransform rightProgressBar;
-    [SerializeField] RectTransform leftProgressBarFiller;
-    [SerializeField] RectTransform centerProgressBarFiller;
-    [SerializeField] RectTransform rightProgressBarFiller;
+    [SerializeField] private RectTransform leftProgressBar;
+    [SerializeField] private RectTransform centerProgressBar;
+    [SerializeField] private RectTransform rightProgressBar;
+    [SerializeField] private RectTransform leftProgressBarFiller;
+    [SerializeField] private RectTransform centerProgressBarFiller;
+    [SerializeField] private RectTransform rightProgressBarFiller;
 
-    [SerializeField] int centerWidth = 256;
-    [SerializeField] int cornersWidth = 32;
-    [SerializeField] float value = 0.5f;
+    [SerializeField] private int centerWidth = 256;
+    [SerializeField] private int cornersWidth = 32;
+    [SerializeField] private float value = 0.5f;
 
     public float Value {
+        get => value;
         set {
             this.value = value;
             UpdateRect();
@@ -29,7 +30,7 @@ public class ProgressBar : MonoBehaviour {
         UpdateRect();
     }
 
-    void UpdateRect() {
+    private void UpdateRect() {
         int currentWidth = (int) ((centerWidth + 2 * cornersWidth) * value);
         leftProgressBarFiller.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth < cornersWidth ? currentWidth : cornersWidth);
         

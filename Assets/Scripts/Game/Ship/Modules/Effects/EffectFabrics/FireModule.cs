@@ -15,7 +15,7 @@ public class FireModule : MonoBehaviour, IEffectFabric
 
     private DamageInfo damageInfo;
 
-    void Start()
+    private void Start()
     {
         damageInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>());
     }

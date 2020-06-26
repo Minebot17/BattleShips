@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public abstract class AbstractGunModule : AbstractModule, IGunModule {
     
     [SerializeField] protected float coolDown = 0;
-    [SerializeField] float recoilForce = 0;
+    [SerializeField] private float recoilForce = 0;
     [SerializeField] protected int damage;
 
     protected DamageInfo damageInfo;

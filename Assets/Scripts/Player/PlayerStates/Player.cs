@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class Player {
-    readonly NetworkConnection conn;
-    readonly int id;
+    private readonly NetworkConnection conn;
+    private readonly int id;
     public readonly Dictionary<string, GeneralStateValue> allValues = new Dictionary<string, GeneralStateValue>(); 
     public readonly Dictionary<string, GeneralStateValue> testValues = new Dictionary<string, GeneralStateValue>(); // это не для теста, не удалять
-    readonly Dictionary<Type, PlayerState> states = new Dictionary<Type, PlayerState>();
+    private readonly Dictionary<Type, PlayerState> states = new Dictionary<Type, PlayerState>();
 
     public NetworkConnection Conn => conn;
     public int Id => id;
@@ -87,7 +87,7 @@ public class Player {
         }
     }
 
-    bool IsStateHaveValue(string valueName) {
+    private bool IsStateHaveValue(string valueName) {
         return testValues.ContainsKey(valueName);
     }
 

@@ -5,20 +5,20 @@ using UnityEngine.Networking;
 
 [AddComponentMenu("NetworkCustom/NetworkSyncRotationChild")]
 public class NetworkSyncRotationChild : NetworkBehaviour {
-	[SerializeField] float posLerpRate = 15;
-	[SerializeField] float posThreshold = 0.1f;
-	[SerializeField] bool fromLocalPlayer;
+	[SerializeField] private float posLerpRate = 15;
+	[SerializeField] private float posThreshold = 0.1f;
+	[SerializeField] private bool fromLocalPlayer;
 	public List<ChildVector> Childs = new List<ChildVector>();
 
-	Vector3[] lastRorations;
+	private Vector3[] lastRorations;
 
-	void Awake() {
+	private void Awake() {
 		lastRorations = new Vector3[Childs.Count];
 		for (int i = 0; i < Childs.Count; i++)
 			lastRorations[i] = Childs[i].Child.localEulerAngles;
 	}
 
-	void Update() {
+	private void Update() {
 		if (fromLocalPlayer) {
 			if (hasAuthority)
 				return;
@@ -33,7 +33,7 @@ public class NetworkSyncRotationChild : NetworkBehaviour {
 		}
 	}
 
-	void FixedUpdate() {
+	private void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority)
 				return;
@@ -57,7 +57,7 @@ public class NetworkSyncRotationChild : NetworkBehaviour {
 		}
 	}
 
-	bool IsRotationChanged(int index) {
+	private bool IsRotationChanged(int index) {
 		Vector3 rotation = new Vector3(Childs[index].X ? Childs[index].Child.localEulerAngles.x : lastRorations[index].x, Childs[index].Y ? Childs[index].Child.localEulerAngles.y : lastRorations[index].y, Childs[index].Z ? Childs[index].Child.localEulerAngles.z : lastRorations[index].z);
 		return Vector3.Distance(rotation, lastRorations[index]) > posThreshold;
 	}
@@ -71,14 +71,14 @@ public class NetworkSyncRotationChild : NetworkBehaviour {
 	}
 
 	[Command]
-	void CmdSendToServer(Vector3[] array, int[] indexes) {
+	private void CmdSendToServer(Vector3[] array, int[] indexes) {
 		for (int i = 0; i < array.Length; i++)
 			lastRorations[indexes[i]] = array[i];
 		RpcSendToClients(array, indexes);
 	}
 
 	[ClientRpc]
-	void RpcSendToClients(Vector3[] array, int[] indexes) {
+	private void RpcSendToClients(Vector3[] array, int[] indexes) {
 		if (hasAuthority)
 			return;
 		for (int i = 0; i < array.Length; i++)

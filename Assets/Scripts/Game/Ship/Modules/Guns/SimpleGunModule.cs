@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class SimpleGunModule : AbstractGunModule {
-    [SerializeField] float ammoSpeed;
-    [SerializeField] GameObject ammoPrefab;
-    [SerializeField] int bulletCount;
+    [SerializeField] private float ammoSpeed;
+    [SerializeField] private GameObject ammoPrefab;
+    [SerializeField] private int bulletCount;
 
     protected override void Shoot(Vector2 vec) {
         for (float i = -(bulletCount - 1) / 2; i <= bulletCount / 2; i++) {

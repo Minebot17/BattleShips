@@ -91,6 +91,7 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\EffectModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FireModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FreezeModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\IEffectFabric.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\FireEffect.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\FreezeEffect.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\IEffect.cs" />
@@ -104,7 +105,6 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\RailgunModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\SimpleGunModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\SimpleSpikes.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\IEffectFabric.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShipDeathStandart.cs" />

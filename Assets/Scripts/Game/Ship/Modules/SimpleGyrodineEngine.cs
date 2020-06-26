@@ -2,9 +2,9 @@
 
 internal class SimpleGyrodineEngine : AbstractModule, IGyrodineModule
 {
-    [SerializeField] float rotationPower;
+    [SerializeField] private float rotationPower;
     public float RotationPower { get { return rotationPower * effectModule.freezeK; } }
-    ShipController shipController;
+    private ShipController shipController;
 
     protected override void Start() {
         base.Start();
@@ -13,7 +13,7 @@ internal class SimpleGyrodineEngine : AbstractModule, IGyrodineModule
             shipController.gyrodines.Add(this);
     }
 
-    void OnDestroy() {
+    private void OnDestroy() {
         if (shipController && shipController.gyrodines.Contains(this)) 
             shipController.gyrodines.Remove(this);
     }

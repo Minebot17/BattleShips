@@ -3,14 +3,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-class MinigunModule : AbstractGunModule
+internal class MinigunModule : AbstractGunModule
 {
-    [SerializeField] float startCoolDown;
-    [SerializeField] float ammoSpeed;
-    [SerializeField] GameObject ammoPrefab;
+    [SerializeField] private float startCoolDown;
+    [SerializeField] private float ammoSpeed;
+    [SerializeField] private GameObject ammoPrefab;
     [SerializeField] protected float timeToFullWarming;
 
-    float timerWarming;
+    private float timerWarming;
     private float timeLastShoot;
 
     public override void FixedUpdate()

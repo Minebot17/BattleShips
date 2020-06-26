@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-class Flamethrower : AbstractModule, IGunModule
+internal class Flamethrower : AbstractModule, IGunModule
 {
-    [SerializeField] float recoilForce = 0;
+    [SerializeField] private float recoilForce = 0;
     [SerializeField] protected int damage;
     [SerializeField] protected float damageSpeed;
 

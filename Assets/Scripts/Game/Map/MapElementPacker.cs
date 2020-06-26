@@ -3,11 +3,11 @@ using System.Collections;
 using UnityEngine;
 
 public class MapElementPacker : MonoBehaviour {
-    void Start() {
+    private void Start() {
         StartCoroutine(WaitMapSpawn());
     }
 
-    IEnumerator WaitMapSpawn() {
+    private IEnumerator WaitMapSpawn() {
         if (!Map.singleton || Map.singleton == null)
             yield return new WaitForSeconds(0.1f);
 

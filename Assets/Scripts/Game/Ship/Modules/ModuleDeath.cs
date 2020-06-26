@@ -3,8 +3,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class ModuleDeath : MonoBehaviour, IDeath {
-
-    bool isDead;
+    private bool isDead;
 
     public void OnDead(DamageInfo damageInfo) {
         if (IsDead())

@@ -5,17 +5,18 @@ using UnityEditor;
 using UnityEngine;
 
 public class EditorUtilsWindow : EditorWindow {
-	static readonly IUtilBlock[] utilBlocks = {
+	private static readonly IUtilBlock[] utilBlocks = {
 		new MapFromBitmapBlock()
 	};
-	bool[] togglers = new bool[utilBlocks.Length];
+
+	private bool[] togglers = new bool[utilBlocks.Length];
 
 	[MenuItem ("Window/EditorUtils")]
 	public static void  ShowWindow () {
 		GetWindow(typeof(EditorUtilsWindow));
 	}
-    
-	void OnGUI () {
+
+	private void OnGUI () {
 		try {
 			for (int i = 0; i < utilBlocks.Length; i++) {
 				// ReSharper disable once AssignmentInConditionalExpression

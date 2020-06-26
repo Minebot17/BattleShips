@@ -35,6 +35,9 @@ public class ShipPartsMessage : GameMessage {
         if (Players.ClientId != id)
             Utils.SpawnPointer(Players.GetClient(), player);
 
+        if (controller.hasAuthority)
+            CameraFollower.singleton.Target = controller.transform;
+        
         if (NetworkManagerCustom.singleton.IsServer)
             shipObject.gameObject.GetComponent<ShipServerController>().enabled = true;
     }

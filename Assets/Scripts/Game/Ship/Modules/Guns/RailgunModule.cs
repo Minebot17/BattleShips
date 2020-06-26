@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-class RailgunModule : AbstractGunModule
+internal class RailgunModule : AbstractGunModule
 {
     [SerializeField] private float lineTime = 1;
     [SerializeField] private int blocksThrough = 5;

@@ -119,7 +119,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         NetworkManagerCustom.singleton.gameMode = new TeamGameMode(teams);
     }
 
-    void ChangeTeam(int to) {
+    private void ChangeTeam(int to) {
         ChangeTeam(Players.GetClient().Conn, to);
     }
 
@@ -128,7 +128,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         ChangeTeam(conn, currentTeam, to);
     }
 
-    void ChangeTeam(NetworkConnection conn, int from, int to) {
+    private void ChangeTeam(NetworkConnection conn, int from, int to) {
         List<NetworkConnection> fromList = from == -1 ? observers : teams[from];
         List<NetworkConnection> toList = to == -1 ? observers : teams[to];
         fromList.Remove(conn);
@@ -136,7 +136,7 @@ public class LobbyServerTeamGui : LobbyServerGui {
         new ChangeTeamMessage(Players.GetPlayer(conn).Id, from, to).SendToAllClient();
     }
 
-    int FindTeamOfConnection(NetworkConnection conn) {
+    private int FindTeamOfConnection(NetworkConnection conn) {
         if (observers.Contains(conn))
             return -1;
         

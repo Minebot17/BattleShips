@@ -6,16 +6,16 @@ using UnityEngine.Networking;
 [AddComponentMenu("NetworkCustom/NetworkSyncScale")]
 public class NetworkSyncScale : NetworkVectors {
 	
-	[SerializeField] bool fromLocalPlayer;
+	[SerializeField] private bool fromLocalPlayer;
 	[SyncVar(hook = nameof(OnScaleChange))]
-	Vector3 lastScale;
+	private Vector3 lastScale;
 
-	void Start() {
+	private void Start() {
 		if (isServer)
 			lastScale = transform.localScale;
 	}
 
-	void OnScaleChange(Vector3 value) {
+	private void OnScaleChange(Vector3 value) {
 		lastScale = value;
 		if (fromLocalPlayer) {
 			if (hasAuthority)
@@ -27,7 +27,7 @@ public class NetworkSyncScale : NetworkVectors {
 		transform.localScale = new Vector3(X ? lastScale.x : transform.localScale.x, Y ? lastScale.y : transform.localScale.y, Z ? lastScale.z : transform.localScale.z);
 	}
 
-	void FixedUpdate() {
+	private void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority)
 				return;
@@ -42,13 +42,13 @@ public class NetworkSyncScale : NetworkVectors {
 		}
 	}
 
-	bool IsScaleChanged() {
+	private bool IsScaleChanged() {
 		Vector3 scale = new Vector3(X ? transform.localScale.x : lastScale.x, Y ? transform.localScale.y : lastScale.y, Z ? transform.localScale.z : lastScale.z);
 		return !scale.Equals(lastScale);
 	}
 
 	[Command(channel = Channels.DefaultReliable)]
-	void CmdSendScale(Vector3 scale) {
+	private void CmdSendScale(Vector3 scale) {
 		lastScale = scale;
 	}
 

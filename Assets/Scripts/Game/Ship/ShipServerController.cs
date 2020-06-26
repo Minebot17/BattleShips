@@ -6,16 +6,15 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
+    private IGunModule[] guns = null;
+    private NetworkIdentity identity;
+    private ShipController commonController;
 
-    IGunModule[] guns = null;
-    NetworkIdentity identity;
-    ShipController commonController;
-    
-    int initialModulesCount;
-    int currentModulesCount;
-    bool isDead = false;
+    private int initialModulesCount;
+    private int currentModulesCount;
+    private bool isDead = false;
 
-    void Start() {
+    private void Start() {
         identity = GetComponent<NetworkIdentity>();
         if (!isServer)
             return;
@@ -26,7 +25,7 @@ public class ShipServerController : NetworkBehaviour {
         commonController = GetComponent<ShipController>();
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (!isServer || !identity)
             return;
 
@@ -45,9 +44,7 @@ public class ShipServerController : NetworkBehaviour {
 
         currentModulesCount--;
         NetworkIdentity killerIdentity = damageInfo.OwnerShip;
-        if (module.name.Equals("AICoreModule") ||
-            currentModulesCount * (100/NetworkManagerCustom.percentToDeath) <= initialModulesCount ||
-            (guns.Count(g => (UnityEngine.Object)g) == 1 && (UnityEngine.Object)module.GetComponent<AbstractGunModule>())) {
+        if (module.name.Equals("AICoreModule")) {
             isDead = true;
             NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
         }

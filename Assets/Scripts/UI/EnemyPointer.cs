@@ -6,17 +6,17 @@ public class EnemyPointer : MonoBehaviour {
 
     public GameObject Target;
     
-    [SerializeField] RectTransform rect;
+    [SerializeField] private RectTransform rect;
     
-    [SerializeField] GameObject camera;
+    [SerializeField] private GameObject camera;
     
-    [SerializeField] Image image;
+    [SerializeField] private Image image;
 
-    void Start() {
+    private void Start() {
         camera = CameraFollower.singleton.gameObject;
     }
 
-    void Update() {
+    private void Update() {
         if (!Target)
             return;
         

@@ -25,20 +25,20 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public bool SnapX { get { return snapX; } set { snapX = value; } }
     public bool SnapY { get { return snapY; } set { snapY = value; } }
 
-    [SerializeField] float handleRange = 1;
-    [SerializeField] float deadZone = 0;
-    [SerializeField] AxisOptions axisOptions = AxisOptions.Both;
-    [SerializeField] bool snapX = false;
-    [SerializeField] bool snapY = false;
+    [SerializeField] private float handleRange = 1;
+    [SerializeField] private float deadZone = 0;
+    [SerializeField] private AxisOptions axisOptions = AxisOptions.Both;
+    [SerializeField] private bool snapX = false;
+    [SerializeField] private bool snapY = false;
 
     [SerializeField] protected RectTransform background = null;
-    [SerializeField] RectTransform handle = null;
-    RectTransform baseRect = null;
+    [SerializeField] private RectTransform handle = null;
+    private RectTransform baseRect = null;
 
-    Canvas canvas;
-    Camera cam;
+    private Canvas canvas;
+    private Camera cam;
 
-    Vector2 input = Vector2.zero;
+    private Vector2 input = Vector2.zero;
 
     protected virtual void Start()
     {
@@ -87,7 +87,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             input = Vector2.zero;
     }
 
-    void FormatInput()
+    private void FormatInput()
     {
         if (axisOptions == AxisOptions.Horizontal)
             input = new Vector2(input.x, 0f);
@@ -95,7 +95,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             input = new Vector2(0f, input.y);
     }
 
-    float SnapFloat(float value, AxisOptions snapAxis)
+    private float SnapFloat(float value, AxisOptions snapAxis)
     {
         if (value == 0)
             return value;

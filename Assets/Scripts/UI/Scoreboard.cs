@@ -11,16 +11,16 @@ public class Scoreboard : MonoBehaviour {
 
     public static Scoreboard singleton;
     public static float visibleSeconds = 5f;
-    [SerializeField] Sprite startSprite;
-    [SerializeField] Sprite centerSprite;
-    [SerializeField] Sprite endSprite;
-    [SerializeField] Vector2Int partSize = new Vector2Int(4, 16);
-    [SerializeField] float deltaScoreSpeed = 1f;
+    [SerializeField] private Sprite startSprite;
+    [SerializeField] private Sprite centerSprite;
+    [SerializeField] private Sprite endSprite;
+    [SerializeField] private Vector2Int partSize = new Vector2Int(4, 16);
+    [SerializeField] private float deltaScoreSpeed = 1f;
 
-    Dictionary<GameObject, int> deltaScore = new Dictionary<GameObject, int>();
-    Dictionary<GameObject, float> initialPosition = new Dictionary<GameObject, float>();
+    private Dictionary<GameObject, int> deltaScore = new Dictionary<GameObject, int>();
+    private Dictionary<GameObject, float> initialPosition = new Dictionary<GameObject, float>();
 
-    void Start() {
+    private void Start() {
         singleton = this;
         IEnumerable<CommonState> gStates = Players.GetStates<CommonState>();
         if (NetworkManagerCustom.singleton.IsServer) {
@@ -60,7 +60,7 @@ public class Scoreboard : MonoBehaviour {
         }
     }
 
-    void LateUpdate() {
+    private void LateUpdate() {
         foreach (GameObject ship in deltaScore.Keys) {
             float deltaPosition = initialPosition[ship] + partSize.x * deltaScore[ship];
             if (ship.transform.localPosition.x + deltaScoreSpeed * Time.deltaTime < deltaPosition)
@@ -68,7 +68,7 @@ public class Scoreboard : MonoBehaviour {
         }
     }
 
-    void SpawnBoardPart(Sprite sprite, int positionX) {
+    private void SpawnBoardPart(Sprite sprite, int positionX) {
         GameObject boardPart = new GameObject { name = sprite.name };
         boardPart.transform.parent = transform;
         boardPart.transform.localPosition = new Vector3(positionX, 0, 0);

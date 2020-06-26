@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-class SimpleSpikes : NetworkBehaviour, IMeleeModule
+internal class SimpleSpikes : NetworkBehaviour, IMeleeModule
 {
     [SerializeField] protected int damage;
 

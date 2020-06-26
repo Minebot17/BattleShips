@@ -29,10 +29,10 @@ public static class Players {
     public static readonly EventHandler<ConnectionEvent> playerRequestPlayersEvent = new EventHandler<ConnectionEvent>();
     public static readonly EventHandler<PlayerEvent> playerAddedEvent = new EventHandler<PlayerEvent>();
     public static readonly EventHandler<PlayerEvent> playerRemovedEvent = new EventHandler<PlayerEvent>();
-    static List<Type> loadedStates;
-    static readonly List<Player> players = new List<Player>();
-    static readonly Dictionary<int, Player> playerFromId = new Dictionary<int, Player>();
-    static readonly Dictionary<NetworkConnection, Player> playerFromConn = new Dictionary<NetworkConnection, Player>();
+    private static List<Type> loadedStates;
+    private static readonly List<Player> players = new List<Player>();
+    private static readonly Dictionary<int, Player> playerFromId = new Dictionary<int, Player>();
+    private static readonly Dictionary<NetworkConnection, Player> playerFromConn = new Dictionary<NetworkConnection, Player>();
 
     /// <summary>
     /// Список всех игроков

@@ -5,8 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class MapFromBitmapBlock : IUtilBlock {
-	
-	Dictionary<int, Tuple<string, GameObject>> colorToPrefabName = new Dictionary<int, Tuple<string, GameObject>>() {
+	private Dictionary<int, Tuple<string, GameObject>> colorToPrefabName = new Dictionary<int, Tuple<string, GameObject>>() {
 		{ 0xFFFFFF, new Tuple<string, GameObject>("MapWall", null) }, 
 		{ 0x636363, new Tuple<string, GameObject>("MapBrokenWall", null) },
 		{ 0xC60003, new Tuple<string, GameObject>("MapTurret", null) },
@@ -14,7 +13,7 @@ public class MapFromBitmapBlock : IUtilBlock {
 		{ 0xFF8E8E, new Tuple<string, GameObject>("MapSpike", null) },
 	};
 
-	Sprite mapSprite;
+	private Sprite mapSprite;
 
 	public void Draw() {
 		mapSprite = (Sprite) EditorGUILayout.ObjectField("Map bitmap as sprite", mapSprite, typeof(Sprite), false);

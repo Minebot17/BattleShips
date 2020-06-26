@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ModulesScrollAdapter : MonoBehaviour {
     public RectTransform content;
     public GameObject modulePrefab;
-    readonly List<Image> moduleBackgrounds = new List<Image>();
+    private readonly List<Image> moduleBackgrounds = new List<Image>();
     public string selectedModule;
 
     public void SetModules(EditorModule[] contentContainer) {

@@ -11,7 +11,7 @@ using Object = System.Object;
 /// </summary>
 /// <typeparam name="T">Тип эвента для системы</typeparam>
 public class EventHandler<T> : Exception where T : EventBase {
-	List<Listner<T>> listners = new List<Listner<T>>();
+	private List<Listner<T>> listners = new List<Listner<T>>();
 
 	/// <summary>
 	/// Добавить промежуточный метод. Привязать метод к эвенту
@@ -58,9 +58,9 @@ public class EventHandler<T> : Exception where T : EventBase {
 	}
 
 	public class Listner<T> where T: EventBase {
-		readonly int id;
-		Action<T> method;
-		EventPriority priority;
+		private readonly int id;
+		private Action<T> method;
+		private EventPriority priority;
 		
 		public Listner(Action<T> method, EventPriority priority) {
 			id = Utils.rnd.Next();

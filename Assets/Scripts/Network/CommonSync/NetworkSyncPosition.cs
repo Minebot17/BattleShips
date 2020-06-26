@@ -5,17 +5,17 @@ using UnityEngine.Networking;
 
 [AddComponentMenu("NetworkCustom/NetworkSyncPosition")]
 public class NetworkSyncPosition : NetworkVectors {
-	[SerializeField] float posLerpRate = 15;
-	[SerializeField] float posThreshold = 0.1f;
-	[SerializeField] bool fromLocalPlayer;
-	[SyncVar] Vector3 lastPosition;
+	[SerializeField] private float posLerpRate = 15;
+	[SerializeField] private float posThreshold = 0.1f;
+	[SerializeField] private bool fromLocalPlayer;
+	[SyncVar] private Vector3 lastPosition;
 
-	void Start() {
+	private void Start() {
 		if (isServer)
 			lastPosition = transform.position;
 	}
 
-	void Update() {
+	private void Update() {
 		if (fromLocalPlayer) {
 			if (hasAuthority)
 				return;
@@ -26,7 +26,7 @@ public class NetworkSyncPosition : NetworkVectors {
 		InterpolatePosition();
 	}
 
-	void FixedUpdate() {
+	private void FixedUpdate() {
 		if (fromLocalPlayer) {
 			if (!hasAuthority)
 				return;
@@ -41,19 +41,19 @@ public class NetworkSyncPosition : NetworkVectors {
 		}
 	}
 
-	bool IsPositionChanged() {
+	private bool IsPositionChanged() {
 		Vector3 position = new Vector3(X ? transform.position.x : lastPosition.x, Y ? transform.position.y : lastPosition.y, Z ? transform.position.z : lastPosition.z);
 		return Vector3.Distance(position, lastPosition) > posThreshold;
 	}
 
-	void InterpolatePosition() {
+	private void InterpolatePosition() {
 		Vector3 pos = transform.position;
 		Vector3 newPos = Vector3.Lerp(transform.position, lastPosition, Time.deltaTime * posLerpRate);
 		transform.position = new Vector3(X ? newPos.x : pos.x, Y ? newPos.y : pos.y, Z ? newPos.z : pos.z);
 	}
 
 	[Command(channel = Channels.DefaultUnreliable)]
-	void CmdSendPosition(Vector3 pos) {
+	private void CmdSendPosition(Vector3 pos) {
 		lastPosition = pos;
 	}
 

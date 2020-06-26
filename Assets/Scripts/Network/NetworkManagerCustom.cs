@@ -10,7 +10,6 @@ using UnityEngine.Networking.NetworkSystem;
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
 	public static NetworkManagerCustom singleton => (NetworkManagerCustom) NetworkManager.singleton;
-	public static int percentToDeath = 20;
 	public static GameObject lobbyManager;
 
 	public bool IsServer;
@@ -121,14 +120,14 @@ public class NetworkManagerCustom : NetworkManager {
 		ServerChangeScene("ShipEditor");
 	}
 
-	IEnumerator WaitForReady(NetworkConnection conn) {
+	private IEnumerator WaitForReady(NetworkConnection conn) {
 		while (!conn.isReady)
 			yield return new WaitForSeconds(0.25f);
 		
 		SpawnClientShip(conn);
 	}
 
-	void SpawnClientShip(NetworkConnection conn) {
+	private void SpawnClientShip(NetworkConnection conn) {
 		Vector2 spawnPosition = GetSpawnPoint();
 		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
 		shipObject.transform.position = spawnPosition.ToVector3();
@@ -139,7 +138,7 @@ public class NetworkManagerCustom : NetworkManager {
 		gState.Alive.Value = true;
 	}
 
-	Vector2 GetSpawnPoint() {
+	private Vector2 GetSpawnPoint() {
 		GameObject points = GameObject.Find("SpawnPoints");
 		int index = Utils.rnd.Next(points.transform.childCount);
 		Vector2 result = new Vector2(points.transform.GetChild(index).position.x, points.transform.GetChild(index).position.y);
@@ -147,7 +146,7 @@ public class NetworkManagerCustom : NetworkManager {
 		return result;
 	}
 
-	void ResetValuesToDefault() {
+	private void ResetValuesToDefault() {
 		IsServer = true;
 		GameInProgress = false;
 		StartArguments = new List<string>();

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class MapTurret : MonoBehaviour {
-    [SerializeField] Transform forwardPointer;
+    [SerializeField] private Transform forwardPointer;
 
     private AbstractGunModule gun;
     

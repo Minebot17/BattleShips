@@ -10,31 +10,28 @@ public class ShipController : NetworkBehaviour {
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();
 
-    bool lastGunButton;
-    Rigidbody2D rigidbody;
-    Transform forwardPointer;
-    NetworkIdentity identity;
-    IInputHandler inputHandler;
+    private bool lastGunButton;
+    private Rigidbody2D rigidbody;
+    private Transform forwardPointer;
+    private NetworkIdentity identity;
+    private IInputHandler inputHandler;
 
-    int initialModulesCount;
-    int currentModulesCount;
+    private int initialModulesCount;
+    private int currentModulesCount;
+    private GameObject aiCoreModule;
 
     public int InitialModulesCount => initialModulesCount;
     public int CurrentModulesCount => currentModulesCount;
 
-    void Start() {
+    private void Start() {
         inputHandler = PlayerInputHandler.singleton;
         identity = GetComponent<NetworkIdentity>();
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
-
-        if (hasAuthority)
-            CameraFollower.singleton.Target = gameObject.transform;
-        
         new ShipPartsMessage(identity).SendToServer();
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (!hasAuthority)
             return;
 
@@ -64,18 +61,23 @@ public class ShipController : NetworkBehaviour {
     public void OnInitializePartsOnClient() {
         initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
         currentModulesCount = initialModulesCount;
+        aiCoreModule = transform.Find("ShipCell 0 0").GetChild(0).gameObject;
     }
 
     public void OnModuleDeath(Transform cell) {
         currentModulesCount--;
         if (cell.childCount != 0)
-            MonoBehaviour.Destroy(cell.GetChild(0).gameObject);
+            Destroy(cell.GetChild(0).gameObject);
 
         moduleDeathEvent.CallListners(new ModuleDeathEvent(gameObject));
     }
 
+    public GameObject GetAiCoreModule() {
+        return aiCoreModule;
+    }
+
     [Command(channel = Channels.DefaultUnreliable)]
-    void CmdSendGunButton(bool gunButton) {
+    private void CmdSendGunButton(bool gunButton) {
         Players.GetPlayer(identity.clientAuthorityOwner).GetState<CommonState>().IsShoot.Value = gunButton;
     }
     

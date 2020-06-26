@@ -1,5 +1,7 @@
+using UnityEngine;
+
 public class HpBar : ProgressBar {
-    int eventId = -1;
+    private int eventId = -1;
     
     protected override void Start() {
         base.Start();
@@ -9,20 +11,20 @@ public class HpBar : ProgressBar {
                 controller.moduleDeathEvent.UnSubcribeEvent(eventId);
 
             if (e.NewTarget && (controller = e.NewTarget.gameObject.GetComponent<ShipController>())) {
-                if (controller.InitialModulesCount != 0)
-                    UpdateProgressBar(controller.CurrentModulesCount, controller.InitialModulesCount);
-                eventId = controller.moduleDeathEvent.SubcribeEvent(ev => {
-                    if (controller.InitialModulesCount == 0)
-                        return;
-                    
-                    UpdateProgressBar(controller.CurrentModulesCount, controller.InitialModulesCount);
+                ModuleHp aiCoreHp = controller.GetAiCoreModule()?.GetComponent<ModuleHp>();
+                if (aiCoreHp == null)
+                    return;
+                
+                Value = aiCoreHp.CurrentHealth / aiCoreHp.MaxHealth;
+                eventId = aiCoreHp.damageEvent.SubcribeEvent(ev => {
+                    Value = (aiCoreHp.CurrentHealth - ev.DamageInfo.Damage) / aiCoreHp.MaxHealth;
+                    Value = Value < 0 ? 0 : Value;
                 });
             }
         });
     }
 
-    void UpdateProgressBar(int currentHp, int maxHp) {
-        float percent = NetworkManagerCustom.percentToDeath / 100f;
-        Value = (currentHp - maxHp * percent) / (maxHp * (1f - percent));
+    private void UpdateProgressBar(int currentHp, int maxHp) {
+        
     }
 }

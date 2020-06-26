@@ -3,9 +3,8 @@ using UnityEngine.Networking;
 
 public class MapElementDeath : MonoBehaviour, IDeath {
 
-    [SerializeField]
-    bool destroyParent;
-    bool isDead;
+    [SerializeField] private bool destroyParent;
+    private bool isDead;
 
     public void OnDead(DamageInfo damageInfo) {
         if (IsDead())

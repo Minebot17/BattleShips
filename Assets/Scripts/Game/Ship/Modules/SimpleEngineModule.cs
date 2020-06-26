@@ -4,10 +4,10 @@ using UnityEngine.Networking;
 
 public class SimpleEngineModule : AbstractModule, IEngineModule {
 
-    [SerializeField] float trustPower;
+    [SerializeField] private float trustPower;
     public float TrustPower { get { return trustPower * effectModule.freezeK; } }
 
-    ShipController shipController;
+    private ShipController shipController;
 
     protected override void Start() {
         base.Start();
@@ -16,7 +16,7 @@ public class SimpleEngineModule : AbstractModule, IEngineModule {
             shipController.engines.Add(this);
     }
 
-    void OnDestroy() {
+    private void OnDestroy() {
         if(shipController && shipController.engines.Contains(this)) 
             shipController.engines.Remove(this);
     }

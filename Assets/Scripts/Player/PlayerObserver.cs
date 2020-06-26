@@ -7,10 +7,10 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PlayerObserver : MonoBehaviour {
-    List<GameObject> players;
-    int currentIndex;
+    private List<GameObject> players;
+    private int currentIndex;
 
-    void Start() {
+    private void Start() {
         players = GameObject.FindGameObjectsWithTag("Player").ToList();
         currentIndex = Utils.rnd.Next(players.Count);
         CameraFollower.singleton.Target = players[currentIndex].transform;

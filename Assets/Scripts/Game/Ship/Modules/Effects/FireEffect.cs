@@ -3,11 +3,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-class FireEffect : IEffect
+internal class FireEffect : IEffect
 {
-    readonly float speed;
-    readonly float duration;
-    readonly int chance;
+    private readonly float speed;
+    private readonly float duration;
+    private readonly int chance;
 
     private readonly DamageInfo damageInfo;
     private readonly System.Random random;

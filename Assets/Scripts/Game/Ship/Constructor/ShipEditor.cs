@@ -12,16 +12,16 @@ public class ShipEditor : MonoBehaviour {
     public int timeBeforeClosing = 30;
     public ModulesScrollAdapter scrollAdapter;
 
-    [SerializeField] Camera mainCamera;
-    [SerializeField] int maxModules = 5;
-    [SerializeField] Text blocksLeftText;
-    [SerializeField] GameObject readyButton;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private int maxModules = 5;
+    [SerializeField] private Text blocksLeftText;
+    [SerializeField] private GameObject readyButton;
 
-    GameObject currentShip;
-    EditorModule[] modules;
-    float closingTimer;
-    bool timerStarted;
-    int installedModules;
+    private GameObject currentShip;
+    private EditorModule[] modules;
+    private float closingTimer;
+    private bool timerStarted;
+    private int installedModules;
 
     public void Start() {
         singleton = this;
@@ -93,7 +93,7 @@ public class ShipEditor : MonoBehaviour {
         }
     }
 
-    GameObject[] GetNeighbors(Vector2Int pos) {
+    private GameObject[] GetNeighbors(Vector2Int pos) {
         GameObject[] neighbors = new GameObject[4];
         neighbors[0] = FindShipCell(new Vector2Int(pos.x - 1, pos.y));
         neighbors[1] = FindShipCell(new Vector2Int(pos.x + 1, pos.y));
@@ -102,7 +102,7 @@ public class ShipEditor : MonoBehaviour {
         return neighbors;
     }
 
-    GameObject FindShipCell(Vector2Int pos) {
+    private GameObject FindShipCell(Vector2Int pos) {
         return currentShip.transform.Find("ShipCell " + pos.x + " " + pos.y)?.gameObject;
     }
 

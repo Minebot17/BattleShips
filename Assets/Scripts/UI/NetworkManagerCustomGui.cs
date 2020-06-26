@@ -10,15 +10,15 @@ using UnityEngine.SceneManagement;
 public class NetworkManagerCustomGui : MonoBehaviour {
 	public string IpAddress;
 	public string Port;
-	bool _started;
+	private bool _started;
 
-	void Start() {
+	private void Start() {
 		_started = false;
 		IpAddress = "localhost";
 		Port = "7777";
 	}
 
-	void OnGUI() {
+	private void OnGUI() {
 		if (!_started) {
 			GUILayout.Label("Ip:");
 			IpAddress = GUILayout.TextField(IpAddress, GUILayout.Width(100));

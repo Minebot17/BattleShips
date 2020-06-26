@@ -4,18 +4,18 @@ using UnityEngine.Networking;
 
 public class MapSpike : NetworkBehaviour {
 
-    [SyncVar] [SerializeField] float damage;
-    [SyncVar] [SerializeField] int perTicks;
-    long ticksTimer;
+    [SyncVar] [SerializeField] private float damage;
+    [SyncVar] [SerializeField] private int perTicks;
+    private long ticksTimer;
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
         
         ticksTimer++;
     }
 
-    void OnTriggerStay2D(Collider2D other) {
+    private void OnTriggerStay2D(Collider2D other) {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
         

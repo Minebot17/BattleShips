@@ -13,7 +13,7 @@ public class ExplosionManager : MonoBehaviour {
     public static ExplosionManager singleton;
     public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 1.5f, 5);
 
-    [SerializeField] GameObject[] explosionPrefabs;
+    [SerializeField] private GameObject[] explosionPrefabs;
 
     public void Awake() {
         singleton = this;
@@ -25,11 +25,11 @@ public class ExplosionManager : MonoBehaviour {
     }
 
     public class Explosion {
-        int prefabType;
-        float damage;
-        float lifeTime;
-        float radius;
-        float kickForce;
+        private int prefabType;
+        private float damage;
+        private float lifeTime;
+        private float radius;
+        private float kickForce;
 
         /// <param name="prefabType">Указывает тип префаба по порядку из массива explosionPrefabs</param>
         /// <param name="damage">Урон от взрыва блокам. Линейно уменьшается от центра до 0</param>

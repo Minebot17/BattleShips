@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public abstract class StateValue<T> : GeneralStateValue {
-    PlayerState parent;
-    string name;
-    T defaultValue;
-    T value;
-    bool sync;
-    bool modification;
-    int playerRequestPlayersEventId;
-    NetworkConnection modificationBuffer;
+    private PlayerState parent;
+    private string name;
+    private T defaultValue;
+    private T value;
+    private bool sync;
+    private bool modification;
+    private int playerRequestPlayersEventId;
+    private NetworkConnection modificationBuffer;
     
     /// <summary>
     /// Эвент, срабатывающий при изменении значения параметра

@@ -6,18 +6,18 @@ using UnityEngine.Serialization;
 
 public class NetworkSyncAngular : NetworkBehaviour {
     [FormerlySerializedAs("velocityLerpRate")] [SerializeField]
-    float angularLerpRate = 15;
+    private float angularLerpRate = 15;
     [FormerlySerializedAs("velocityThreshold")] [SerializeField]
-    float angularThreshold = 0.1f;
-    [SerializeField] bool fromLocalPlayer;
-    [SyncVar] float lastAngular;
-    Rigidbody2D rigidbody2D;
+    private float angularThreshold = 0.1f;
+    [SerializeField] private bool fromLocalPlayer;
+    [SyncVar] private float lastAngular;
+    private Rigidbody2D rigidbody2D;
 
-    void Start() {
+    private void Start() {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (fromLocalPlayer) {
             if (!hasAuthority) {
                 InterpolateAngular();
@@ -36,17 +36,17 @@ public class NetworkSyncAngular : NetworkBehaviour {
         }
     }
 
-    bool IsAngularChanged() {
+    private bool IsAngularChanged() {
         return Mathf.Abs(rigidbody2D.angularVelocity - lastAngular) > angularThreshold;
     }
 
-    void InterpolateAngular() {
+    private void InterpolateAngular() {
         rigidbody2D.angularVelocity = Mathf.Lerp(
         rigidbody2D.angularVelocity, lastAngular, Time.deltaTime * angularLerpRate);
     }
 
     [Command(channel = Channels.DefaultUnreliable)]
-    void CmdSendAngular(float angular) {
+    private void CmdSendAngular(float angular) {
         lastAngular = angular;
     }
 

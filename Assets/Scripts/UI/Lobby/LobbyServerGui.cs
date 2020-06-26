@@ -7,8 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class LobbyServerGui : LobbyClientGui {
-
-	string[] maps;
+	private string[] maps;
 	
 	protected virtual void Start() {
 		base.Start();

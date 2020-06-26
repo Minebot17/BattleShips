@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class FreezeModule : MonoBehaviour, IEffectFabric
 {
-    [SerializeField] float freezeK = 1;
-    [SerializeField] float duration;
+    [SerializeField] private float freezeK = 1;
+    [SerializeField] private float duration;
     
     public IEffect Create()
     {

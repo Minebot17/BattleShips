@@ -4,8 +4,8 @@ using UnityEngine.Networking;
 
 public class FreezeEffect : IEffect
 {
-    readonly float freezeK;
-    readonly float duration;
+    private readonly float freezeK;
+    private readonly float duration;
 
     public FreezeEffect(float freezeK, float duration)
     {
