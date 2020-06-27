@@ -16,10 +16,12 @@ internal class RailgunModule : AbstractGunModule
         lineRenderer = GetComponent<LineRenderer>();
     }
     
-    protected override void Shoot(Vector2 vec)
-    {
+    protected override void Shoot(Vector2 vec) {
+        RaycastHit2D[] hitMap = new RaycastHit2D[1];
+        Physics2D.Raycast(transform.position, vec, new ContactFilter2D { useLayerMask = true, layerMask = Utils.defaultMask, useTriggers = false }, hitMap, 100f);
         List<RaycastHit2D> hits = Physics2D.RaycastAll(transform.position, vec, 100).ToList();
         hits.RemoveAll(h => h.collider.transform.parent == null 
+                            || h.distance - 0.32f > hitMap[0].distance
                             || h.collider.transform.parent.gameObject == damageInfo.OwnerShip.gameObject 
                             || (h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
                                 && moduleHp.transform.parent.parent.gameObject == damageInfo.OwnerShip.gameObject));

@@ -12,12 +12,18 @@ internal class MinigunModule : AbstractGunModule
 
     private float timerWarming;
     private float timeLastShoot;
+    private float lastTimerCoolDown;
+
+    protected override void Start() {
+        base.Start();
+        timerWarming = timeToFullWarming;
+    }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
         if (timerWarming < timeToFullWarming && timerCoolDown <= 0)
-            timerWarming += Time.fixedDeltaTime / 2;
+            timerWarming += Time.fixedDeltaTime;
     }
 
     protected override void Shoot(Vector2 vec)
@@ -30,6 +36,10 @@ internal class MinigunModule : AbstractGunModule
         NetworkServer.Spawn(ammo);
         
         timerCoolDown = (coolDown + (startCoolDown - coolDown) * (timerWarming / timeToFullWarming)) * effectModule.freezeK;
+        if (Time.time - timeLastShoot > lastTimerCoolDown * 1.1f)
+            timeLastShoot = Time.time;
+        
+        lastTimerCoolDown = timerCoolDown;
         timerWarming = timerWarming - Time.time + timeLastShoot > 0 ? timerWarming - Time.time + timeLastShoot : 0;
         timeLastShoot = Time.time;
     }

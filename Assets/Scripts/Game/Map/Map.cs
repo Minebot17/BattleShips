@@ -18,24 +18,28 @@ public class Map : MonoBehaviour {
         left.transform.parent = parent.transform;
         left.transform.localPosition = new Vector3(-size.x/2f, 0, 0);
         left.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, size.y);
+        left.tag = "TransparentForBullets";
         CameraFollower.singleton.leftBorder = left.GetComponent<BoxCollider2D>();
         
         GameObject right = new GameObject("Right");
         right.transform.parent = parent.transform;
         right.transform.localPosition = new Vector3(size.x/2f, 0, 0);
         right.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, size.y);
+        right.tag = "TransparentForBullets";
         CameraFollower.singleton.rightBorder = right.GetComponent<BoxCollider2D>();
         
         GameObject top = new GameObject("Top");
         top.transform.parent = parent.transform;
         top.transform.localPosition = new Vector3(0, size.x/2f, 0);
         top.AddComponent<BoxCollider2D>().size = new Vector2(size.x, 0.01f);
+        top.tag = "TransparentForBullets";
         CameraFollower.singleton.topBorder = top.GetComponent<BoxCollider2D>();
         
         GameObject bottom = new GameObject("Bottom");
         bottom.transform.parent = parent.transform;
         bottom.transform.localPosition = new Vector3(0, -size.x/2f, 0);
         bottom.AddComponent<BoxCollider2D>().size = new Vector2(size.x, 0.01f);
+        bottom.tag = "TransparentForBullets";
         CameraFollower.singleton.bottomBorder = bottom.GetComponent<BoxCollider2D>();
     }
 

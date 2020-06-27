@@ -72,7 +72,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 4247981147750112549, guid: a40d05ec0712a844d9023f1713c3c6a4,
+      objectReference: {fileID: 5617240817983726920, guid: a40d05ec0712a844d9023f1713c3c6a4,
         type: 3}
     - target: {fileID: 4680934689215393524, guid: a14087de60844bd498a21060cf4ebeb7,
         type: 3}

@@ -11,7 +11,11 @@ using UnityEngine.Networking;
 /// </summary>
 public class ExplosionManager : MonoBehaviour {
     public static ExplosionManager singleton;
-    public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 1.5f, 5);
+    //public static Explosion moduleSmallExplosion = new Explosion(0, 5, 1, 1.5f, 5);
+    public static readonly Explosion launcherAmmoExplosion = new Explosion(0, 5, 0.5f, 1f, 2f);
+    public static readonly Explosion mineAmmoExplosion = new Explosion(0, 5, 1, 1.5f, 5);
+    public static readonly Explosion grenadeAmmoExplosion = new Explosion(0, 5, 1, 1.5f, 5);
+    public static readonly Explosion torpedoAmmoExplosion = new Explosion(0, 20, 2, 1f, 10);
 
     [SerializeField] private GameObject[] explosionPrefabs;
 
@@ -66,7 +70,7 @@ public class ExplosionManager : MonoBehaviour {
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (toAdd.magnitude / radius)), identity));
+                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (toAdd.magnitude / radius)), null));
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {

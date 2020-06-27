@@ -13,7 +13,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
 
     protected new Rigidbody2D rigidbody2D;
 
-    virtual public void Initialize(DamageInfo damageInfo, Vector2 shootVector)
+    public virtual void Initialize(DamageInfo damageInfo, Vector2 shootVector)
     {
         this.damageInfo = damageInfo;
         lifeSpanTimer = lifeSpan;

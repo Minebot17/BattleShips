@@ -19,24 +19,28 @@ public class TorpedoAmmo : AbstractAmmo {
         StartCoroutine(TorpedoMove());
     }
 
-    protected override void OnMapTrigger(Collider2D collider)
-    {
+    protected void OnCollisionEnter2D(Collision2D other) {
         NetworkServer.Destroy(gameObject);
     }
-    protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp)
-    {
-        moduleHp.Damage(GetInfo());
+    
+    protected override void OnMapTrigger(Collider2D collider) {
         NetworkServer.Destroy(gameObject);
     }
 
-    private IEnumerator TorpedoMove()
-    {
+    protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp) {
+        NetworkServer.Destroy(gameObject);
+    }
+
+    protected void OnDestroy() {
+        ExplosionManager.torpedoAmmoExplosion.Explode(transform.position, GetInfo().OwnerShip);
+    }
+
+    private IEnumerator TorpedoMove() {
         float startTime = 0;
-        rigidbody2D.AddForce(Quaternion.Euler(0, 0, 90) * shootVector.normalized * skidForce * 7.95f, ForceMode2D.Force);
-        while (lifeSpanTimer >= 0)
-        {
+        rigidbody2D.AddForce(Quaternion.Euler(0, 0, 90) * shootVector.normalized * (skidForce * 7.95f), ForceMode2D.Force);
+        while (lifeSpanTimer >= 0) {
             startTime += Time.fixedDeltaTime;
-            rigidbody2D.AddForce(Quaternion.Euler(0, 0, 90) * shootVector.normalized * skidForce * -(float)Math.Sin(startTime * Math.PI * 2), ForceMode2D.Force);
+            rigidbody2D.AddForce(Quaternion.Euler(0, 0, 90) * shootVector.normalized * (skidForce * -(float) Math.Sin(startTime * Math.PI * 2)), ForceMode2D.Force);
             yield return new WaitForFixedUpdate();
         }
     }

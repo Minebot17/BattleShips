@@ -15,7 +15,7 @@ public class ModuleHp : MonoBehaviour {
     }
 
     public void Damage(DamageInfo damageInfo) {
-        if(transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject) {
+        if(!damageInfo.OwnerShip || transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject) {
             DamageEvent result = damageEvent.CallListners(new DamageEvent(this, damageInfo));
             if (result.IsCancel)
                 return;

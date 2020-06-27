@@ -43,6 +43,12 @@ PrefabInstance:
       propertyPath: coolDown
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6635515972668788568, guid: 594f24af3f36ae446a3f2621411ee433,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a0b100a2c1b14e49a7013463d45bd99,
+        type: 3}
     - target: {fileID: 7477251468432792715, guid: 594f24af3f36ae446a3f2621411ee433,
         type: 3}
       propertyPath: m_LocalPosition.x

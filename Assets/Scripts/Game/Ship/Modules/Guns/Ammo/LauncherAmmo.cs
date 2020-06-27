@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ public class LauncherAmmo : AbstractAmmo {
     private CapsuleCollider2D detectArea;
     private CircleCollider2D mainCollider;
     private float speed;
+
     public override void Initialize(DamageInfo playerDamageSource, Vector2 shootVector) {
         base.Initialize(playerDamageSource, shootVector);
         detectArea = GetComponent<CapsuleCollider2D>();
@@ -21,48 +23,48 @@ public class LauncherAmmo : AbstractAmmo {
         speed = shootVector.magnitude;
         StartCoroutine(Track());
     }
-    
 
-    protected override void OnMapTrigger(Collider2D collider)
-    {
-        if(Vector2.Distance(transform.position, collider.transform.position) < collider.bounds.size.x + mainCollider.bounds.size.x)
+
+    protected override void OnMapTrigger(Collider2D collider) {
+        if (collider.IsTouching(mainCollider))
             NetworkServer.Destroy(gameObject);
     }
-    protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp)
-    {
-        if (Vector2.Distance(transform.position, collider.transform.position) < collider.bounds.size.x + mainCollider.bounds.size.x)
-        {
-            moduleHp.Damage(GetInfo());
+
+    protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp) {
+        if (collider.IsTouching(mainCollider))
             NetworkServer.Destroy(gameObject);
-        }
     }
 
-    private IEnumerator Track()
-    {
-        ContactFilter2D filter = new ContactFilter2D
-        {
-            useTriggers = true
+    private void OnDestroy() {
+        ExplosionManager.launcherAmmoExplosion.Explode(transform.position.ToVector2());
+    }
+
+    private IEnumerator Track() {
+        ContactFilter2D filter = new ContactFilter2D {
+        useTriggers = true
         };
-        while (true)
-        {
-            if(aim == null)
-            {
-                List<Collider2D> colliders = new List<Collider2D>();   
+        while (true) {
+            if (aim == null) {
+                List<Collider2D> colliders = new List<Collider2D>();
                 detectArea.OverlapCollider(filter, colliders);
-                colliders.ForEach(c =>
-                {
+                colliders.ForEach(c => {
                     if (c.gameObject.TryGetComponent(out ModuleHp moduleHp)
+                        && c.gameObject.GetComponentInParent<ShipController>()
                         && NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo)
                         && moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject
-                        && (aim == null 
-                        || Vector2.Distance(transform.position, c.transform.position) < Vector2.Distance(transform.position, aim.transform.position)))
+                        && (aim == null
+                            || Vector2.Distance(transform.position, c.transform.position) <
+                            Vector2.Distance(transform.position, aim.transform.position)))
                         aim = c;
-                });
+                }
+                );
             }
-            else
-            {
-                rigidbody2D.AddForce((aim.transform.position - transform.position).normalized * speed / 5, ForceMode2D.Impulse);
+            else {
+                rigidbody2D.AddForce((aim.transform.position - transform.position).normalized * speed / 5,
+                ForceMode2D.Impulse
+                );
             }
+
             yield return new WaitForSeconds(redirectRate);
         }
     }
