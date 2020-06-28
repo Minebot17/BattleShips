@@ -32,6 +32,7 @@ public class NetworkManagerCustom : NetworkManager {
 		LanguageManager.Initialize();
 		LanguageManager.SetLanguage(x => x.Code.Equals(GameSettings.SettingLanguageCode.Value));
 		Players.Initialize();
+		Map.Initialize();
 	}
 
 	public override void OnServerConnect(NetworkConnection conn) {

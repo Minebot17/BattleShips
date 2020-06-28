@@ -126,10 +126,6 @@ public static class Utils {
             NetworkManagerCustom.singleton.gameMode.GetEnemyPointerColor(from, to).ToColor();
     }
 
-    public static Player GetPlayerFromIdentity(NetworkIdentity identity) {
-        return Players.GetPlayer(identity.clientAuthorityOwner);
-    }
-    
     public static void MarkServerChange(this Rigidbody2D rigidbody) {
         NetworkSyncVelocity syncVelocity = rigidbody.gameObject.GetComponent<NetworkSyncVelocity>();
         if (!syncVelocity) 

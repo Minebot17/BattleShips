@@ -29,6 +29,10 @@ public class EventHandler<T> : Exception where T : EventBase {
 	public bool UnSubcribeEvent(int ID) {
 		return listners.RemoveAll(x => ID == x.GetId()) >= 1;
 	}
+	
+	public void UnSubcribeAll() {
+		listners.Clear();
+	}
 
 	/// <summary>
 	/// Вызвать эвент у всех слушателей

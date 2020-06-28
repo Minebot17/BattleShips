@@ -88,6 +88,7 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IGunModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IGyrodineModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IMeleeModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IOnModuleDeathServer.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\EffectModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FireModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FreezeModule.cs" />
@@ -123,6 +124,7 @@
      <Compile Include="Assets\Scripts\Network\CommonSync\NetworkSyncVelocity.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\IntegerListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\StringListMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\BaseMessages\Vector3ListMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\GameMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateExplosionClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateMapClientMessage.cs" />
@@ -157,6 +159,7 @@
      <Compile Include="Assets\Scripts\Player\PlayerStates\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\Players.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\BoolStateValue.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\FloatStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\GeneralStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\IntStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\NetworkIdentityStateValue.cs" />

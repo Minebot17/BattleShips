@@ -33,6 +33,7 @@ public static class Players {
     private static readonly List<Player> players = new List<Player>();
     private static readonly Dictionary<int, Player> playerFromId = new Dictionary<int, Player>();
     private static readonly Dictionary<NetworkConnection, Player> playerFromConn = new Dictionary<NetworkConnection, Player>();
+    private static readonly Dictionary<NetworkIdentity, Player> playerFromIdentity = new Dictionary<NetworkIdentity, Player>();
 
     /// <summary>
     /// Список всех игроков
@@ -119,6 +120,11 @@ public static class Players {
     public static Player GetPlayer(NetworkConnection conn) {
         return playerFromConn.Get(conn);
     }
+    
+    /// <param name="identity">NetworkIdentity корабля игрока</param>
+    public static Player GetPlayer(NetworkIdentity identity) {
+        return playerFromIdentity.Get(identity);
+    }
 
     public static List<Type> GetLoadedStates() {
         return loadedStates;
@@ -160,6 +166,16 @@ public static class Players {
             message.SendToAllClient();
         else
             message.SendToServer();
+    }
+
+    public static void BindIdentityToPlayer(Player player, NetworkIdentity identity) {
+        try {
+            NetworkIdentity toRemove = playerFromIdentity.First(pair => pair.Value.Id == player.Id).Key;
+            playerFromIdentity.Remove(toRemove);
+        }
+        catch (InvalidOperationException e) { }
+        
+        playerFromIdentity[identity] = player;
     }
 
     public class ConnectionEvent : EventBase {

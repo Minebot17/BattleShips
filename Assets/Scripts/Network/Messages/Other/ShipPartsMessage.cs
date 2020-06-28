@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Networking;
 
 public class ShipPartsMessage : GameMessage {
@@ -26,12 +27,20 @@ public class ShipPartsMessage : GameMessage {
         int id = reader.ReadInt32();
         Utils.DeserializeShipPartsFromJson(shipObject.gameObject, json);
 
-        ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
-        if (controller) 
-            controller.OnInitializePartsOnClient();
-
         Player player = Players.GetPlayer(id);
-        player.GetState<CommonState>().ShipIdentity.Value = shipObject;
+        CommonState cState = player.GetState<CommonState>();
+        ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
+        if (controller) {
+            controller.OnInitializePartsOnClient();
+            ModuleHp aiCoreHp = controller.GetAiCoreModule().GetComponent<ModuleHp>();
+            cState.CurrentHealth.Value = aiCoreHp.MaxHealth;
+            aiCoreHp.damageEvent.SubcribeEvent(ev => 
+                cState.CurrentHealth.Value = Math.Max(0, cState.CurrentHealth.Value - ev.DamageInfo.Damage)
+            );
+        }
+
+        cState.ShipIdentity.Value = shipObject;
+        Players.BindIdentityToPlayer(player, shipObject);
         if (Players.ClientId != id)
             Utils.SpawnPointer(Players.GetClient(), player);
 

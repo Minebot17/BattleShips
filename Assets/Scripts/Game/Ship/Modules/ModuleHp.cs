@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class ModuleHp : MonoBehaviour {
+public class ModuleHp : MonoBehaviour, IOnModuleDeathServer {
     
     public EventHandler<DamageEvent> damageEvent = new EventHandler<DamageEvent>();
     [SerializeField] private float health;
@@ -25,6 +25,10 @@ public class ModuleHp : MonoBehaviour {
             if (currentHealth <= 0)
                 GetComponent<IDeath>().OnDead(result.DamageInfo);
         }  
+    }
+    
+    public void OnModuleDeath() {
+        damageEvent.UnSubcribeAll();
     }
 
     public class DamageEvent : EventBase {

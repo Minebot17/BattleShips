@@ -42,6 +42,9 @@ public class ShipServerController : NetworkBehaviour {
         if (isDead)
             return;
 
+        if (module.TryGetComponent(out IOnModuleDeathServer onModuleDeathServer))
+            onModuleDeathServer.OnModuleDeath();
+        
         currentModulesCount--;
         NetworkIdentity killerIdentity = damageInfo.OwnerShip;
         if (module.name.Equals("AICoreModule")) {

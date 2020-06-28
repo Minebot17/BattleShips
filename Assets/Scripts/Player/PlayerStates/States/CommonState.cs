@@ -1,6 +1,7 @@
 public class CommonState : PlayerState {
 
     public NetworkIdentityStateValue ShipIdentity;
+    public FloatStateValue CurrentHealth;
     public IntStateValue Score;
     public IntStateValue Kills;
     public StringStateValue ShipJson;
@@ -10,6 +11,7 @@ public class CommonState : PlayerState {
 
     public CommonState(Player parent, bool isTest) : base(parent, isTest) {
         ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, true);
+        CurrentHealth = new FloatStateValue(this, "CurrentHp", 0f, true);
         Score = new IntStateValue(this, "Score", 0, true);
         Kills = new IntStateValue(this, "Kills", 0, true);
         ShipJson = new StringStateValue(this, "ShipJson", Utils.CreateEmptyShip(), true, true);

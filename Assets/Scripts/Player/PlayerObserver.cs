@@ -27,9 +27,9 @@ public class PlayerObserver : MonoBehaviour {
         foreach (EnemyPointer pointer in pointers)
             Destroy(pointer.gameObject);
 
-        Player currentPlayer = Utils.GetPlayerFromIdentity(players[currentIndex].GetComponent<NetworkIdentity>());
+        Player currentPlayer = Players.GetPlayer(players[currentIndex].GetComponent<NetworkIdentity>());
         foreach (GameObject player in players)
             if (player != players[currentIndex])
-                Utils.SpawnPointer(currentPlayer, Utils.GetPlayerFromIdentity(player.GetComponent<NetworkIdentity>()));
+                Utils.SpawnPointer(currentPlayer, Players.GetPlayer(player.GetComponent<NetworkIdentity>()));
     }
 }

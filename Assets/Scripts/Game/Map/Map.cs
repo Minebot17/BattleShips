@@ -50,23 +50,28 @@ public class Map : MonoBehaviour {
         Gizmos.DrawLine(transform.position + new Vector3(size.x/2f, size.y/2f, 0), transform.position + new Vector3(-size.x/2f, size.y/2f, 0));
         Gizmos.DrawLine(transform.position + new Vector3(-size.x/2f, size.y/2f, 0), transform.position + new Vector3(-size.x/2f, -size.y/2f, 0));
     }
-    
+
+    public static void Initialize() {
+        if (mapElements != null) 
+            return;
+        
+        GameObject[] elements = Resources.LoadAll<GameObject>("MapElements/");
+        mapElements = elements.ToDictionary(e => e.name, e => e);
+    }
+
     /// <summary>
     /// Спавнит карту и синхронизирует ее. Вызывать только на сервере
     /// </summary>
     /// <param name="mapName">Название префаба в папке Maps в ресурсах</param>
     public static void SpawnMap(string mapName) {
-        if (mapElements == null) {
-            GameObject[] elements = Resources.LoadAll<GameObject>("MapElements/");
-            mapElements = elements.ToDictionary(e => e.name, e => e);
-        }
-
         GameObject mapPrefab = Resources.Load<GameObject>("Maps/" + mapName);
         Instantiate(mapPrefab.transform.Find("SpawnPoints").gameObject).name = "SpawnPoints";
         GameObject mapObj = new GameObject(mapPrefab.name);
         Map map = mapObj.AddComponent<Map>();
         map.size = mapPrefab.GetComponent<Map>().size;
 
+        // element name, position, localEulerAngles
+        List<(string, Vector3, Vector3)> objectsWithoutNI = new List<(string, Vector3, Vector3)>();
         for (int i = 0; i < mapPrefab.transform.childCount; i++) {
             GameObject child = mapPrefab.transform.GetChild(i).gameObject;
             if (!mapElements.ContainsKey(child.name))
@@ -75,8 +80,11 @@ public class Map : MonoBehaviour {
             GameObject element = Instantiate(mapElements[child.name]);
             element.transform.position = child.transform.localPosition;
             element.transform.localEulerAngles = child.transform.localEulerAngles;
-            NetworkServer.Spawn(element);
+            if (element.TryGetComponent(out NetworkIdentity identity) && identity != null)
+                NetworkServer.Spawn(element);
+            else
+                objectsWithoutNI.Add((child.name, element.transform.position, element.transform.localEulerAngles));
         }
-        new CreateMapClientMessage(mapName, map.size).SendToAllClientExceptHost();
+        new CreateMapClientMessage(mapName, map.size, objectsWithoutNI).SendToAllClientExceptHost();
     }
 }

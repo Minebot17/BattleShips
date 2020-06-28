@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class HpBar : ProgressBar {
     private int eventId = -1;
@@ -15,16 +17,12 @@ public class HpBar : ProgressBar {
                 if (aiCoreHp == null)
                     return;
                 
-                Value = aiCoreHp.CurrentHealth / aiCoreHp.MaxHealth;
-                eventId = aiCoreHp.damageEvent.SubcribeEvent(ev => {
-                    Value = (aiCoreHp.CurrentHealth - ev.DamageInfo.Damage) / aiCoreHp.MaxHealth;
-                    Value = Value < 0 ? 0 : Value;
+                CommonState cState = Players.GetPlayer(e.NewTarget.gameObject.GetComponent<NetworkIdentity>()).GetState<CommonState>();
+                Value = cState.CurrentHealth.Value / aiCoreHp.MaxHealth;
+                eventId = cState.CurrentHealth.onChangeValueEvent.SubcribeEvent(ev => {
+                    Value = Math.Max(cState.CurrentHealth.Value / aiCoreHp.MaxHealth, 0);
                 });
             }
         });
-    }
-
-    private void UpdateProgressBar(int currentHp, int maxHp) {
-        
     }
 }
