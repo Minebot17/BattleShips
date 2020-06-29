@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 public class HpBar : ProgressBar {
     private int eventId = -1;
+    private EventHandler<FloatStateValue.OnChangeValueEvent> eventHandler;
     
     protected override void Start() {
         base.Start();
@@ -19,10 +20,16 @@ public class HpBar : ProgressBar {
                 
                 CommonState cState = Players.GetPlayer(e.NewTarget.gameObject.GetComponent<NetworkIdentity>()).GetState<CommonState>();
                 Value = cState.CurrentHealth.Value / aiCoreHp.MaxHealth;
-                eventId = cState.CurrentHealth.onChangeValueEvent.SubcribeEvent(ev => {
+                eventHandler = cState.CurrentHealth.onChangeValueEvent;
+                eventId = eventHandler.SubcribeEvent(ev => {
                     Value = Math.Max(cState.CurrentHealth.Value / aiCoreHp.MaxHealth, 0);
                 });
             }
         });
+    }
+
+    private void OnDestroy() {
+        if (eventId != -1)
+            eventHandler.UnSubcribeEvent(eventId);
     }
 }
