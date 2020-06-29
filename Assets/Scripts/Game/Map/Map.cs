@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,6 +10,7 @@ public class Map : MonoBehaviour {
     public static Map singleton;
     public static Dictionary<string, GameObject> mapElements;
     public Vector2 size;
+    private const BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
     public void Start() {
         singleton = this;
@@ -80,11 +82,30 @@ public class Map : MonoBehaviour {
             GameObject element = Instantiate(mapElements[child.name]);
             element.transform.position = child.transform.localPosition;
             element.transform.localEulerAngles = child.transform.localEulerAngles;
+            TranslateVariables(child, element);
             if (element.TryGetComponent(out NetworkIdentity identity) && identity != null)
                 NetworkServer.Spawn(element);
             else
                 objectsWithoutNI.Add((child.name, element.transform.position, element.transform.localEulerAngles));
         }
         new CreateMapClientMessage(mapName, map.size, objectsWithoutNI).SendToAllClientExceptHost();
+    }
+
+    private static void TranslateVariables(GameObject from, GameObject to) {
+        MonoBehaviour[] components = from.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour component in components) {
+            Type componentType = component.GetType();
+            if (!componentType.IsDefined(typeof(MapElementAttribute), false))
+                continue;
+
+            FieldInfo[] fieldsInfo = componentType.GetFields(flag).Where(f => f.IsDefined(typeof(MapElementAttribute), false)).ToArray();
+            if (fieldsInfo.Length == 0)
+                continue;
+
+            Component toComponent = to.GetComponent(component.GetType());
+            Type toComponentType = toComponent.GetType();
+            foreach (FieldInfo info in fieldsInfo)
+                toComponentType.GetField(info.Name, flag).SetValue(toComponent, info.GetValue(component));
+        }
     }
 }

@@ -4,18 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[MapElement]
 public class MapLaser : NetworkBehaviour {
 
     [SerializeField] private Material lineMaterial;
     [SerializeField] private Transform forwardPointer;
-    [SerializeField] private float lineWidth;
-    [SerializeField] private int startAngle;
-    [SerializeField] private int startPhase;
-    [SerializeField] private bool startWithOff;
-    [SerializeField] private int damage;
-    [SerializeField] private int perTicks;
-    [SerializeField] private int turnOnTime;
-    [SerializeField] private int turnOffTime;
+    [MapElement] [SerializeField] private float lineWidth;
+    [MapElement] [SerializeField] private int startAngle;
+    [MapElement] [SerializeField] private int startPhase;
+    [MapElement] [SerializeField] private bool startWithOff;
+    [MapElement] [SerializeField] private int damage;
+    [MapElement] [SerializeField] private int perTicks;
+    [MapElement] [SerializeField] private int turnOnTime;
+    [MapElement] [SerializeField] private int turnOffTime;
     
     private DamageInfo damageInfo;
     private GameObject lineObject;
@@ -59,7 +60,7 @@ public class MapLaser : NetworkBehaviour {
     
     public void FixedUpdate() {
         currentTimer--;
-        if (currentTimer < 0 && NetworkManagerCustom.singleton.IsServer) {
+        if (currentTimer < 0 && NetworkManagerCustom.singleton.IsServer && turnOffTime != 0) {
             isOn = !isOn;
             TurnLaser(isOn);
             currentTimer = isOn ? turnOnTime : turnOffTime;
