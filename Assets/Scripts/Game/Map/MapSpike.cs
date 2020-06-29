@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MapSpike : NetworkBehaviour {
+public class MapSpike : MonoBehaviour {
 
-    [SyncVar] [SerializeField] private float damage;
-    [SyncVar] [SerializeField] private int perTicks;
+    [SerializeField] private float damage;
+    [SerializeField] private int perTicks;
     private long ticksTimer;
 
     private void FixedUpdate() {

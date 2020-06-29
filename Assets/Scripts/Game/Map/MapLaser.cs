@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MapLaser : AbstractModule {
+public class MapLaser : NetworkBehaviour {
 
     [SerializeField] private Material lineMaterial;
     [SerializeField] private Transform forwardPointer;
@@ -25,10 +25,10 @@ public class MapLaser : AbstractModule {
     private LayerMask overlapMask;
 
     private int currentTimer;
-    private bool isOn;
+    [SyncVar(hook = nameof(TurnLaser))] private bool isOn;
     private long currentTicks;
 
-    protected override void Start() {
+    protected void Start() {
         rayCastMask = LayerMask.GetMask("Default");
         overlapMask = LayerMask.GetMask("Modules");
         damageInfo = new DamageInfo(damage, GetComponent<NetworkIdentity>()) {
@@ -59,7 +59,7 @@ public class MapLaser : AbstractModule {
     
     public void FixedUpdate() {
         currentTimer--;
-        if (currentTimer < 0) {
+        if (currentTimer < 0 && NetworkManagerCustom.singleton.IsServer) {
             isOn = !isOn;
             TurnLaser(isOn);
             currentTimer = isOn ? turnOnTime : turnOffTime;
