@@ -22,7 +22,7 @@ public class HpBar : ProgressBar {
                 Value = cState.CurrentHealth.Value / aiCoreHp.MaxHealth;
                 eventHandler = cState.CurrentHealth.onChangeValueEvent;
                 eventId = eventHandler.SubcribeEvent(ev => {
-                    Value = Math.Max(cState.CurrentHealth.Value / aiCoreHp.MaxHealth, 0);
+                    Value = Math.Max(ev.NewValue / aiCoreHp.MaxHealth, 0);
                 });
             }
         });

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9af9d83fa817f8489db067c367d4888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeK: 0.7
+  freezeK: 0.6
   duration: 5
 --- !u!1001 &5194905205790868643
 PrefabInstance:
@@ -24,7 +24,12 @@ PrefabInstance:
     - target: {fileID: -115750464473500727, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: coolDown
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -115750464473500727, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: damage
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 371312427416351069, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}

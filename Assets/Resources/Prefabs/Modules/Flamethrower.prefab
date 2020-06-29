@@ -107,7 +107,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -128,7 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d553df913b5a9e642b7b6dd1ba2ad251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 200
+  currentHealth: 0
 --- !u!114 &8437448988355227418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4889,8 +4890,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoilForce: 0
-  damage: 1
-  damageSpeed: 0.8
+  damage: 40
+  damageSpeed: 1
 --- !u!70 &6507440571461042455
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4919,7 +4920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a0aded2eb78634089145f1ff51e210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 5
   speed: 1
   duration: 5
   chance: 50

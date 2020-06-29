@@ -103,7 +103,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d553df913b5a9e642b7b6dd1ba2ad251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 200
+  currentHealth: 0
 --- !u!114 &6427512756193070372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,9 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee036012c8a4187a4569c439256e08f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 2
+  coolDown: 1
   recoilForce: 1
-  damage: 10
+  damage: 0
   ammoSpeed: 0.2
   ammoPrefab: {fileID: 1221224678128287634, guid: 16380233946ca50438594b3413eb3af0,
     type: 3}

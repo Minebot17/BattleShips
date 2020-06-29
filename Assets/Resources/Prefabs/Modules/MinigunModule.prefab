@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d553df913b5a9e642b7b6dd1ba2ad251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 200
   currentHealth: 0
 --- !u!114 &2440792457339026135
 MonoBehaviour:
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8694d81d489b34296ee49fafcf4c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 0.1
-  recoilForce: 1
-  damage: 3
+  coolDown: 0.2
+  recoilForce: 0.5
+  damage: 25
   startCoolDown: 2
   ammoSpeed: 0.2
   ammoPrefab: {fileID: 8577016000011909186, guid: 12d20a47d742fa144ad1cbfc481aa334,

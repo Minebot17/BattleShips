@@ -32,11 +32,14 @@ public class ShipPartsMessage : GameMessage {
         ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
         if (controller) {
             controller.OnInitializePartsOnClient();
-            ModuleHp aiCoreHp = controller.GetAiCoreModule().GetComponent<ModuleHp>();
-            cState.CurrentHealth.Value = aiCoreHp.MaxHealth;
-            aiCoreHp.damageEvent.SubcribeEvent(ev => 
-                cState.CurrentHealth.Value = Math.Max(0, cState.CurrentHealth.Value - ev.DamageInfo.Damage)
-            );
+
+            if (NetworkManagerCustom.singleton.IsServer) {
+                ModuleHp aiCoreHp = controller.GetAiCoreModule().GetComponent<ModuleHp>();
+                cState.CurrentHealth.Value = aiCoreHp.MaxHealth;
+                aiCoreHp.damageEvent.SubcribeEvent(ev =>
+                    cState.CurrentHealth.Value = Math.Max(0, cState.CurrentHealth.Value - ev.DamageInfo.Damage)
+                );
+            }
         }
 
         cState.ShipIdentity.Value = shipObject;

@@ -25,6 +25,9 @@ public class GrenadeAmmo : AbstractAmmo {
     }
 
     protected void OnDestroy() {
+        if (!NetworkManagerCustom.singleton.IsServer)
+            return;
+        
         ExplosionManager.grenadeAmmoExplosion.Explode(transform.position, damageInfo.OwnerShip);
     }
 }

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrenadeGunModule
       objectReference: {fileID: 0}
+    - target: {fileID: 1189057060301378194, guid: 1aba31ee442e62f498455c6c7fdef111,
+        type: 3}
+      propertyPath: health
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3926232130472277866, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}
       propertyPath: ammoPrefab
@@ -21,17 +26,17 @@ PrefabInstance:
     - target: {fileID: 3926232130472277866, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}
       propertyPath: coolDown
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3926232130472277866, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}
       propertyPath: recoilForce
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3926232130472277866, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}
       propertyPath: damage
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3926232130472277866, guid: 1aba31ee442e62f498455c6c7fdef111,
         type: 3}

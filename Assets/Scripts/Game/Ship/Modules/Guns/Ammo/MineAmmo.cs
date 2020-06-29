@@ -32,6 +32,9 @@ public class MineAmmo : AbstractAmmo {
     }
 
     protected void OnDestroy() {
+        if (!NetworkManagerCustom.singleton.IsServer)
+            return;
+        
         ExplosionManager.mineAmmoExplosion.Explode(transform.position, damageInfo.OwnerShip);
     }
 

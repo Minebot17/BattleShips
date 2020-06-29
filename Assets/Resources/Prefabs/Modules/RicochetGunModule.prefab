@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2016895738260934018, guid: 1e3a60284c9f5d14b87ecbad1898a2d7,
         type: 3}
+    - target: {fileID: -115750464473500727, guid: 39437903cdb5c214582ebaae9e418334,
+        type: 3}
+      propertyPath: damage
+      value: 52
+      objectReference: {fileID: 0}
     - target: {fileID: 371312427416351069, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: m_Sprite
@@ -82,12 +87,12 @@ PrefabInstance:
     - target: {fileID: 8735949007591709286, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.32
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 8735949007591709286, guid: 39437903cdb5c214582ebaae9e418334,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.32
+      value: 0.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39437903cdb5c214582ebaae9e418334, type: 3}

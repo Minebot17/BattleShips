@@ -72,17 +72,27 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 4641276338726094045, guid: c6d12e36f483cb041a436afb331ec8f2,
+      objectReference: {fileID: 3994286766289648816, guid: c6d12e36f483cb041a436afb331ec8f2,
         type: 3}
     - target: {fileID: 6493149866349471142, guid: ca563d4b59e0ee544a548a4b868995c6,
         type: 3}
       propertyPath: bulletCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6493149866349471142, guid: ca563d4b59e0ee544a548a4b868995c6,
+        type: 3}
+      propertyPath: damage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7049832094052817406, guid: ca563d4b59e0ee544a548a4b868995c6,
         type: 3}
       propertyPath: m_Name
       value: TorpedoGunModule
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998450630155288670, guid: ca563d4b59e0ee544a548a4b868995c6,
+        type: 3}
+      propertyPath: health
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca563d4b59e0ee544a548a4b868995c6, type: 3}

@@ -36,6 +36,9 @@ public class LauncherAmmo : AbstractAmmo {
     }
 
     private void OnDestroy() {
+        if (!NetworkManagerCustom.singleton.IsServer)
+            return;
+        
         ExplosionManager.launcherAmmoExplosion.Explode(transform.position.ToVector2());
     }
 

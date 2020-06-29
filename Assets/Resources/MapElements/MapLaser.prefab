@@ -209,7 +209,7 @@ MonoBehaviour:
   startAngle: 0
   startPhase: 0
   startWithOff: 0
-  damage: 4
+  damage: 12
   perTicks: 2
   turnOnTime: 50
   turnOffTime: 50

@@ -13,7 +13,7 @@ public class ShipEditor : MonoBehaviour {
     public ModulesScrollAdapter scrollAdapter;
 
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private int maxModules = 5;
+    [SerializeField] private int maxModules = 4;
     [SerializeField] private Text blocksLeftText;
     [SerializeField] private GameObject readyButton;
 

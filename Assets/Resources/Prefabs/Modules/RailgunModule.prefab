@@ -104,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -125,7 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d553df913b5a9e642b7b6dd1ba2ad251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 200
+  currentHealth: 0
 --- !u!114 &3368392828073727697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,10 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b64bd0096e109c43bf6cb731ea561f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 2
-  recoilForce: 5
-  damage: 10
+  coolDown: 4
+  recoilForce: 8
+  damage: 480
   lineTime: 1
+  blocksThrough: 5
 --- !u!120 &1737589467302904692
 LineRenderer:
   m_ObjectHideFlags: 0

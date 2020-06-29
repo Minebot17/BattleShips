@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-internal class SimpleSpikes : NetworkBehaviour, IMeleeModule
+internal class SimpleSpikes : MonoBehaviour, IMeleeModule
 {
     [SerializeField] protected int damage;
 
@@ -11,7 +11,7 @@ internal class SimpleSpikes : NetworkBehaviour, IMeleeModule
 
     protected void Start()
     {
-        damageInfo = new DamageInfo(damage, transform.parent.parent.gameObject.GetComponent<NetworkIdentity>())
+        damageInfo = new DamageInfo(damage, transform.parent.parent.parent.gameObject.GetComponent<NetworkIdentity>())
         {
             effects = GetComponents<IEffectFabric>().ToList()
         };
@@ -20,14 +20,14 @@ internal class SimpleSpikes : NetworkBehaviour, IMeleeModule
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!isServer)
+        if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
-        if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
+        if (collider.gameObject.transform.childCount == 1 && collider.gameObject.transform.GetChild(0).gameObject.TryGetComponent(out ModuleHp moduleHp))
             if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
                 if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo))
                 {
-                    if (collider.gameObject.TryGetComponent(out EffectModule effectModule))
+                    if (collider.gameObject.transform.GetChild(0).gameObject.TryGetComponent(out EffectModule effectModule))
                         effectModule.AddEffects(damageInfo.effects.Select(e => e.Create()));
                     damageInfo.Damage *= rigidbody.velocity.magnitude;
                     moduleHp.Damage(damageInfo);

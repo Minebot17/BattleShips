@@ -32,6 +32,9 @@ public class TorpedoAmmo : AbstractAmmo {
     }
 
     protected void OnDestroy() {
+        if (!NetworkManagerCustom.singleton.IsServer)
+            return;
+        
         ExplosionManager.torpedoAmmoExplosion.Explode(transform.position, GetInfo().OwnerShip);
     }
 
