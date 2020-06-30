@@ -32,6 +32,9 @@ public class ProgressBar : MonoBehaviour {
 
     private void UpdateRect() {
         int currentWidth = (int) ((centerWidth + 2 * cornersWidth) * value);
+        if (!leftProgressBarFiller)
+            return;
+        
         leftProgressBarFiller.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth < cornersWidth ? currentWidth : cornersWidth);
         
         currentWidth -= cornersWidth;

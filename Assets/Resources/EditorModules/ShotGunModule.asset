@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b334b59d254828aac50afeabb322f4, type: 3}
   m_Name: ShotGunModule
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7049832094052817406, guid: ca563d4b59e0ee544a548a4b868995c6, type: 3}
+  prefab: {fileID: 2184287379692505281, guid: ca563d4b59e0ee544a548a4b868995c6, type: 3}

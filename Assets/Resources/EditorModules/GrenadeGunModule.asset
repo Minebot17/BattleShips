@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b334b59d254828aac50afeabb322f4, type: 3}
   m_Name: GrenadeGunModule
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8880043871161324204, guid: a14087de60844bd498a21060cf4ebeb7, type: 3}
+  prefab: {fileID: 5432918350969052478, guid: a14087de60844bd498a21060cf4ebeb7, type: 3}

@@ -16,6 +16,7 @@ public class DestroyModuleClientMessage : GameMessage {
     
     public override void OnClient(NetworkReader reader) {
         NetworkIdentity identity = reader.ReadNetworkIdentity();
-        identity.gameObject.GetComponent<ShipController>().OnModuleDeath(identity.transform.GetChild(reader.ReadInt32()));
+        if (identity)
+            identity.gameObject.GetComponent<ShipController>().OnModuleDeath(identity.transform.GetChild(reader.ReadInt32()));
     }
 }

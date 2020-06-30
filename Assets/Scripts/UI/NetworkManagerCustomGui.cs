@@ -28,12 +28,16 @@ public class NetworkManagerCustomGui : MonoBehaviour {
 			if (GUILayout.Button("Connect")) {
 				_started = true;
 				NetworkManagerCustom.singleton.IsServer = false;
+				IpAddress = IpAddress.Trim();
+				Port = Port.Trim();
 				NetworkManager.singleton.networkAddress = IpAddress.Equals("localhost") ? "127.0.0.1" : IpAddress;
 				NetworkManager.singleton.networkPort = int.Parse(Port);
 				NetworkManager.singleton.StartClient();
 			}
 
 			if (GUILayout.Button("Host FFA")) {
+				IpAddress = IpAddress.Trim();
+				Port = Port.Trim();
 				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "ffa");
 				_started = true;
 				NetworkManager.singleton.networkPort = int.Parse(Port);
@@ -41,6 +45,8 @@ public class NetworkManagerCustomGui : MonoBehaviour {
 			}
 			
 			if (GUILayout.Button("Host Commands")) {
+				IpAddress = IpAddress.Trim();
+				Port = Port.Trim();
 				NetworkManagerCustom.singleton.StartArguments.Add("gamemode:" + "commands");
 				_started = true;
 				NetworkManager.singleton.networkPort = int.Parse(Port);

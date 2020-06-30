@@ -29,9 +29,11 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
 
         timerCoolDown = coolDown * effectModule.freezeK;
         Shoot(vec);
-        
-        if (recoilForce != 0 && rigidbody)
+
+        if (recoilForce != 0 && rigidbody) {
             rigidbody.AddForce(-vec * recoilForce, ForceMode2D.Impulse);
+            rigidbody.MarkServerChange();
+        }
     }
 
     public virtual void FixedUpdate() {

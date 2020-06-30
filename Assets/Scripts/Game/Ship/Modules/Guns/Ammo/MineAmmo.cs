@@ -41,5 +41,6 @@ public class MineAmmo : AbstractAmmo {
     private IEnumerator Prepare() {
         yield return new WaitForSeconds(prepareTime);
         ready = true;
+        new MineReadyClientMessage(GetComponent<NetworkIdentity>()).SendToAllClient();
     }
 }

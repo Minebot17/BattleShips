@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b334b59d254828aac50afeabb322f4, type: 3}
   m_Name: RicochetGunModule
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8724980977707882533, guid: 243806742e3628347bb480a94cdf93cb, type: 3}
+  prefab: {fileID: 3234208276511627978, guid: 243806742e3628347bb480a94cdf93cb, type: 3}

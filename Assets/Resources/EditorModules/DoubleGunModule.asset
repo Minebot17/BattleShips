@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b334b59d254828aac50afeabb322f4, type: 3}
   m_Name: DoubleGunModule
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7651632409069769082, guid: 07bd64031fce41443bd2246b1e019664, type: 3}
+  prefab: {fileID: 9018164850899248096, guid: 07bd64031fce41443bd2246b1e019664, type: 3}

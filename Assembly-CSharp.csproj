@@ -132,6 +132,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyModuleClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\FlamethrowerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\MineReadyClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\RailgunClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\AddTeamPlayerClientMessage.cs" />
@@ -200,6 +201,7 @@
      <Compile Include="Assets\Scripts\Utils\Settings\StringSettingValue.cs" />
      <Compile Include="Assets\Scripts\Utils\Timer.cs" />
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />
+     <Compile Include="Assets\Scripts\Utils\VelocityRotate.cs" />
      <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
      <None Include="Assets\Resources\Lang\ru.txt" />
      <None Include="Assets\Resources\Lang\en.txt" />

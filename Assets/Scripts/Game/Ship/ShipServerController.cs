@@ -50,6 +50,7 @@ public class ShipServerController : NetworkBehaviour {
         if (module.name.Equals("AICoreModule")) {
             isDead = true;
             NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
+            return;
         }
         
         new DestroyModuleClientMessage(identity, module.transform.parent.GetSiblingIndex()).SendToAllClient();
