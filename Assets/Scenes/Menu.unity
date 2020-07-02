@@ -231,11 +231,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1161281327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 907140638c53ce84b99a60c677fa3849, type: 3}
+  m_Script: {fileID: 11500000, guid: cb5be39f15e64b44865d93b18e5b516b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IpAddress: localhost
-  Port: 7777
 --- !u!114 &1161281329
 MonoBehaviour:
   m_ObjectHideFlags: 0

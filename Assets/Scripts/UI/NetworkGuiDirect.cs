@@ -7,7 +7,7 @@ using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(NetworkManagerCustom))]
-public class NetworkManagerCustomGui : MonoBehaviour {
+public class NetworkGuiDirect : MonoBehaviour {
 	public string IpAddress;
 	public string Port;
 	private bool _started;

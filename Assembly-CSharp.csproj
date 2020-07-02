@@ -180,7 +180,9 @@
      <Compile Include="Assets\Scripts\UI\Lobby\LobbyClientTeamGui.cs" />
      <Compile Include="Assets\Scripts\UI\Lobby\LobbyServerGui.cs" />
      <Compile Include="Assets\Scripts\UI\Lobby\LobbyServerTeamGui.cs" />
-     <Compile Include="Assets\Scripts\UI\NetworkManagerCustomGui.cs" />
+     <Compile Include="Assets\Scripts\UI\NetworkGuiDirect.cs" />
+     <Compile Include="Assets\Scripts\UI\NetworkGuiMatch.cs" />
+     <Compile Include="Assets\Scripts\UI\NetworkGuiSelector.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\UI\SuicideButton.cs" />
