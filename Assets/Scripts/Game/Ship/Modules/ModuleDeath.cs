@@ -12,7 +12,8 @@ public class ModuleDeath : MonoBehaviour, IDeath {
         isDead = true;
         Destroy(transform.parent.GetComponent<BoxCollider2D>());
         Destroy(gameObject);
-        transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(damageInfo, gameObject);
+        if (NetworkManagerCustom.singleton.IsServer)
+            transform.parent.parent.GetComponent<ShipServerController>().OnModuleDeath(damageInfo, gameObject);
     }
 
     public bool IsDead() {

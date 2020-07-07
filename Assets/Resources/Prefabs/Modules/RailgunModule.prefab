@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b64bd0096e109c43bf6cb731ea561f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 4
+  coolDown: 6
   recoilForce: 8
   damage: 480
   lineTime: 1

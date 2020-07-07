@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2190825975257644008}
   - component: {fileID: 2119021797285279681}
   - component: {fileID: 7158840117359977571}
+  - component: {fileID: 1485556590175764551}
   m_Layer: 10
   m_Name: SpikesModule
   m_TagString: Untagged
@@ -124,6 +125,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezeK: 1
+--- !u!61 &1485556590175764551
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239116574526497352}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &8162362739181276542
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +196,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.055647314}
+  m_Offset: {x: 0, y: 0.37696552}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -180,7 +207,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.64, y: 0.7512946}
+  m_Size: {x: 0.64, y: 0.108658195}
   m_EdgeRadius: 0
 --- !u!114 &761230359414801928
 MonoBehaviour:
@@ -194,4 +221,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97019ccd20e153040b6bc276f946bac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 75
+  damage: 50

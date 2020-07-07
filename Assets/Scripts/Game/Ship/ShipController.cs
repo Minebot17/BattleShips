@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
-    
-    public EventHandler<ModuleDeathEvent> moduleDeathEvent = new EventHandler<ModuleDeathEvent>();
-    
+
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();
 
@@ -66,10 +64,8 @@ public class ShipController : NetworkBehaviour {
 
     public void OnModuleDeath(Transform cell) {
         currentModulesCount--;
-        if (cell.childCount != 0)
-            Destroy(cell.GetChild(0).gameObject);
-
-        moduleDeathEvent.CallListners(new ModuleDeathEvent(gameObject));
+        if (cell.childCount != 0) 
+            cell.GetChild(0).GetComponent<IDeath>().OnDead(null);
     }
 
     public GameObject GetAiCoreModule() {

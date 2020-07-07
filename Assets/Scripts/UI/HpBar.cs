@@ -9,11 +9,7 @@ public class HpBar : ProgressBar {
     protected override void Start() {
         base.Start();
         CameraFollower.singleton.changeTargetEvent.SubcribeEvent(e => {
-            ShipController controller;
-            if (eventId != -1 && e.OldTarget && (controller = e.OldTarget.gameObject.GetComponent<ShipController>()))
-                controller.moduleDeathEvent.UnSubcribeEvent(eventId);
-
-            if (e.NewTarget && (controller = e.NewTarget.gameObject.GetComponent<ShipController>())) {
+            if (e.NewTarget && e.NewTarget.gameObject.TryGetComponent(out ShipController controller)) {
                 ModuleHp aiCoreHp = controller.GetAiCoreModule()?.GetComponent<ModuleHp>();
                 if (aiCoreHp == null)
                     return;

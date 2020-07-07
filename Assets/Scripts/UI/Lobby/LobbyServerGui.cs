@@ -13,6 +13,7 @@ public class LobbyServerGui : LobbyClientGui {
 		base.Start();
 		GameObject[] goMaps = Resources.LoadAll<GameObject>("Maps/");
 		maps = goMaps.Select(go => go.name).ToArray();
+		global.CurrentMapName.Value = "WallsAndSpikesMap";
 	}
 
 	protected override void OnGUI() {

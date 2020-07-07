@@ -42,7 +42,7 @@ public abstract class AbstractAmmo : NetworkBehaviour
         
         if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
         {
-            if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
+            if (!damageInfo.OwnerShip || moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
                 if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo))
                 {
                     if (collider.gameObject.TryGetComponent(out EffectModule effectModule))

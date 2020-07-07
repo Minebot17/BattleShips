@@ -29,7 +29,9 @@ internal class SimpleSpikes : MonoBehaviour, IMeleeModule
                 {
                     if (collider.gameObject.transform.GetChild(0).gameObject.TryGetComponent(out EffectModule effectModule))
                         effectModule.AddEffects(damageInfo.effects.Select(e => e.Create()));
-                    damageInfo.Damage *= rigidbody.velocity.magnitude;
+                    damageInfo.Damage *= (rigidbody.velocity + collider.gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>().velocity).magnitude;
+                    rigidbody.velocity *= 0.75f;
+                    rigidbody.MarkServerChange();
                     moduleHp.Damage(damageInfo);
                 }
     }
