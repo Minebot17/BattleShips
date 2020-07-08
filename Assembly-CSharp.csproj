@@ -76,6 +76,7 @@
      <Compile Include="Assets\Scripts\Game\Map\MapLaser.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapSpike.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapTurret.cs" />
+     <Compile Include="Assets\Scripts\Game\RoundTimer.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\ModulesScrollAdapter.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\Ship.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\ShipEditor.cs" />

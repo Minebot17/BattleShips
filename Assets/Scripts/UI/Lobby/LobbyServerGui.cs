@@ -8,12 +8,13 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class LobbyServerGui : LobbyClientGui {
 	private string[] maps;
+	private string roundTime;
 	
 	protected virtual void Start() {
 		base.Start();
 		GameObject[] goMaps = Resources.LoadAll<GameObject>("Maps/");
 		maps = goMaps.Select(go => go.name).ToArray();
-		global.CurrentMapName.Value = "WallsAndSpikesMap";
+		roundTime = global.RoundTime.Value+"";
 	}
 
 	protected override void OnGUI() {
@@ -45,9 +46,14 @@ public class LobbyServerGui : LobbyClientGui {
 		GUILayout.Space(10);
 		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
-
 		if (GUILayout.Button("OK"))
 			cState.Nick.Value = nick;
+		
+		GUILayout.Space(10);
+		GUILayout.Label("Время раунда (секунд): ");
+		roundTime = GUILayout.TextField(roundTime);
+		if (GUILayout.Button("OK") && int.TryParse(roundTime, out int roundTimeInt))
+			global.RoundTime.Value = roundTimeInt;
 		
 		GUILayout.Space(10);
 		GUILayout.Label("Кол-во очков до победы");

@@ -47,9 +47,11 @@ public class LobbyClientGui : MonoBehaviour {
 		GUILayout.Space(10);
 		GUILayout.Label($"Никнейм: {(validNick ? "" : incorrectNickMessage)}");
 		nick = GUILayout.TextField(nick);
-
 		if (GUILayout.Button("OK"))
 			cState.Nick.Value = nick;
+		
+		GUILayout.Space(10);
+		GUILayout.Label("Время раунда: " + global.RoundTime.Value + " секунд");
 
 		RenderInChild();
 

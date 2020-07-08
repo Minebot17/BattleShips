@@ -9,7 +9,6 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public static class Utils {
-    public const string mapNotSelected = "Not selected";
     public static float sizeOfOne = 0.64f;
     public static System.Random rnd = new System.Random();
     public static LayerMask shipCellsMask = 1 << 8;

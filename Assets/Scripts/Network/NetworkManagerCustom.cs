@@ -54,7 +54,7 @@ public class NetworkManagerCustom : NetworkManager {
 
 		if (sceneName.Equals("Game")) {
 			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
-			
+
 			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)
 					SpawnClientShip(conn);
