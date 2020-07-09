@@ -175,10 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10895f5c26029d46a9949f4a85d13d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPointerPrefab: {fileID: 8074436548526991826, guid: 850a6f2bcc5fe5643a9b7ce08cc64733,
-    type: 3}
-  trustPower: 25
-  rotationPower: 5
+  atmosphericDensity: 0.25
 --- !u!114 &6064448069935592005
 MonoBehaviour:
   m_ObjectHideFlags: 0

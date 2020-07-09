@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class ShipController : NetworkBehaviour {
 
+    [Tooltip("Affects the rotation of the ship during movement. The bigger the harder it is to turn")]
+    public float atmosphericDensity = 1f;
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();
 
@@ -13,13 +15,7 @@ public class ShipController : NetworkBehaviour {
     private Transform forwardPointer;
     private NetworkIdentity identity;
     private IInputHandler inputHandler;
-
-    private int initialModulesCount;
-    private int currentModulesCount;
     private GameObject aiCoreModule;
-
-    public int InitialModulesCount => initialModulesCount;
-    public int CurrentModulesCount => currentModulesCount;
 
     private void Start() {
         inputHandler = PlayerInputHandler.singleton;
@@ -36,6 +32,9 @@ public class ShipController : NetworkBehaviour {
         float rotation = inputHandler.GetShipRotation();
         float trust = inputHandler.GetShipTrust();
         bool gunButton = inputHandler.GetGun();
+        
+        // If speed is faster, turning is harder
+        rotation *= 1f/(rigidbody.velocity.magnitude * atmosphericDensity + 1f);
 
         if (lastGunButton != gunButton) {
             if (isServer)
@@ -57,15 +56,7 @@ public class ShipController : NetworkBehaviour {
     }
 
     public void OnInitializePartsOnClient() {
-        initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
-        currentModulesCount = initialModulesCount;
         aiCoreModule = transform.Find("ShipCell 0 0").GetChild(0).gameObject;
-    }
-
-    public void OnModuleDeath(Transform cell) {
-        currentModulesCount--;
-        if (cell.childCount != 0) 
-            cell.GetChild(0).GetComponent<IDeath>().OnDead(null);
     }
 
     public GameObject GetAiCoreModule() {
@@ -83,9 +74,5 @@ public class ShipController : NetworkBehaviour {
 
     public override float GetNetworkSendInterval() {
         return 0.02f;
-    }
-
-    public class ModuleDeathEvent : EventBase {
-        public ModuleDeathEvent(GameObject sender) : base(sender, false) { }
     }
 }
