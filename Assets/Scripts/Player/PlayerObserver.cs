@@ -13,9 +13,14 @@ public class PlayerObserver : MonoBehaviour {
     private void Start() {
         players = GameObject.FindGameObjectsWithTag("Player").ToList();
         currentIndex = Utils.rnd.Next(players.Count);
-        CameraFollower.singleton.Target = players[currentIndex].transform;
-        PlayerInputHandler.singleton.screenButton.GetComponent<Image>().raycastTarget = true;
-        PlayerInputHandler.singleton.screenButton.GetComponent<Button>().onClick.AddListener(OnScreenClick);
+        try {
+            CameraFollower.singleton.Target = players[currentIndex].transform;
+            PlayerInputHandler.singleton.screenButton.GetComponent<Image>().raycastTarget = true;
+            PlayerInputHandler.singleton.screenButton.GetComponent<Button>().onClick.AddListener(OnScreenClick);
+        }
+        catch (ArgumentOutOfRangeException e) {
+            Debug.Log(e);
+        }
     }
     
     public void OnScreenClick() {

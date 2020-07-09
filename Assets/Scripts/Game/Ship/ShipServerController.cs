@@ -10,18 +10,12 @@ public class ShipServerController : NetworkBehaviour {
     private NetworkIdentity identity;
     private ShipController commonController;
 
-    private int initialModulesCount;
-    private int currentModulesCount;
-    private bool isDead = false;
-
     private void Start() {
         identity = GetComponent<NetworkIdentity>();
         if (!isServer)
             return;
         
         guns = GetComponentsInChildren<IGunModule>();
-        initialModulesCount = GetComponentsInChildren<ModuleHp>().Length;
-        currentModulesCount = initialModulesCount;
         commonController = GetComponent<ShipController>();
     }
 
@@ -36,23 +30,5 @@ public class ShipServerController : NetworkBehaviour {
             if (Players.GetPlayer(identity.clientAuthorityOwner).GetState<CommonState>().IsShoot.Value)
                 guns[i].TryShoot(commonController.GetForward());
         }
-    }
-
-    public void OnModuleDeath(DamageInfo damageInfo, GameObject module) {
-        if (isDead)
-            return;
-
-        if (module.TryGetComponent(out IOnModuleDeathServer onModuleDeathServer))
-            onModuleDeathServer.OnModuleDeath();
-        
-        currentModulesCount--;
-        NetworkIdentity killerIdentity = damageInfo.OwnerShip;
-        if (module.name.Equals("AICoreModule")) {
-            isDead = true;
-            NetworkManagerCustom.singleton.PlayerKill(killerIdentity, identity);
-            return;
-        }
-        
-        new DestroyModuleClientMessage(identity, module.transform.parent.GetSiblingIndex()).SendToAllClient();
     }
 }

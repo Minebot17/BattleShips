@@ -16,6 +16,7 @@ public class ExplosionManager : MonoBehaviour {
     public static readonly Explosion mineAmmoExplosion = new Explosion(0, 600f, 1.5f, 2f, 10f);
     public static readonly Explosion grenadeAmmoExplosion = new Explosion(0, 200f, 1f, 1.5f, 5f);
     public static readonly Explosion torpedoAmmoExplosion = new Explosion(0, 200f, 1f, 1.5f, 5f);
+    public static readonly Explosion suicideExplosion = new Explosion(0, 1200f, 1.5f, 4f, 10f);
 
     [SerializeField] private GameObject[] explosionPrefabs;
 
@@ -70,7 +71,7 @@ public class ExplosionManager : MonoBehaviour {
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (1f - toAdd.magnitude / radius)), null));
+                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (1f - toAdd.magnitude / radius)), identity) { DamageOwner = true });
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {

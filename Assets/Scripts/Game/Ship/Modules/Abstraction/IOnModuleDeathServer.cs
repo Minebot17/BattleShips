@@ -1,3 +1,3 @@
 public interface IOnModuleDeathServer {
-    void OnModuleDeath();
+    void OnModuleDeath(DamageInfo damageInfo);
 }

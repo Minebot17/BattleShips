@@ -15,7 +15,7 @@ public class ModuleHp : MonoBehaviour, IOnModuleDeathServer {
     }
 
     public void Damage(DamageInfo damageInfo) {
-        if(!damageInfo.OwnerShip || transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject) {
+        if(damageInfo.DamageOwner || !damageInfo.OwnerShip || transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject) {
             DamageEvent result = damageEvent.CallListners(new DamageEvent(this, damageInfo));
             if (result.IsCancel)
                 return;
@@ -27,7 +27,7 @@ public class ModuleHp : MonoBehaviour, IOnModuleDeathServer {
         }  
     }
     
-    public void OnModuleDeath() {
+    public void OnModuleDeath(DamageInfo damageInfo) {
         damageEvent.UnSubcribeAll();
     }
 
