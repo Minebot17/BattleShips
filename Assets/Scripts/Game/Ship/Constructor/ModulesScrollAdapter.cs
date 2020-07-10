@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,9 @@ using UnityEngine.UI;
 public class ModulesScrollAdapter : MonoBehaviour {
     public RectTransform content;
     public GameObject modulePrefab;
-    private readonly List<Image> moduleBackgrounds = new List<Image>();
     public string selectedModule;
+    public Action onModuleSelect;
+    private readonly List<Image> moduleBackgrounds = new List<Image>();
 
     public void SetModules(EditorModule[] contentContainer) {
         foreach (Transform child in content) {
@@ -41,5 +43,6 @@ public class ModulesScrollAdapter : MonoBehaviour {
         Color currentColor = buttonObject.GetComponent<Image>().color;
         currentColor.a = 1f;
         buttonObject.GetComponent<Image>().color = currentColor;
+        onModuleSelect.Invoke();
     }
 }
