@@ -13,7 +13,7 @@ public class MapTurret : MonoBehaviour {
         if (!NetworkManagerCustom.singleton.IsServer)
             return;
 
-        if (gun.CoolDown <= 0)
+        if (gun.TimerCoolDown <= 0)
             gun.TryShoot((forwardPointer.position - transform.position).ToVector2().normalized);
     }
 }

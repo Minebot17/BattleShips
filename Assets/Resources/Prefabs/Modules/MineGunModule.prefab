@@ -153,6 +153,7 @@ MonoBehaviour:
   coolDown: 4
   recoilForce: 1
   damage: 0
+  damageRating: 4
   ammoSpeed: 0
   ammoPrefab: {fileID: 8988504063283751698, guid: a40d05ec0712a844d9023f1713c3c6a4,
     type: 3}

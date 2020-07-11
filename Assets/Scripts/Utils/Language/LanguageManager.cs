@@ -82,7 +82,13 @@ public static class LanguageManager {
 	/// <param name="key">Ключ</param>
 	/// <returns>Переведенное предложение</returns>
 	public static string GetValue(string key) {
-		return CurrentLanguage.Dictionary[key];
+		try {
+			return CurrentLanguage.Dictionary[key];
+		}
+		catch (KeyNotFoundException e) {
+			Debug.Log(e);
+			return key;
+		}
 	}
 
 	public class Language {

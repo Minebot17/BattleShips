@@ -18,8 +18,10 @@ public class ShipEditor : MonoBehaviour {
     [SerializeField] private Text blocksLeftText;
     [SerializeField] private GameObject readyButton;
     [SerializeField] private GameObject gridBorders;
+    [SerializeField] private GameObject moduleInfoPanel;
     [SerializeField] private GameObject modulePlaces;
     [SerializeField] private GameObject modulePlaceFramePrefab;
+    [SerializeField] private GameObject shipCellPrefab;
     
     private GameObject currentShip;
     private EditorModule[] modules;
@@ -50,7 +52,33 @@ public class ShipEditor : MonoBehaviour {
         
         modules = Resources.LoadAll<EditorModule>("EditorModules/");
         scrollAdapter.SetModules(modules);
-        scrollAdapter.onModuleSelect = UpdateFreePlaces;
+        scrollAdapter.onModuleSelect = () => {
+            UpdateFreePlaces();
+            
+            if (!moduleInfoPanel.activeSelf)
+                moduleInfoPanel.SetActive(true);
+
+            string[] splitted = scrollAdapter.selectedModule.Split(' ');
+            moduleInfoPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = LanguageManager.GetValue( splitted[0] + ".name");
+            moduleInfoPanel.transform.GetChild(1).gameObject.GetComponent<Text>().text = LanguageManager.GetValue(splitted[0] + ".description");
+
+            GameObject modulePrefab = modules[int.Parse(splitted[1])].prefab;
+            List<string> parameters = new List<string>();
+
+            if (modulePrefab.TryGetComponent(out AbstractGunModule gun)) {
+                parameters.Add(LanguageManager.GetValue("moduleParams.coolDown") + ": " 
+                               + gun.CoolDown.ToString("#0.##") + " " + LanguageManager.GetValue("moduleParams.seconds"));
+                parameters.Add(LanguageManager.GetValue("moduleParams.recoilForce") + ": " 
+                               + gun.RecoilForce.ToString("#0.##"));
+                parameters.Add(LanguageManager.GetValue("moduleParams.damage") + ": " 
+                               + LanguageManager.GetValue("damageRating." + (int) gun.DamageRating));
+            }
+
+            if (modulePrefab.TryGetComponent(out ModuleHp hp))
+                parameters.Add(LanguageManager.GetValue("moduleParams.health") + ": " + hp.MaxHealth);
+
+            moduleInfoPanel.transform.GetChild(2).gameObject.GetComponent<Text>().text = string.Join("\n", parameters);
+        };
         OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
     }
 
@@ -100,12 +128,13 @@ public class ShipEditor : MonoBehaviour {
             else 
                 return;
         }
-        
-        GameObject cell = Instantiate(Resources.Load<GameObject>("Prefabs/ShipCell"), currentShip.transform);
+
+        EditorModule editorModule = modules[int.Parse(splittedName[1])];
+        GameObject cell = Instantiate(shipCellPrefab, currentShip.transform);
         cell.name = "ShipCell " + position.x + " " + position.y;
         cell.transform.localPosition = GridPosToWorldPos(position);
-        GameObject module = Instantiate(Resources.Load<GameObject>("Prefabs/Modules/" + splittedName[0]), cell.transform);
-        module.name = modules[int.Parse(splittedName[1])].name;
+        GameObject module = Instantiate(editorModule.prefab, cell.transform);
+        module.name = editorModule.name;
         module.transform.localPosition = new Vector3(0, 0, -0.1f);
         installedModules++;
         blocksLeftText.text = (maxModules - installedModules) + " blocks left";

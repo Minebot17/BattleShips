@@ -167,6 +167,7 @@ MonoBehaviour:
   coolDown: 6
   recoilForce: 8
   damage: 480
+  damageRating: 4
   lineTime: 1
   blocksThrough: 5
 --- !u!120 &1737589467302904692
