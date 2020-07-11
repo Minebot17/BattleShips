@@ -207,7 +207,6 @@
      <Compile Include="Assets\Scripts\Utils\Timer.cs" />
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />
      <Compile Include="Assets\Scripts\Utils\VelocityRotate.cs" />
-     <None Include="Assets\Android\Plugins\AndroidManifest.xml" />
      <None Include="Assets\Resources\Lang\ru.txt" />
      <None Include="Assets\Resources\Lang\en.txt" />
  <Reference Include="Unity.Timeline.Editor">

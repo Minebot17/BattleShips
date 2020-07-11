@@ -21,10 +21,6 @@ public class NetworkManagerCustom : NetworkManager {
 	
 	public void Start() {
 		ResetValuesToDefault();
-
-		if (!Directory.Exists(Application.streamingAssetsPath + "/ships"))
-			Directory.CreateDirectory(Application.streamingAssetsPath + "/ships");
-		
 		GameSettings.Load();
 		Timer.InitializeCreate();
 		LanguageManager.Initialize();
