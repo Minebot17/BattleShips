@@ -93,11 +93,15 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void ScoreboardOver() {
+		foreach (GameObject scoreKey in Scoreboard.singleton.deltaScore.Keys) {
+			int id = int.Parse(scoreKey.name.Split(' ')[1]);
+			CommonState cState = Players.GetPlayer(id).GetState<CommonState>();
+			cState.Score.Value += Scoreboard.singleton.deltaScore[scoreKey];
+			cState.Kills.Value = 0;
+		}
+
 		GlobalState gState = Players.GetGlobal();
 		foreach (CommonState cState in Players.GetStates<CommonState>()) {
-			cState.Score.Value += cState.Kills.Value;
-			cState.Kills.Value = 0;
-
 			if (cState.Score.Value >= gState.RoundsCount.Value) {
 				foreach (Player player in Players.All)
 					player.ResetStates();

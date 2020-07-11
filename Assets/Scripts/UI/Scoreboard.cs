@@ -17,17 +17,17 @@ public class Scoreboard : MonoBehaviour {
     [SerializeField] private Vector2Int partSize = new Vector2Int(4, 16);
     [SerializeField] private float deltaScoreSpeed = 1f;
 
-    private Dictionary<GameObject, int> deltaScore = new Dictionary<GameObject, int>();
+    public Dictionary<GameObject, int> deltaScore = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, float> initialPosition = new Dictionary<GameObject, float>();
 
     private void Start() {
         singleton = this;
-        IEnumerable<CommonState> gStates = Players.GetStates<CommonState>();
+        IEnumerable<CommonState> cStates = Players.GetStates<CommonState>();
         if (NetworkManagerCustom.singleton.IsServer) {
             Initialize(
-            gStates.Select(d => d.ShipJson.Value).ToList(),
-            gStates.Select(d => d.Score.Value).ToList(),
-            NetworkManagerCustom.singleton.gameMode.GetScoreDelta(gStates.ToDictionary(d => d.GetParent().Conn, d => d.Kills.Value)).Values.ToList(),
+            cStates.Select(d => d.ShipJson.Value).ToList(),
+            cStates.Select(d => d.Score.Value).ToList(),
+            NetworkManagerCustom.singleton.gameMode.GetScoreDelta(cStates.ToDictionary(d => d.GetParent().Conn, d => d.Kills.Value)).Values.ToList(),
                 Players.GetGlobal().RoundsCount.Value
             );
         }
@@ -41,9 +41,10 @@ public class Scoreboard : MonoBehaviour {
         for (int i = 0; i < scoreForWin - 1; i++)
             SpawnBoardPart(centerSprite, partSize.x/2 * (i*2 - scoreForWin + 2));
         
+        List<CommonState> cStates = Players.GetStates<CommonState>().ToList();
         int yPerPlayer = partSize.y / (ships.Count + 1);
         for (int i = 0; i < ships.Count; i++) {
-            GameObject shipObject = new GameObject("Ship");
+            GameObject shipObject = new GameObject("Ship " + cStates[i].GetParent().Id);
             Utils.DeserializeShipPartsFromJson(shipObject, ships[i]);
             shipObject.transform.parent = transform;
             shipObject.transform.localPosition = new Vector3(
