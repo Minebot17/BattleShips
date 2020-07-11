@@ -60,18 +60,17 @@ public class ExplosionManager : MonoBehaviour {
             Dictionary<NetworkIdentity, Vector2> kickVectors = new Dictionary<NetworkIdentity, Vector2>();
             foreach (Collider2D col in colliders) {
                 NetworkIdentity parent = col.gameObject.transform.parent.gameObject.GetComponent<NetworkIdentity>();
-                if (!parent)
-                    continue;
-
-                if (parent && !kickVectors.ContainsKey(parent) && parent.gameObject.tag.Equals("Player"))
-                    kickVectors[parent] = new Vector2();
-
-                Vector2 toAdd = col.gameObject.transform.position.ToVector2() - position;
-                kickVectors[parent] = kickVectors[parent] + toAdd;
+                Vector2 explosionToObjectVector = col.gameObject.transform.position.ToVector2() - position;
+                if (parent) {
+                    if (parent && !kickVectors.ContainsKey(parent) && parent.gameObject.tag.Equals("Player"))
+                        kickVectors[parent] = new Vector2();
+                    
+                    kickVectors[parent] = kickVectors[parent] + explosionToObjectVector;
+                }
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (1f - toAdd.magnitude / radius)), identity) { DamageOwner = true });
+                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (1f - explosionToObjectVector.magnitude / radius)), identity) { DamageOwner = true });
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {

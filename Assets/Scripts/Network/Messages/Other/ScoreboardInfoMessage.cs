@@ -19,7 +19,7 @@ public class ScoreboardInfoMessage : GameMessage {
         gStates.Select(d => d.ShipJson.Value).ToList(),
         gStates.Select(d => d.Score.Value).ToList(),
             NetworkManagerCustom.singleton.gameMode.GetScoreDelta(gStates.ToDictionary(d => d.GetParent().Conn, d => d.Kills.Value)).Values.ToList(),
-            NetworkManagerCustom.singleton.scoreForWin
+            Players.GetGlobal().RoundsCount.Value
         ).SendToClient(conn);
     }
     

@@ -17,8 +17,6 @@ public class NetworkManagerCustom : NetworkManager {
 	public List<string> StartArguments; // Информация для установки режима сервера. Задается в классе GUI
 	public IGameMode gameMode = new FFAGameMode();
 	public int lastConnections;
-	
-	public int scoreForWin = 2;
 	public GameObject enemyPointerPrefab;
 	
 	public void Start() {
@@ -99,25 +97,20 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void ScoreboardOver() {
-		bool gameOver = false;
-		foreach (CommonState gState in Players.GetStates<CommonState>()) {
-			gState.Score.Value += gState.Kills.Value;
-			gState.Kills.Value = 0;
+		GlobalState gState = Players.GetGlobal();
+		foreach (CommonState cState in Players.GetStates<CommonState>()) {
+			cState.Score.Value += cState.Kills.Value;
+			cState.Kills.Value = 0;
 
-			if (gState.Score.Value >= scoreForWin) {
-				gameOver = true;
-				break;
+			if (cState.Score.Value >= gState.RoundsCount.Value) {
+				foreach (Player player in Players.All)
+					player.ResetStates();
+
+				DestroyImmediate(lobbyManager);
+				ServerChangeScene("Lobby");
+				GameInProgress = false;
+				return;
 			}
-		}
-
-		if (gameOver) {
-			foreach (Player player in Players.All)
-				player.ResetStates();
-
-			DestroyImmediate(lobbyManager);
-			ServerChangeScene("Lobby");
-			GameInProgress = false;
-			return;
 		}
 
 		ServerChangeScene("ShipEditor");

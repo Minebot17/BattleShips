@@ -9,18 +9,21 @@ using UnityEngine.Networking.NetworkSystem;
 public class LobbyServerGui : LobbyClientGui {
 	private string[] maps;
 	private string roundTime;
-	
+	private string roundsCount;
+
 	protected virtual void Start() {
 		base.Start();
 		GameObject[] goMaps = Resources.LoadAll<GameObject>("Maps/");
 		maps = goMaps.Select(go => go.name).ToArray();
-		roundTime = global.RoundTime.Value+"";
+		roundTime = global.RoundTime.Value + "";
+		roundsCount = global.RoundsCount.Value + "";
 	}
 
 	protected override void OnGUI() {
 		if (NetworkManagerCustom.singleton.GameInProgress)
 			return;
-		
+
+		scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, false);
 		int readyCount = 0;
 		foreach (LobbyState lState in Players.GetStates<LobbyState>()) {
 			if (lState.Ready.Value)
@@ -56,8 +59,10 @@ public class LobbyServerGui : LobbyClientGui {
 			global.RoundTime.Value = roundTimeInt;
 		
 		GUILayout.Space(10);
-		GUILayout.Label("Кол-во очков до победы");
-		NetworkManagerCustom.singleton.scoreForWin = int.Parse(GUILayout.TextField(NetworkManagerCustom.singleton.scoreForWin+""));
+		GUILayout.Label("Кол-во раундов: ");
+		roundsCount = GUILayout.TextField(roundsCount);
+		if (GUILayout.Button("OK") && int.TryParse(roundsCount, out int roundsCountInt))
+			global.RoundsCount.Value = roundsCountInt;
 		
 		RenderInChild();
 
@@ -74,6 +79,8 @@ public class LobbyServerGui : LobbyClientGui {
 		}
 		else if (readyCount == connectionsCount && NetworkManagerCustom.singleton.GameInProgress)
 			GUILayout.Label("Загрузка...");
+		
+		GUILayout.EndScrollView();
 	}
 
 	protected virtual void OnStartGame() {

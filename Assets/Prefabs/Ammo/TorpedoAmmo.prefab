@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3447808891372106059}
   - component: {fileID: 4758662492673907890}
   m_Layer: 9
-  m_Name: TorpedoAmmo 1
+  m_Name: TorpedoAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeSpan: 175
-  skidForce: 1
+  skidForce: 0.75
 --- !u!114 &4758662492673907890
 MonoBehaviour:
   m_ObjectHideFlags: 0

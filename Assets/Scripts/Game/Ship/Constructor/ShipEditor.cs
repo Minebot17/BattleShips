@@ -89,7 +89,7 @@ public class ShipEditor : MonoBehaviour {
             || position.x == 0 && position.y == 0
             || position.x < -gridSize.x/2 || position.x > gridSize.x/2
             || position.y < -gridSize.y/2 || position.y > gridSize.y/2
-            || !freePlaces.Contains(position))
+            || !shipCell && !freePlaces.Contains(position))
             return;
             
         string[] splittedName = scrollAdapter.selectedModule.Split(' ');
