@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShipPartsMessage : GameMessage {
@@ -25,11 +27,21 @@ public class ShipPartsMessage : GameMessage {
         NetworkIdentity shipObject = reader.ReadNetworkIdentity();
         string json = reader.ReadString();
         int id = reader.ReadInt32();
-        Utils.DeserializeShipPartsFromJson(shipObject.gameObject, json);
+        Ship ship = Utils.DeserializeShipPartsFromJson(shipObject.gameObject, json);
+        ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
+        Material shieldMaterial = new Material(controller.shieldShader);
+        double[] shieldVariables = Utils.CalculateShieldEllipseVariables(ship.shipModules.Select(m => m.position).ToList());
+
+        char[] abc =  {'A', 'B', 'C', 'D', 'E'};
+        for (int i = 0; i < 5; i++)
+            shieldMaterial.SetFloat("_EllipseValue" + abc[i], (float) shieldVariables[i]);
+            
+        MeshRenderer renderer = shipObject.gameObject.transform.Find("ShieldRenderer").GetComponent<MeshRenderer>();
+        renderer.enabled = true;
+        renderer.material = shieldMaterial;
 
         Player player = Players.GetPlayer(id);
         CommonState cState = player.GetState<CommonState>();
-        ShipController controller = shipObject.gameObject.GetComponent<ShipController>();
         if (controller) {
             controller.OnInitializePartsOnClient();
 

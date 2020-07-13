@@ -350,6 +350,15 @@
  <Reference Include="UnityEditor.Android.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.9f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="DotNetZip">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/NuGet/Editor/DotNetZip.dll</HintPath>
+ </Reference>
+ <Reference Include="NugetForUnity">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/NuGet/Editor/NugetForUnity.dll</HintPath>
+ </Reference>
+ <Reference Include="MathNet.Numerics">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/MathNet.Numerics.4.11.0/lib/net461/MathNet.Numerics.dll</HintPath>
+ </Reference>
  <Reference Include="nunit.framework">
  <HintPath>E:/Unity Projects/BattleShips/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>

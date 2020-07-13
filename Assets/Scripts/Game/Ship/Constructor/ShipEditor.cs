@@ -29,12 +29,6 @@ public class ShipEditor : MonoBehaviour {
     private bool timerStarted;
     private int installedModules;
     private HashSet<Vector2Int> freePlaces = new HashSet<Vector2Int>();
-    private readonly Vector2Int[] neighborBypassOrder = { 
-        new Vector2Int(-1, 0),
-        new Vector2Int(1, 0),
-        new Vector2Int(0, -1),
-        new Vector2Int(0, 1)
-    };
 
     public void Start() {
         singleton = this;
@@ -177,8 +171,8 @@ public class ShipEditor : MonoBehaviour {
             Vector2Int cellCoords = GetCellCoords(cell);
             GameObject[] neighbors = FindNeighbors(cellCoords);
 
-            for (int j = 0; j < neighborBypassOrder.Length; j++) {
-                Vector2Int coords = neighborBypassOrder[j] + cellCoords;
+            for (int j = 0; j < Utils.neighborBypassOrder.Length; j++) {
+                Vector2Int coords = Utils.neighborBypassOrder[j] + cellCoords;
                 if (!neighbors[j] 
                     && coords.x >= -gridSize.x/2 
                     && coords.x <= gridSize.x/2 
@@ -198,9 +192,9 @@ public class ShipEditor : MonoBehaviour {
     }
 
     private GameObject[] FindNeighbors(Vector2Int pos) {
-        GameObject[] neighbors = new GameObject[neighborBypassOrder.Length];
-        for (int i = 0; i < neighborBypassOrder.Length; i++)
-            neighbors[i] = FindShipCell(pos + neighborBypassOrder[i]);
+        GameObject[] neighbors = new GameObject[Utils.neighborBypassOrder.Length];
+        for (int i = 0; i < Utils.neighborBypassOrder.Length; i++)
+            neighbors[i] = FindShipCell(pos + Utils.neighborBypassOrder[i]);
 
         return neighbors;
     }

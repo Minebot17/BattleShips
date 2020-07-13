@@ -189,6 +189,7 @@
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\Utils\CameraFollower.cs" />
+     <Compile Include="Assets\Scripts\Utils\ConvexHull.cs" />
      <Compile Include="Assets\Scripts\Utils\DamageInfo.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventBase.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventHandler.cs" />
@@ -208,6 +209,8 @@
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />
      <Compile Include="Assets\Scripts\Utils\VelocityRotate.cs" />
      <None Include="Assets\Resources\Lang\ru.txt" />
+     <None Include="Assets\Packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.xml" />
+     <None Include="Assets\Shaders\ShieldShader.shader" />
      <None Include="Assets\Resources\Lang\en.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/Unity Projects/BattleShips/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -475,6 +478,9 @@
  </Reference>
  <Reference Include="UnityEngine.XRModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.9f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+ </Reference>
+ <Reference Include="MathNet.Numerics">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/MathNet.Numerics.4.11.0/lib/net461/MathNet.Numerics.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.9f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

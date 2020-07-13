@@ -7,6 +7,7 @@ public class ShipController : NetworkBehaviour {
 
     [Tooltip("Affects the rotation of the ship during movement. The bigger the harder it is to turn")]
     public float atmosphericDensity = 1f;
+    public Shader shieldShader;
     public List<IEngineModule> engines = new List<IEngineModule>();
     public List<IGyrodineModule> gyrodines = new List<IGyrodineModule>();
 
@@ -22,7 +23,9 @@ public class ShipController : NetworkBehaviour {
         identity = GetComponent<NetworkIdentity>();
         rigidbody = GetComponent<Rigidbody2D>();
         forwardPointer = transform.Find("ForwardPointer");
-        new ShipPartsMessage(identity).SendToServer();
+        
+        if (!gameObject.transform.Find("ShilCell 0 0"))
+            new ShipPartsMessage(identity).SendToServer();
     }
 
     private void FixedUpdate() {
