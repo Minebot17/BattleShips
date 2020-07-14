@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using UnityEngine;
@@ -12,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public static class Utils {
+    public static readonly bool debug = false;
     public static readonly float sizeOfOne = 0.64f;
     public static readonly System.Random rnd = new System.Random();
     public static readonly LayerMask shipCellsMask = 1 << 8;
@@ -168,8 +165,10 @@ public static class Utils {
     /// </summary>
     public static double[] CalculateShieldEllipseVariables(List<Vector2Int> modulesPosition) {
         // Выделение внешних угловых точек корабля
+        Vector2 centerPoint = new Vector2();
         HashSet<Vector2Int> strokePoints = new HashSet<Vector2Int>();
         foreach (Vector2Int modulePosition in modulesPosition) {
+            centerPoint += modulePosition.ToVector2() * sizeOfOne;
             List<int> freeSides = new List<int>();
 
             for (int i = 0; i < neighborBypassOrder.Length; i++) {
@@ -182,22 +181,29 @@ public static class Utils {
                 strokePoints.Add(externalPointsFromSide[freeSide][1] + modulePosition * 2);
             }
         }
+        centerPoint /= modulesPosition.Count;
 
         // Создание выпуклой фигуры из угловых точек
         List<Vector2Int> convexPoints = ConvexHull.GetConvexHull(strokePoints.ToList());
         List<Vector2> ellipsePoints = new List<Vector2>();
-        for (int i = 0; i < (convexPoints.Count == 4 ? 4 : 5); i++)
+        for (int i = 0; i < convexPoints.Count; i++)
             ellipsePoints.Add(convexPoints[i].ToVector2() * (sizeOfOne/2));
-        
-        // TODO TEST can delete
-        GameObject shipObj = GameObject.Find("Ship(Clone)");
-        for (int i = 0; i < ellipsePoints.Count; i++) {
-            GameObject go = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Point"), shipObj.transform);
-            go.transform.localPosition = ellipsePoints[i].ToVector3(-0.3f);
+
+        if (debug) {
+            GameObject shipObj = GameObject.Find("Ship(Clone)");
+            for (int i = 0; i < ellipsePoints.Count; i++) {
+                GameObject go =
+                    MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Point"), shipObj.transform);
+                go.transform.localPosition = ellipsePoints[i].ToVector3(-0.3f);
+            }
+            GameObject go0 =
+                MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Point"), shipObj.transform);
+            go0.GetComponent<SpriteRenderer>().color = Color.green;
+            go0.transform.localPosition = centerPoint.ToVector3(-0.3f);
         }
 
         // Создание локальных вариантов уравнения эллипса: Ax^2 + Bxy + Cy^2 + Dx + Ey = 1
-        double[,] storage = new double[5,5];
+        double[,] storage = new double[ellipsePoints.Count,5];
         for (int i = 0; i < ellipsePoints.Count; i++) {
             storage[i, 0] = ellipsePoints[i].x * ellipsePoints[i].x;
             storage[i, 1] = ellipsePoints[i].x * ellipsePoints[i].y;
@@ -212,10 +218,14 @@ public static class Utils {
             for (int i = 1; i < 5; i++)
                 storage[4, i] = 0;
         }
-
+        
+        double[] vec = new double[ellipsePoints.Count];
+        for (int i = 0; i < ellipsePoints.Count; i++)
+            vec[i] = 1d;
+        
         // Вычисляем коэффициенты A,B,C,D,E и возвращаем их
         Matrix<double> matrix = DenseMatrix.OfArray(storage);
-        Vector<double> result = matrix.Solve(Vector.Build.DenseOfArray(new [] { 1d, 1d, 1d, 1d, 1d }));
+        Vector<double> result = matrix.Solve(Vector.Build.DenseOfArray(vec));
         return result.Storage.AsArray();
     }
 

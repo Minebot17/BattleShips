@@ -37,6 +37,7 @@
             //fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = fixed3(1, 0, 0);
             float2 uv = (IN.uv_MainTex - float2(0.5, 0.5)) * 10;
+            uv /= 1.3;
             
             float D = pow(_EllipseValueB * uv.x + _EllipseValueE, 2) - 4 * _EllipseValueC * (_EllipseValueA * uv.x * uv.x + _EllipseValueD * uv.x - 1);
             if (D < 0){
