@@ -21,6 +21,12 @@ public class GameCoroutines : MonoBehaviour {
             new [] { new GradientAlphaKey(1, 0), new GradientAlphaKey(1, 1) }
         );
 
+        if (NetworkManagerCustom.singleton.IsServer) {
+            Transform shieldRenderer = ship.transform.Find("ShieldRenderer");
+            if (shieldRenderer)
+                shieldRenderer.GetChild(0).GetComponent<IDeath>().OnDead(null);
+        }
+
         while (timer > 0) {
             timer--;
             coreSprite.color = gradient.Evaluate(timer / (float) suicideSeconds);

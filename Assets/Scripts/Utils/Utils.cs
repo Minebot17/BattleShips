@@ -13,6 +13,8 @@ public static class Utils {
     public static readonly System.Random rnd = new System.Random();
     public static readonly LayerMask shipCellsMask = 1 << 8;
     public static readonly LayerMask defaultMask = LayerMask.GetMask("Default");
+    public static readonly LayerMask mapMask = LayerMask.GetMask("Map");
+    public static readonly LayerMask shieldMask = LayerMask.GetMask("Shield");
     public static readonly Vector2Int[] neighborBypassOrder = { 
         new Vector2Int(-1, 0),
         new Vector2Int(1, 0),
@@ -189,6 +191,9 @@ public static class Utils {
         for (int i = 0; i < convexPoints.Count; i++)
             ellipsePoints.Add(convexPoints[i].ToVector2() * (sizeOfOne/2));
 
+        if (ellipsePoints.Count == 4)
+            ellipsePoints.Add(new Vector2(0, ellipsePoints.Max(p => p.y) / (Mathf.Sqrt(2f)/2f)));
+
         if (debug) {
             GameObject shipObj = GameObject.Find("Ship(Clone)");
             for (int i = 0; i < ellipsePoints.Count; i++) {
@@ -212,15 +217,8 @@ public static class Utils {
             storage[i, 4] = ellipsePoints[i].y;
         }
 
-        // Если получилось 4 уравнения (минимум надо 5), то добавляем еще A = 1
-        if (ellipsePoints.Count == 4) {
-            storage[4, 0] = 1;
-            for (int i = 1; i < 5; i++)
-                storage[4, i] = 0;
-        }
-        
-        double[] vec = new double[ellipsePoints.Count];
-        for (int i = 0; i < ellipsePoints.Count; i++)
+        double[] vec = new double[storage.GetLength(0)];
+        for (int i = 0; i < storage.GetLength(0); i++)
             vec[i] = 1d;
         
         // Вычисляем коэффициенты A,B,C,D,E и возвращаем их

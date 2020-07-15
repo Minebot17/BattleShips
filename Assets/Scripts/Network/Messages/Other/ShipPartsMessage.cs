@@ -37,27 +37,39 @@ public class ShipPartsMessage : GameMessage {
         for (int i = 0; i < 5; i++)
             shieldMaterial.SetFloat("_EllipseValue" + abc[i], (float) shieldVariables[i]);
 
-        GameObject shield = shipObject.gameObject.transform.Find("ShieldRenderer").gameObject;
-        MeshRenderer renderer = shield.GetComponent<MeshRenderer>();
-        renderer.enabled = true;
-        renderer.material = shieldMaterial;
-        List<Vector2> shieldPointsLow = new List<Vector2>();
-        List<Vector2> shieldPointsHigh = new List<Vector2>();
-        for (float x = -10f; x < 10f; x += 0.1f) {
-            float D = (float) (Mathf.Pow((float) (shieldVariables[1] * x + shieldVariables[4]), 2) - 4 * shieldVariables[2] * (shieldVariables[0] * x * x + shieldVariables[3] * x - 1));
-            if (D < 0)
-                continue;
-            
-            shieldPointsLow.Add(new Vector2(x, (float)((-(shieldVariables[1] * x + shieldVariables[4]) - Mathf.Sqrt(D))/(2 * shieldVariables[2]))));
-            shieldPointsHigh.Add(new Vector2(x, (float)((-(shieldVariables[1] * x + shieldVariables[4]) + Mathf.Sqrt(D))/(2 * shieldVariables[2]))));
-        }
-        
-        shieldPointsHigh.Reverse();
-        shieldPointsLow.AddRange(shieldPointsHigh);
-        shield.GetComponent<PolygonCollider2D>().points = shieldPointsLow.Select(v => v/10f*1.3f).ToArray();
-
         Player player = Players.GetPlayer(id);
         CommonState cState = player.GetState<CommonState>();
+        GameObject shield = shipObject.gameObject.transform.Find("ShieldRenderer").gameObject;
+        if (cState.WithShield.Value) {
+            MeshRenderer renderer = shield.GetComponent<MeshRenderer>();
+            renderer.enabled = true;
+            renderer.material = shieldMaterial;
+            List<Vector2> shieldPointsLow = new List<Vector2>();
+            List<Vector2> shieldPointsHigh = new List<Vector2>();
+            
+            for (float x = -10f; x < 10f; x += 0.1f) {
+                float D = (float) (Mathf.Pow((float) (shieldVariables[1] * x + shieldVariables[4]), 2) -
+                                   4 * shieldVariables[2] * (shieldVariables[0] * x * x + shieldVariables[3] * x - 1));
+                if (D < 0)
+                    continue;
+
+                shieldPointsLow.Add(new Vector2(x,
+                (float) ((-(shieldVariables[1] * x + shieldVariables[4]) - Mathf.Sqrt(D)) / (2 * shieldVariables[2])))
+                );
+                shieldPointsHigh.Add(new Vector2(x,
+                (float) ((-(shieldVariables[1] * x + shieldVariables[4]) + Mathf.Sqrt(D)) / (2 * shieldVariables[2])))
+                );
+            }
+
+            shieldPointsHigh.Reverse();
+            shieldPointsLow.AddRange(shieldPointsHigh);
+            shield.GetComponent<PolygonCollider2D>().points = shieldPointsLow.Select(v => v / 10f * 1.3f).ToArray();
+            shield.transform.GetChild(0).GetComponent<PolygonCollider2D>().points =
+            shieldPointsLow.Select(v => v / 10f * 1.3f).ToArray();
+        }
+        else if (NetworkManagerCustom.singleton.IsServer)
+            shield.transform.GetChild(0).GetComponent<IDeath>().OnDead(null);
+
         if (controller) {
             controller.OnInitializePartsOnClient();
 

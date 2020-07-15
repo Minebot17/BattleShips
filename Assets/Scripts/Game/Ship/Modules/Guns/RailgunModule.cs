@@ -23,11 +23,18 @@ internal class RailgunModule : AbstractGunModule
         hits.RemoveAll(h => h.collider.transform.parent == null 
                             || h.distance - 0.32f > hitMap[0].distance
                             || h.collider.transform.parent.gameObject == damageInfo.OwnerShip.gameObject 
-                            || (h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp)
+                            || (h.collider.gameObject.TryGetComponent(out ModuleHp moduleHp) 
                                 && moduleHp.transform.parent.parent.gameObject == damageInfo.OwnerShip.gameObject));
         
         if (blocksThrough != 0)
             hits = hits.Take(blocksThrough).ToList();
+
+        IEnumerable<RaycastHit2D> shieldsHits = hits.Where(h =>
+            h.collider.gameObject.name.StartsWith("ShieldRenderer") &&
+            h.collider.transform.parent.gameObject != damageInfo.OwnerShip.gameObject
+        );
+        float distanceToFirstShield = !shieldsHits.Any() ? 999999999 : shieldsHits.Min(h => h.distance);
+        hits.RemoveAll(h => h.distance > distanceToFirstShield + 0.01f);
         
         hits.ForEach(h =>
         {

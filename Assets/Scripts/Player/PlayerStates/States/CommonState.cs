@@ -8,6 +8,7 @@ public class CommonState : PlayerState {
     public StringStateValue Nick;
     public BoolStateValue Alive;
     public BoolStateValue IsShoot;
+    public BoolStateValue WithShield;
 
     public CommonState(Player parent, bool isTest) : base(parent, isTest) {
         ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, true);
@@ -18,5 +19,6 @@ public class CommonState : PlayerState {
         Nick = new StringStateValue(this, "Nick", "ip", true, true);
         Alive = new BoolStateValue(this, "Alive", true, true);
         IsShoot = new BoolStateValue(this, "IsShoot", false, false, true);
+        WithShield = new BoolStateValue(this, "WithShield", true, true, true);
     }
 }

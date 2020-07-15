@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 2722929102685504580}
   - component: {fileID: 1891402324741808015}
   - component: {fileID: -2852534467698627326}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MapBrokenWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

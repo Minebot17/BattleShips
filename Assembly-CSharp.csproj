@@ -110,6 +110,7 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\SimpleSpikes.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShipDeathStandart.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleEngineModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleGyrodineEngine.cs" />
@@ -131,6 +132,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateExplosionClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateMapClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyModuleClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyShieldClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\FlamethrowerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\MineReadyClientMessage.cs" />
@@ -188,6 +190,7 @@
      <Compile Include="Assets\Scripts\UI\Lobby\NetworkGuiSelector.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
+     <Compile Include="Assets\Scripts\UI\ShieldToggle.cs" />
      <Compile Include="Assets\Scripts\Utils\CameraFollower.cs" />
      <Compile Include="Assets\Scripts\Utils\ConvexHull.cs" />
      <Compile Include="Assets\Scripts\Utils\DamageInfo.cs" />

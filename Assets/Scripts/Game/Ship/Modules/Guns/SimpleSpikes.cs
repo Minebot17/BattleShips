@@ -24,15 +24,16 @@ internal class SimpleSpikes : MonoBehaviour, IMeleeModule
             return;
 
         if (collider.gameObject.transform.childCount == 1 && collider.gameObject.transform.GetChild(0).gameObject.TryGetComponent(out ModuleHp moduleHp))
-            if (moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
-                if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo))
-                {
+            if (moduleHp.transform.parent && moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)
+                if (NetworkManagerCustom.singleton.gameMode.CanDamageModule(moduleHp, damageInfo)) {
+                    DamageInfo damageCopy = damageInfo.Copy();
                     if (collider.gameObject.transform.GetChild(0).gameObject.TryGetComponent(out EffectModule effectModule))
-                        effectModule.AddEffects(damageInfo.effects.Select(e => e.Create()));
-                    damageInfo.Damage *= (rigidbody.velocity + collider.gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>().velocity).magnitude;
-                    rigidbody.velocity *= 0.75f;
+                        effectModule.AddEffects(damageCopy.effects.Select(e => e.Create()));
+                    Rigidbody2D enemyRigidbody = collider.gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>();
+                    damageCopy.Damage *= (rigidbody.velocity + (enemyRigidbody ? enemyRigidbody.velocity : Vector2.zero)).magnitude;
+                    rigidbody.velocity *= 0.5f;
                     rigidbody.MarkServerChange();
-                    moduleHp.Damage(damageInfo);
+                    moduleHp.Damage(damageCopy);
                 }
     }
 }

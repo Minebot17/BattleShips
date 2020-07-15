@@ -11,4 +11,10 @@ public class DamageInfo {
         OwnerShip = ownerShip;
         Damage = damage;
     }
+
+    public DamageInfo Copy() {
+        return new DamageInfo(Damage, OwnerShip) {
+            effects = effects, DamageOwner = DamageOwner
+        };
+    }
 }

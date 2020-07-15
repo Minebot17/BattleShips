@@ -55,13 +55,23 @@ public class ExplosionManager : MonoBehaviour {
         public void Explode(Vector2 position, NetworkIdentity identity = null) {
             if (!NetworkManagerCustom.singleton.IsServer)
                 return;
-
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius, Utils.shipCellsMask);
+            
+            List<NetworkIdentity> withShield = new List<NetworkIdentity>();
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius, Utils.shipCellsMask | Utils.mapMask | Utils.shieldMask);
+            foreach (Collider2D col in colliders) {
+                if (col.name.StartsWith("ShieldRenderer"))
+                    withShield.Add(col.transform.parent.GetComponent<NetworkIdentity>());
+            }
+            
             Dictionary<NetworkIdentity, Vector2> kickVectors = new Dictionary<NetworkIdentity, Vector2>();
             foreach (Collider2D col in colliders) {
+                bool isShield = col.name.StartsWith("ShieldRenderer");
                 NetworkIdentity parent = col.gameObject.transform.parent.gameObject.GetComponent<NetworkIdentity>();
                 Vector2 explosionToObjectVector = col.gameObject.transform.position.ToVector2() - position;
                 if (parent) {
+                    if (withShield.Contains(parent) && !isShield)
+                        continue;
+                    
                     if (parent && !kickVectors.ContainsKey(parent) && parent.gameObject.tag.Equals("Player"))
                         kickVectors[parent] = new Vector2();
                     
@@ -70,7 +80,7 @@ public class ExplosionManager : MonoBehaviour {
 
                 ModuleHp hp = col.gameObject.GetComponentInChildren<ModuleHp>();
                 if (hp)
-                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (1f - explosionToObjectVector.magnitude / radius)), identity) { DamageOwner = true });
+                    hp.Damage(new DamageInfo((float) Math.Ceiling(damage * (isShield ? 1f : 1f - explosionToObjectVector.magnitude / radius)), identity) { DamageOwner = true });
             }
 
             foreach (KeyValuePair<NetworkIdentity, Vector2> pair in kickVectors) {
