@@ -4,9 +4,10 @@ public class Rotator : MonoBehaviour {
     
     [SerializeField] private float rotateSpeed = 1;
     [SerializeField] private bool clockwise;
+    [SerializeField] private bool onlyServer = true;
 
     public void FixedUpdate() {
-        if (!NetworkManagerCustom.singleton.IsServer)
+        if (onlyServer && !NetworkManagerCustom.singleton.IsServer)
             return;
 
         if (rotateSpeed != 0)

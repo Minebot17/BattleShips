@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: RailgunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 3496811151767765848, guid: 8a30a2f429fc9764faa125024725d000, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

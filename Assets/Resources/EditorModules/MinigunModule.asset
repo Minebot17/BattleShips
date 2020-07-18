@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: MinigunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 4604556337565003614, guid: eecc38a1463c6934a828f0c507d79d93, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

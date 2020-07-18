@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: ShotGunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 2184287379692505281, guid: ca563d4b59e0ee544a548a4b868995c6, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

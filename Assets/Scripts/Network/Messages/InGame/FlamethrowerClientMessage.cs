@@ -19,7 +19,9 @@ public class FlamethrowerClientMessage : GameMessage {
     public override void OnClient(NetworkReader reader) {
         NetworkIdentity id = reader.ReadNetworkIdentity();
         int childIndex = reader.ReadInt32();
-        ParticleSystem particleSystem = childIndex == -1 ? id.gameObject.GetComponent<ParticleSystem>() : id.transform.GetChild(childIndex).GetComponentInChildren<ParticleSystem>();
+        ParticleSystem particleSystem = childIndex == -1 
+                                        ? id.gameObject.GetComponent<ParticleSystem>() 
+                                        : id.transform.GetChild(childIndex).GetComponentInChildren<ParticleSystem>();
         if (reader.ReadBoolean())
             particleSystem.Play();
         else

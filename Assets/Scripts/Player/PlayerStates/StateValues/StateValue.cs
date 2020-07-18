@@ -8,7 +8,7 @@ public abstract class StateValue<T> : GeneralStateValue {
     private string name;
     private T defaultValue;
     private T value;
-    private bool sync;
+    private SyncType sync;
     private bool modification;
     private int playerRequestPlayersEventId;
     private NetworkConnection modificationBuffer;
@@ -27,15 +27,22 @@ public abstract class StateValue<T> : GeneralStateValue {
             
             this.value = result.NewValue;
 
-            if (sync && NetworkManagerCustom.singleton.IsServer) {
+            if (sync != SyncType.NOT_SYNC && NetworkManagerCustom.singleton.IsServer) {
                 SyncStateValueClientMessage message = new SyncStateValueClientMessage(GetOwnerId(), GetName());
                 Write(message.Writer);
                 if (modificationBuffer != null) {
-                    message.SendToAllClient(modificationBuffer);
+                    if (sync == SyncType.ALL_SYNC)
+                        message.SendToAllClient(modificationBuffer, Players.HostConn);
+                    else
+                        message.SendToClient(parent.GetParent().Conn);
                     modificationBuffer = null;
                 }
-                else
-                    message.SendToAllClient();
+                else {
+                    if (sync == SyncType.ALL_SYNC)
+                        message.SendToAllClientExceptHost();
+                    else
+                        message.SendToClient(parent.GetParent().Conn);
+                }
             }
 
             if (modification 
@@ -49,7 +56,7 @@ public abstract class StateValue<T> : GeneralStateValue {
         }
     }
     
-    protected StateValue(PlayerState parent, string name, T defaultValue, bool isTest, bool sync, bool modification) {
+    protected StateValue(PlayerState parent, string name, T defaultValue, bool isTest, SyncType sync, bool modification) {
         this.parent = parent;
         this.name = name;
         this.defaultValue = defaultValue;
@@ -97,6 +104,14 @@ public abstract class StateValue<T> : GeneralStateValue {
 
     public override void OnRemoveState() {
         Players.playerRequestPlayersEvent.UnSubcribeEvent(playerRequestPlayersEventId);
+    }
+
+    /// <summary>
+    /// То же самое, что и Value = value, но не синхронизирует если значение в итоге не поменялось
+    /// </summary>
+    public void SetWithCheckEquals(T newValue) {
+        if (!newValue.Equals(value))
+            Value = newValue;
     }
 
     protected abstract T ReadValue(NetworkReader reader);

@@ -276,8 +276,8 @@ MonoBehaviour:
   - {fileID: 7246916444173717793, guid: 4a496be8def8cf7489c5643b01b73c05, type: 3}
   - {fileID: 5770789766872727445, guid: 02dec2d0630410f4a9cb35b49b4ea9d3, type: 3}
   - {fileID: 3886475748616553409, guid: 2e567407b895ae847b01f9f970bf38a7, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3483484247178913303, guid: c475c9e96cc67d445a5c9ccc2097b5c5, type: 3}
+  - {fileID: 3600383436415262605, guid: 79b6dec4434fc6745aaed467daecb4d7, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   m_CustomConfig: 0

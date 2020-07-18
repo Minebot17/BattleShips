@@ -11,14 +11,14 @@ public class CommonState : PlayerState {
     public BoolStateValue WithShield;
 
     public CommonState(Player parent, bool isTest) : base(parent, isTest) {
-        ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, true);
-        CurrentHealth = new FloatStateValue(this, "CurrentHp", 0f, true);
-        Score = new IntStateValue(this, "Score", 0, true);
-        Kills = new IntStateValue(this, "Kills", 0, true);
-        ShipJson = new StringStateValue(this, "ShipJson", Utils.CreateEmptyShip(), true, true);
-        Nick = new StringStateValue(this, "Nick", "ip", true, true);
-        Alive = new BoolStateValue(this, "Alive", true, true);
-        IsShoot = new BoolStateValue(this, "IsShoot", false, false, true);
-        WithShield = new BoolStateValue(this, "WithShield", true, true, true);
+        ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, SyncType.ALL_SYNC);
+        CurrentHealth = new FloatStateValue(this, "CurrentHp", 0f, SyncType.ALL_SYNC);
+        Score = new IntStateValue(this, "Score", 0, SyncType.ALL_SYNC);
+        Kills = new IntStateValue(this, "Kills", 0, SyncType.ALL_SYNC);
+        ShipJson = new StringStateValue(this, "ShipJson", Utils.CreateEmptyShip(), SyncType.ALL_SYNC, true);
+        Nick = new StringStateValue(this, "Nick", "ip", SyncType.ALL_SYNC, true);
+        Alive = new BoolStateValue(this, "Alive", true, SyncType.ALL_SYNC);
+        IsShoot = new BoolStateValue(this, "IsShoot", false, SyncType.NOT_SYNC, true);
+        WithShield = new BoolStateValue(this, "WithShield", true, SyncType.ALL_SYNC, true);
     }
 }

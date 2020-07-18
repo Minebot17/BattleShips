@@ -9,6 +9,8 @@ public class Map : MonoBehaviour {
 
     public static Map singleton;
     public static Dictionary<string, GameObject> mapElements;
+    public static GameObject lootBoxPrefab;
+    public static GameObject lootItemPrefab;
     public Vector2 size;
     private const BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -59,6 +61,18 @@ public class Map : MonoBehaviour {
         
         GameObject[] elements = Resources.LoadAll<GameObject>("MapElements/");
         mapElements = elements.ToDictionary(e => e.name, e => e);
+        lootBoxPrefab = elements.First(p => p.name.Equals("LootBox"));
+        lootItemPrefab = elements.First(p => p.name.Equals("LootItem"));
+    }
+    
+    public static void SpawnLootBox(Vector2 position, string moduleName) {
+        if (!NetworkManagerCustom.singleton.IsServer)
+            return;
+
+        GameObject lootBox = Instantiate(lootBoxPrefab);
+        lootBox.name = "LootBox_" + moduleName;
+        lootBox.transform.position = position.ToVector3(-0.05f);
+        NetworkServer.Spawn(lootBox);
     }
 
     /// <summary>
@@ -71,6 +85,9 @@ public class Map : MonoBehaviour {
         GameObject mapObj = new GameObject(mapPrefab.name);
         Map map = mapObj.AddComponent<Map>();
         map.size = mapPrefab.GetComponent<Map>().size;
+        
+        if (Players.GetGlobal().WithLootItems.Value)
+            Instantiate(mapPrefab.transform.Find("LootBoxes").gameObject).name = "LootBoxes";
 
         // element name, position, localEulerAngles
         List<(string, Vector3, Vector3)> objectsWithoutNI = new List<(string, Vector3, Vector3)>();

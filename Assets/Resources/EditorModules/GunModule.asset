@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: GunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 5021091399960907665, guid: 39437903cdb5c214582ebaae9e418334, type: 3}
-  cost: 3
+  isWeapon: 1
+  availableInitially: 1
+  endlessModule: 1
+  startAmount: 1

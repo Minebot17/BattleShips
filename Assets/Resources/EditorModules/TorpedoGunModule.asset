@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: TorpedoGunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 6071421847488111561, guid: 8c897375b923c75428e85858ced913a4, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

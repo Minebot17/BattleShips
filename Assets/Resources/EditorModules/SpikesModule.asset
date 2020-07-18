@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: SpikesModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 239116574526497352, guid: cda639c9362cdd84d9a5fef12c82c9f6, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

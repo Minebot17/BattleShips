@@ -57,6 +57,9 @@ public class LobbyClientGui : MonoBehaviour {
 		
 		GUILayout.Space(10);
 		GUILayout.Label("Кол-во раундов: " + global.RoundsCount.Value);
+		
+		GUILayout.Space(10);
+		GUILayout.Label("С чертежами: " + global.WithLootItems.Value);
 
 		RenderInChild();
 

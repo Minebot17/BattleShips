@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: Flamethrower
   m_EditorClassIdentifier: 
   prefab: {fileID: 7723131850651384467, guid: 6ae5386f5fed9cf42a2ced6bb3a76308, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

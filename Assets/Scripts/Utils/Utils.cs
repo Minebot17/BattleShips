@@ -227,4 +227,30 @@ public static class Utils {
         return result.Storage.AsArray();
     }
 
+    public static List<EditorModule> FindTheseModules(this LootSpawnRules rule, EditorModule[] specificList) {
+        IEnumerable<EditorModule> result = null;
+        
+        switch (rule) {
+            case LootSpawnRules.ALL:
+                result = ShipEditor.modules.ToList();
+                break;
+            
+            case LootSpawnRules.WEAPONS:
+                result = ShipEditor.modules.Where(m => m.isWeapon).ToList();
+                break;
+            
+            case LootSpawnRules.SUBSIDIARY:
+                result = ShipEditor.modules.Where(m => !m.isWeapon).ToList();
+                break;
+            
+            case LootSpawnRules.LIST:
+                result = specificList.ToList();
+                break;
+            
+            default:
+                throw new ArgumentOutOfRangeException(nameof(rule), rule, null);
+        }
+
+        return result.Where(m => !m.availableInitially || !m.endlessModule).ToList();
+    }
 }

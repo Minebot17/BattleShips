@@ -21,6 +21,7 @@ public class NetworkManagerCustom : NetworkManager {
 	
 	public void Start() {
 		ResetValuesToDefault();
+		ShipEditor.Initialize();
 		GameSettings.Load();
 		Timer.InitializeCreate();
 		LanguageManager.Initialize();

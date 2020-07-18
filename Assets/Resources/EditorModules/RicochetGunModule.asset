@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: RicochetGunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 3234208276511627978, guid: 243806742e3628347bb480a94cdf93cb, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

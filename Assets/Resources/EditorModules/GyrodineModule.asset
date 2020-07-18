@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: GyrodineModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 2321660180662342333, guid: fb6501473dfe4b74b9dc7b72f43900ff, type: 3}
+  isWeapon: 0
+  availableInitially: 1
+  endlessModule: 0
+  startAmount: 2

@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: DoubleGunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 9018164850899248096, guid: 07bd64031fce41443bd2246b1e019664, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

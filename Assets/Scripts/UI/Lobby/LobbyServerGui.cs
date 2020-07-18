@@ -63,7 +63,10 @@ public class LobbyServerGui : LobbyClientGui {
 		roundsCount = GUILayout.TextField(roundsCount);
 		if (GUILayout.Button("OK") && int.TryParse(roundsCount, out int roundsCountInt))
 			global.RoundsCount.Value = roundsCountInt;
-		
+
+		GUILayout.Space(10);
+		global.WithLootItems.SetWithCheckEquals(GUILayout.Toggle(global.WithLootItems.Value, "С чертежами"));
+
 		RenderInChild();
 
 		LobbyState lStateClient = Players.GetClient().GetState<LobbyState>();

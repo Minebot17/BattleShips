@@ -579,7 +579,7 @@ MonoBehaviour:
   timeBeforeClosing: 30
   scrollAdapter: {fileID: 678027743}
   mainCamera: {fileID: 797140603}
-  maxModules: 4
+  maxModules: 3
   gridSize: {x: 9, y: 9}
   blocksLeftText: {fileID: 504961257}
   readyButton: {fileID: 968681701}
@@ -859,7 +859,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4 blocks left
+  m_Text: 3 blocks left
 --- !u!222 &504961258
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -959,9 +959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 678027740}
-  modulePrefab: {fileID: 4185844678102467263, guid: eef4befd2c7a67c418e7c6bff60f5eb7,
+  modulePrefab: {fileID: 6872019260573160449, guid: 76b32cfe449a76a4a80bffc40e48a091,
     type: 3}
-  selectedModule: 
 --- !u!222 &678027744
 CanvasRenderer:
   m_ObjectHideFlags: 0

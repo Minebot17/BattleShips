@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: WallModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 5256314244372486745, guid: f92e71f8eaa70a844ae5da6f44a6af0e, type: 3}
-  cost: 1
+  isWeapon: 0
+  availableInitially: 1
+  endlessModule: 1
+  startAmount: 1

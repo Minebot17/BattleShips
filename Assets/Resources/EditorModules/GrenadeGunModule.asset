@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: GrenadeGunModule
   m_EditorClassIdentifier: 
   prefab: {fileID: 5432918350969052478, guid: a14087de60844bd498a21060cf4ebeb7, type: 3}
+  isWeapon: 1
+  availableInitially: 0
+  endlessModule: 0
+  startAmount: 0

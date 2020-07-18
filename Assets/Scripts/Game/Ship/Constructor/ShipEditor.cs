@@ -8,12 +8,13 @@ using UnityEngine.UI;
 
 public class ShipEditor : MonoBehaviour {
     public static ShipEditor singleton;
+    public static EditorModule[] modules;
     public Text timerText;
     public int timeBeforeClosing = 30;
     public ModulesScrollAdapter scrollAdapter;
     
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private int maxModules = 4;
+    [SerializeField] private int maxModules;
     [SerializeField] private Vector2Int gridSize = new Vector2Int(9, 9);
     [SerializeField] private Text blocksLeftText;
     [SerializeField] private GameObject readyButton;
@@ -24,14 +25,27 @@ public class ShipEditor : MonoBehaviour {
     [SerializeField] private GameObject shipCellPrefab;
     
     private GameObject currentShip;
-    private EditorModule[] modules;
     private float closingTimer;
     private bool timerStarted;
     private int installedModules;
     private HashSet<Vector2Int> freePlaces = new HashSet<Vector2Int>();
+    private InventoryState iState;
+    private Stack<int> placedModules = new Stack<int>();
+
+    public static void Initialize() {
+        modules = Resources.LoadAll<EditorModule>("EditorModules/").Select(Instantiate).ToArray();
+    }
 
     public void Start() {
         singleton = this;
+        if (!Players.GetGlobal().WithLootItems.Value) {
+            foreach (EditorModule module in modules) {
+                module.availableInitially = true;
+                module.endlessModule = true;
+            }
+        }
+
+        iState = Players.GetClient().GetState<InventoryState>();
         if (NetworkManagerCustom.singleton.IsServer)
             SetTimer(timeBeforeClosing);
         else
@@ -44,15 +58,15 @@ public class ShipEditor : MonoBehaviour {
             new Vector3(gridSize.x/2 + 0.5f, -gridSize.y/2 - 0.5f) * Utils.sizeOfOne
         });
         
-        modules = Resources.LoadAll<EditorModule>("EditorModules/");
-        scrollAdapter.SetModules(modules);
-        scrollAdapter.onModuleSelect = () => {
+        scrollAdapter.SetModules(iState, modules);
+        scrollAdapter.onModuleUpdate = () => {
             UpdateFreePlaces();
             
-            if (!moduleInfoPanel.activeSelf)
-                moduleInfoPanel.SetActive(true);
+            moduleInfoPanel.SetActive(scrollAdapter.SelectedModule != null);
+            if (scrollAdapter.SelectedModule == null)
+                return;
 
-            string[] splitted = scrollAdapter.selectedModule.Split(' ');
+            string[] splitted = scrollAdapter.SelectedModule.Split(' ');
             moduleInfoPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = LanguageManager.GetValue( splitted[0] + ".name");
             moduleInfoPanel.transform.GetChild(1).gameObject.GetComponent<Text>().text = LanguageManager.GetValue(splitted[0] + ".description");
 
@@ -90,7 +104,7 @@ public class ShipEditor : MonoBehaviour {
         if (closingTimer > 0)
             closingTimer -= Time.deltaTime;
         else {
-            new SendShipServerMessage(Utils.SerializeShip(currentShip)).SendToServer();
+            new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.ToList()).SendToServer();
             timerStarted = false;
         }
 
@@ -105,8 +119,8 @@ public class ShipEditor : MonoBehaviour {
         Vector2Int position = GetClickPosition();
         GameObject shipCell = FindShipCell(position);
 
-        if (scrollAdapter.selectedModule == null 
-            || scrollAdapter.selectedModule.Equals("") 
+        if (scrollAdapter.SelectedModule == null 
+            || scrollAdapter.SelectedModule.Equals("") 
             || installedModules > maxModules
             || position.x == 0 && position.y == 0
             || position.x < -gridSize.x/2 || position.x > gridSize.x/2
@@ -114,7 +128,11 @@ public class ShipEditor : MonoBehaviour {
             || !shipCell && !freePlaces.Contains(position))
             return;
             
-        string[] splittedName = scrollAdapter.selectedModule.Split(' ');
+        string[] splittedName = scrollAdapter.SelectedModule.Split(' ');
+        int moduleIndex = int.Parse(splittedName[1]);
+        if (!modules[moduleIndex].endlessModule && iState.modulesCount[moduleIndex].Value == 0)
+            return;
+        
         if (shipCell) {
             GameObject oldModule = shipCell.transform.GetChild(0).gameObject;
             if (!oldModule.name.Equals(splittedName[0]))
@@ -122,8 +140,12 @@ public class ShipEditor : MonoBehaviour {
             else 
                 return;
         }
-
-        EditorModule editorModule = modules[int.Parse(splittedName[1])];
+        
+        placedModules.Push(moduleIndex);
+        if (iState.modulesCount[moduleIndex].Value != -1)
+            iState.modulesCount[moduleIndex].Value--;
+        
+        EditorModule editorModule = modules[moduleIndex];
         GameObject cell = Instantiate(shipCellPrefab, currentShip.transform);
         cell.name = "ShipCell " + position.x + " " + position.y;
         cell.transform.localPosition = GridPosToWorldPos(position);
@@ -132,6 +154,7 @@ public class ShipEditor : MonoBehaviour {
         module.transform.localPosition = new Vector3(0, 0, -0.1f);
         installedModules++;
         blocksLeftText.text = (maxModules - installedModules) + " blocks left";
+        scrollAdapter.OnModulePlaced(editorModule, iState.modulesCount[moduleIndex].Value);
         if (installedModules == maxModules)
             OnReadyClick();
         
@@ -142,9 +165,9 @@ public class ShipEditor : MonoBehaviour {
         foreach (Transform child in modulePlaces.transform)
             Destroy(child.gameObject);
 
-        if (installedModules == maxModules)
+        if (installedModules == maxModules || scrollAdapter.SelectedModule == null)
             return;
-        
+
         freePlaces = FindFreePlaces();
         foreach (Vector2Int freePlace in freePlaces) {
             // TODO пересоздание сетки изрядно нагружает CPU, надо реализовать через буффер объектов
@@ -188,6 +211,12 @@ public class ShipEditor : MonoBehaviour {
             return upperNeighbor && upperNeighbor.transform.GetChild(0).name.StartsWith("EngineModule");
         });
 
+        if (scrollAdapter.SelectedModule.StartsWith("EngineModule"))
+            freePlaces.RemoveWhere(freePlace => {
+                GameObject bottomNeighbor = FindShipCell(freePlace + Vector2Int.down);
+                return bottomNeighbor;
+            });
+
         return freePlaces;
     }
 
@@ -213,7 +242,7 @@ public class ShipEditor : MonoBehaviour {
     }
 
     public void OnReadyClick() {
-        new SendShipServerMessage(Utils.SerializeShip(currentShip)).SendToServer();
+        new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.ToList()).SendToServer();
         Destroy(readyButton.GetComponent<Button>());
         readyButton.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
         blocksLeftText.enabled = false;

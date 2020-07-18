@@ -69,6 +69,11 @@
      <Compile Include="Assets\Scripts\Game\GameModes\FFAGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\GameModes\IGameMode.cs" />
      <Compile Include="Assets\Scripts\Game\GameModes\TeamGameMode.cs" />
+     <Compile Include="Assets\Scripts\Game\Loot\LootBoxArea.cs" />
+     <Compile Include="Assets\Scripts\Game\Loot\LootBoxDeath.cs" />
+     <Compile Include="Assets\Scripts\Game\Loot\LootBoxPoint.cs" />
+     <Compile Include="Assets\Scripts\Game\Loot\LootItem.cs" />
+     <Compile Include="Assets\Scripts\Game\Loot\LootSpawnRules.cs" />
      <Compile Include="Assets\Scripts\Game\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapElementAttribute.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapElementDeath.cs" />
@@ -76,6 +81,7 @@
      <Compile Include="Assets\Scripts\Game\Map\MapLaser.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapSpike.cs" />
      <Compile Include="Assets\Scripts\Game\Map\MapTurret.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Constructor\EditorModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\ModulesScrollAdapter.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\Ship.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Constructor\ShipEditor.cs" />
@@ -135,6 +141,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyShieldClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\FlamethrowerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\LootItemMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\MineReadyClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\RailgunClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
@@ -172,10 +179,11 @@
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StringStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\CommonState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\GlobalState.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\States\InventoryState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\LobbyState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\TeamState.cs" />
-     <Compile Include="Assets\Scripts\UI\EditorModule.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\SyncType.cs" />
      <Compile Include="Assets\Scripts\UI\HoldButton.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\EnemyPointer.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HpBar.cs" />
@@ -192,6 +200,7 @@
      <Compile Include="Assets\Scripts\UI\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\UI\ShieldToggle.cs" />
      <Compile Include="Assets\Scripts\Utils\CameraFollower.cs" />
+     <Compile Include="Assets\Scripts\Utils\ConditionalFieldAttribute.cs" />
      <Compile Include="Assets\Scripts\Utils\ConvexHull.cs" />
      <Compile Include="Assets\Scripts\Utils\DamageInfo.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventBase.cs" />
