@@ -33,7 +33,11 @@ public class ShipEditor : MonoBehaviour {
     private Stack<int> placedModules = new Stack<int>();
 
     public static void Initialize() {
-        modules = Resources.LoadAll<EditorModule>("EditorModules/").Select(Instantiate).ToArray();
+        modules = Resources.LoadAll<EditorModule>("EditorModules/").Select(m => {
+            EditorModule em = Instantiate(m);
+            em.name = em.name.Substring(0, em.name.Length - 7);
+            return em;
+        }).ToArray();
     }
 
     public void Start() {
