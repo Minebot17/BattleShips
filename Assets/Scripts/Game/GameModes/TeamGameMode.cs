@@ -41,6 +41,14 @@ public class TeamGameMode : IGameMode {
         return deadTeamsCount == playersAlive.Count - 1 || deadTeamsCount == playersAlive.Count;
     }
 
+    public void OnSuicide(Player player) {
+        
+    }
+
+    public void OnStartRound() {
+        
+    }
+
     public Dictionary<NetworkConnection, int> GetScoreDelta(Dictionary<NetworkConnection, int> kills) {
         int winnersIndex = getAliveInTeams().FindIndex(c => c != 0);
 

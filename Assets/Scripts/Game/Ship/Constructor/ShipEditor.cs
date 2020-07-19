@@ -31,6 +31,7 @@ public class ShipEditor : MonoBehaviour {
     private HashSet<Vector2Int> freePlaces = new HashSet<Vector2Int>();
     private InventoryState iState;
     private Stack<int> placedModules = new Stack<int>();
+    private GlobalState global;
 
     public static void Initialize() {
         modules = Resources.LoadAll<EditorModule>("EditorModules/").Select(m => {
@@ -42,13 +43,8 @@ public class ShipEditor : MonoBehaviour {
 
     public void Start() {
         singleton = this;
-        if (!Players.GetGlobal().WithLootItems.Value) {
-            foreach (EditorModule module in modules) {
-                module.availableInitially = true;
-                module.endlessModule = true;
-            }
-        }
 
+        global = Players.GetGlobal();
         iState = Players.GetClient().GetState<InventoryState>();
         if (NetworkManagerCustom.singleton.IsServer)
             SetTimer(timeBeforeClosing);
@@ -134,7 +130,7 @@ public class ShipEditor : MonoBehaviour {
             
         string[] splittedName = scrollAdapter.SelectedModule.Split(' ');
         int moduleIndex = int.Parse(splittedName[1]);
-        if (!modules[moduleIndex].endlessModule && iState.modulesCount[moduleIndex].Value == 0)
+        if (global.WithLootItems.Value && !modules[moduleIndex].endlessModule && iState.modulesCount[moduleIndex].Value == 0)
             return;
         
         if (shipCell) {
@@ -146,7 +142,7 @@ public class ShipEditor : MonoBehaviour {
         }
         
         placedModules.Push(moduleIndex);
-        if (iState.modulesCount[moduleIndex].Value != -1)
+        if (global.WithLootItems.Value && iState.modulesCount[moduleIndex].Value != -1)
             iState.modulesCount[moduleIndex].Value--;
         
         EditorModule editorModule = modules[moduleIndex];

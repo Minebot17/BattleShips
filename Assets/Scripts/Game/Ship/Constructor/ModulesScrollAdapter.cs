@@ -10,17 +10,19 @@ public class ModulesScrollAdapter : MonoBehaviour {
     public Action onModuleUpdate;
     private GameObject selectedModule;
     private readonly List<Image> moduleBackgrounds = new List<Image>();
+    private bool endlessMode;
 
     public string SelectedModule => selectedModule ? selectedModule.name : null;
 
     public void SetModules(InventoryState iState, EditorModule[] contentContainer) {
+        endlessMode = !Players.GetGlobal().WithLootItems.Value;
         foreach (Transform child in content) {
             Destroy(child.gameObject);
         }
 
         for (int i = 0; i < contentContainer.Length; i++) {
             int moduleCount = iState.modulesCount[i].Value;
-            if (moduleCount == 0)
+            if (!endlessMode && moduleCount == 0)
                 continue;
             
             GameObject editorModule = AddElement();
@@ -28,7 +30,7 @@ public class ModulesScrollAdapter : MonoBehaviour {
             editorModule.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -120 * i - 20);
             editorModule.transform.GetChild(0).GetComponent<Image>().sprite =
                 contentContainer[i].prefab.GetComponent<SpriteRenderer>().sprite;
-            editorModule.transform.GetChild(1).GetComponent<Text>().text = moduleCount == -1 ? "∞" : moduleCount+"";
+            editorModule.transform.GetChild(1).GetComponent<Text>().text = endlessMode || moduleCount == -1 ? "∞" : moduleCount+"";
         }
     }
 
@@ -57,7 +59,7 @@ public class ModulesScrollAdapter : MonoBehaviour {
     }
 
     public void OnModulePlaced(EditorModule module, int newCount) {
-        if (module.endlessModule)
+        if (endlessMode || module.endlessModule)
             return;
 
         if (newCount == 0) {

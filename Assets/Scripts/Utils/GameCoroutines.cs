@@ -13,6 +13,9 @@ public class GameCoroutines : MonoBehaviour {
     }
 
     public static IEnumerator SuicideCoroutine(NetworkIdentity ship) {
+        if (!ship)
+            yield break;
+        
         int timer = suicideSeconds;
         SpriteRenderer coreSprite = ship.GetComponent<ShipController>().GetAiCoreModule().transform.parent.GetComponent<SpriteRenderer>();
         Gradient gradient = new Gradient();
@@ -28,6 +31,9 @@ public class GameCoroutines : MonoBehaviour {
         }
 
         while (timer > 0) {
+            if (!ship)
+                yield break;
+        
             timer--;
             coreSprite.color = gradient.Evaluate(timer / (float) suicideSeconds);
             yield return new WaitForSeconds(1f);

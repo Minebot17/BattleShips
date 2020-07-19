@@ -48,6 +48,7 @@ public class NetworkManagerCustom : NetworkManager {
 			lastConnections = Players.All.Count;
 
 		if (sceneName.Equals("Game")) {
+			gameMode.OnStartRound();
 			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
 
 			foreach (NetworkConnection conn in Players.Conns) {
@@ -78,6 +79,8 @@ public class NetworkManagerCustom : NetworkManager {
 		if (killer != null && killer.clientAuthorityOwner != null) {
 			if (killer != prey)
 				Players.GetPlayer(killer.clientAuthorityOwner).GetState<CommonState>().Kills.Value++;
+			else
+				gameMode.OnSuicide(Players.GetPlayer(killer));
 			
 			new KillShipClientMessage(killer, prey).SendToAllClient();
 		}
