@@ -14,7 +14,6 @@ public class ShipEditor : MonoBehaviour {
     public ModulesScrollAdapter scrollAdapter;
     
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private int maxModules;
     [SerializeField] private Vector2Int gridSize = new Vector2Int(9, 9);
     [SerializeField] private Text blocksLeftText;
     [SerializeField] private GameObject readyButton;
@@ -25,6 +24,7 @@ public class ShipEditor : MonoBehaviour {
     [SerializeField] private GameObject shipCellPrefab;
     
     private GameObject currentShip;
+    private int currentBuildPoints;
     private float closingTimer;
     private bool timerStarted;
     private int installedModules;
@@ -45,7 +45,11 @@ public class ShipEditor : MonoBehaviour {
         singleton = this;
 
         global = Players.GetGlobal();
-        iState = Players.GetClient().GetState<InventoryState>();
+        Player player = Players.GetClient();
+        iState = player.GetState<InventoryState>();
+        currentBuildPoints = player.GetState<CommonState>().AdditionalBuildPoints.Value + global.BuildPointsPerRound.Value;
+        blocksLeftText.text = currentBuildPoints + " blocks left";
+        
         if (NetworkManagerCustom.singleton.IsServer)
             SetTimer(timeBeforeClosing);
         else
@@ -87,6 +91,7 @@ public class ShipEditor : MonoBehaviour {
 
             moduleInfoPanel.transform.GetChild(2).gameObject.GetComponent<Text>().text = string.Join("\n", parameters);
         };
+        
         OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
     }
 
@@ -121,7 +126,7 @@ public class ShipEditor : MonoBehaviour {
 
         if (scrollAdapter.SelectedModule == null 
             || scrollAdapter.SelectedModule.Equals("") 
-            || installedModules > maxModules
+            || installedModules > currentBuildPoints
             || position.x == 0 && position.y == 0
             || position.x < -gridSize.x/2 || position.x > gridSize.x/2
             || position.y < -gridSize.y/2 || position.y > gridSize.y/2
@@ -153,9 +158,9 @@ public class ShipEditor : MonoBehaviour {
         module.name = editorModule.name;
         module.transform.localPosition = new Vector3(0, 0, -0.1f);
         installedModules++;
-        blocksLeftText.text = (maxModules - installedModules) + " blocks left";
+        blocksLeftText.text = (currentBuildPoints - installedModules) + " blocks left";
         scrollAdapter.OnModulePlaced(editorModule, iState.modulesCount[moduleIndex].Value);
-        if (installedModules == maxModules)
+        if (installedModules == currentBuildPoints)
             OnReadyClick();
         
         UpdateFreePlaces();
@@ -165,7 +170,7 @@ public class ShipEditor : MonoBehaviour {
         foreach (Transform child in modulePlaces.transform)
             Destroy(child.gameObject);
 
-        if (installedModules == maxModules || scrollAdapter.SelectedModule == null)
+        if (installedModules == currentBuildPoints || scrollAdapter.SelectedModule == null)
             return;
 
         freePlaces = FindFreePlaces();

@@ -47,7 +47,7 @@ public class ShipPartsMessage : GameMessage {
             List<Vector2> shieldPointsLow = new List<Vector2>();
             List<Vector2> shieldPointsHigh = new List<Vector2>();
             
-            for (float x = -10f; x < 10f; x += 0.1f) {
+            for (float x = -20f; x < 20f; x += 0.1f) {
                 float D = (float) (Mathf.Pow((float) (shieldVariables[1] * x + shieldVariables[4]), 2) -
                                    4 * shieldVariables[2] * (shieldVariables[0] * x * x + shieldVariables[3] * x - 1));
                 if (D < 0)
@@ -63,9 +63,9 @@ public class ShipPartsMessage : GameMessage {
 
             shieldPointsHigh.Reverse();
             shieldPointsLow.AddRange(shieldPointsHigh);
-            shield.GetComponent<PolygonCollider2D>().points = shieldPointsLow.Select(v => v / 10f * 1.3f).ToArray();
+            shield.GetComponent<PolygonCollider2D>().points = shieldPointsLow.Select(v => v / 20f * 1.3f).ToArray();
             shield.transform.GetChild(0).GetComponent<PolygonCollider2D>().points =
-            shieldPointsLow.Select(v => v / 10f * 1.3f).ToArray();
+            shieldPointsLow.Select(v => v / 20f * 1.3f).ToArray();
         }
         else if (NetworkManagerCustom.singleton.IsServer)
             shield.transform.GetChild(0).GetComponent<IDeath>().OnDead(null);

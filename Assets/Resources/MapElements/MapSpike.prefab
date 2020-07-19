@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
-  perTicks: 10
+  perTicks: 5
 --- !u!114 &1921585672713370759
 MonoBehaviour:
   m_ObjectHideFlags: 0

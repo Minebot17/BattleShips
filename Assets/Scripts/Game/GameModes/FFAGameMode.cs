@@ -20,7 +20,7 @@ public class FFAGameMode : IGameMode {
     public bool IsRoundOver() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         bool isOver = players.Length <= 1;
-        if (isOver)
+        if (isOver && players.Length != 0)
             lastPlayer = players[0].GetComponent<NetworkIdentity>().clientAuthorityOwner;
         return isOver;
     }

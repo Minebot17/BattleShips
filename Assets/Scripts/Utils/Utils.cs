@@ -191,8 +191,13 @@ public static class Utils {
         for (int i = 0; i < convexPoints.Count; i++)
             ellipsePoints.Add(convexPoints[i].ToVector2() * (sizeOfOne/2));
 
-        if (ellipsePoints.Count == 4)
-            ellipsePoints.Add(new Vector2(0, ellipsePoints.Max(p => p.y) / (Mathf.Sqrt(2f)/2f)));
+        if (ellipsePoints.Count == 4) {
+            float sizeX = ellipsePoints.Max(p => p.x) - ellipsePoints.Min(p => p.x);
+            float sizeY = ellipsePoints.Max(p => p.y) - ellipsePoints.Min(p => p.y);
+            ellipsePoints.Add(new Vector2(0, Math.Abs(sizeX - sizeY) > 0.1f 
+                                              ? ellipsePoints.Max(p => p.y) + sizeOfOne 
+                                              : ellipsePoints.Max(p => p.y) / (Mathf.Sqrt(2f)/2f)));
+        }
 
         if (debug) {
             GameObject shipObj = GameObject.Find("Ship(Clone)");
