@@ -117,9 +117,11 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldDeath.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShipDeathStandart.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleEngineModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleGyrodineEngine.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\StabilizerModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\ShipController.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\ShipServerController.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />

@@ -7,7 +7,14 @@ public class ModuleHp : MonoBehaviour, IOnModuleDeathServer {
     [SerializeField] private float health;
     [SerializeField] private float currentHealth;
 
-    public float MaxHealth => health;
+    public float MaxHealth {
+        get => health;
+        set {
+            health = value;
+            currentHealth += value;
+        }
+    }
+
     public float CurrentHealth => currentHealth;
 
     public void Awake() {
