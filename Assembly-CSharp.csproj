@@ -96,7 +96,6 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IGyrodineModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IMeleeModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IOnModuleDeathServer.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\CoreModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\EffectModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FireModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Effects\EffectFabrics\FreezeModule.cs" />
@@ -117,11 +116,13 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldDeath.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShipDeathStandart.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleEngineModule.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\SimpleGyrodineEngine.cs" />
-     <Compile Include="Assets\Scripts\Game\Ship\Modules\StabilizerModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\CoreModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\RepairModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\ShieldModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\SimpleEngineModule.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\SimpleGyrodineEngine.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\Subsidiary\StabilizerModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\ShipController.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\ShipServerController.cs" />
      <Compile Include="Assets\Scripts\Network\CommonSync\ChildVector.cs" />
@@ -146,6 +147,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\LootItemMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\MineReadyClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\RailgunClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\RepairModuleClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\SuicideServerMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\AddTeamPlayerClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamCountClientMessage.cs" />

@@ -258,4 +258,9 @@ public static class Utils {
 
         return result.Where(m => !m.availableInitially || !m.endlessModule).ToList();
     }
+
+    public static T GetRandom<T>(this IList<T> collection) {
+        int count = collection.Count;
+        return collection[rnd.Next(count)];
+    }
 }

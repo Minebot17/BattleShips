@@ -20,4 +20,8 @@ public class ShieldDeath : MonoBehaviour, IDeath {
     public bool IsDead() {
         return isDead;
     }
+
+    public void Repair() {
+        isDead = false;
+    }
 }

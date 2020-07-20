@@ -9,14 +9,13 @@ public class SimpleEngineModule : AbstractModule, IEngineModule {
 
     private ShipController shipController;
 
-    protected override void Start() {
-        base.Start();
+    protected void OnEnable() {
         shipController = transform.GetComponentInParent<ShipController>();
         if (shipController)
             shipController.engines.Add(this);
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         if(shipController && shipController.engines.Contains(this)) 
             shipController.engines.Remove(this);
     }

@@ -6,14 +6,13 @@ internal class SimpleGyrodineEngine : AbstractModule, IGyrodineModule
     public float RotationPower { get { return rotationPower * effectModule.freezeK; } }
     private ShipController shipController;
 
-    protected override void Start() {
-        base.Start();
+    protected void OnEnable() {
         shipController = transform.GetComponentInParent<ShipController>();
         if (shipController)
             shipController.gyrodines.Add(this);
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         if (shipController && shipController.gyrodines.Contains(this)) 
             shipController.gyrodines.Remove(this);
     }

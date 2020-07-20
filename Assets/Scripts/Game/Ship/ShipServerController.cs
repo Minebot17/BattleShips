@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
+    public List<GameObject> killedModules = new List<GameObject>();
     private IGunModule[] guns = null;
     private NetworkIdentity identity;
     private ShipController commonController;

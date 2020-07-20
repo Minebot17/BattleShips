@@ -15,7 +15,10 @@ public class ModuleHp : MonoBehaviour, IOnModuleDeathServer {
         }
     }
 
-    public float CurrentHealth => currentHealth;
+    public float CurrentHealth {
+        get => currentHealth;
+        set => currentHealth = value;
+    }
 
     public void Awake() {
         currentHealth = health;

@@ -3,4 +3,5 @@
 public interface IDeath {
     void OnDead(DamageInfo damageInfo);
     bool IsDead();
+    void Repair();
 }
