@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MapElementPacker : MonoBehaviour {
     private void Start() {
-        StartCoroutine(WaitMapSpawn());
+        if (!GetComponentInParent<Map>())
+            StartCoroutine(WaitMapSpawn());
+        else
+            Destroy(this);
     }
 
     private IEnumerator WaitMapSpawn() {

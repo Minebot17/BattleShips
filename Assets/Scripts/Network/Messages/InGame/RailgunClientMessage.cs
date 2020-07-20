@@ -19,7 +19,14 @@ public class RailgunClientMessage : GameMessage {
     public override void OnClient(NetworkReader reader) {
         NetworkIdentity id = reader.ReadNetworkIdentity();
         int childIndex = reader.ReadInt32();
-        RailgunModule railgunModule = childIndex == -1 ? id.gameObject.GetComponent<RailgunModule>() : id.transform.GetChild(childIndex).GetComponentInChildren<RailgunModule>();
-        railgunModule.StartCoroutine(railgunModule.RenderLine(reader.ReadVector2()));
+        try {
+            RailgunModule railgunModule = childIndex == -1
+                                          ? id.gameObject.GetComponent<RailgunModule>()
+                                          : id.transform.GetChild(childIndex).GetComponentInChildren<RailgunModule>();
+            railgunModule.StartCoroutine(railgunModule.RenderLine(reader.ReadVector2()));
+        }
+        catch (UnityException e) {
+            Debug.Log(e);
+        }
     }
 }

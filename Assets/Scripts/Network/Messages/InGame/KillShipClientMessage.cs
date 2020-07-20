@@ -5,8 +5,7 @@ public class KillShipClientMessage : GameMessage {
 
     public KillShipClientMessage() { }
 
-    public KillShipClientMessage(NetworkIdentity killer, NetworkIdentity prey) {
-        Writer.Write(killer);
+    public KillShipClientMessage(NetworkIdentity prey) {
         Writer.Write(prey);
     }
     
@@ -15,7 +14,6 @@ public class KillShipClientMessage : GameMessage {
     }
     
     public override void OnClient(NetworkReader reader) {
-        NetworkIdentity killer = reader.ReadNetworkIdentity();
         NetworkIdentity prey = reader.ReadNetworkIdentity();
 
         if (prey.hasAuthority) {

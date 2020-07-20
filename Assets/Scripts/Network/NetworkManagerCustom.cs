@@ -76,14 +76,12 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	public void PlayerKill(NetworkIdentity killer, NetworkIdentity prey) {
-		if (killer != null && killer.clientAuthorityOwner != null) {
-			if (killer != prey)
-				Players.GetPlayer(killer.clientAuthorityOwner).GetState<CommonState>().Kills.Value++;
-			else
-				gameMode.OnSuicide(Players.GetPlayer(killer));
-			
-			new KillShipClientMessage(killer, prey).SendToAllClient();
-		}
+		if (killer != null && killer != prey)
+			Players.GetPlayer(killer.clientAuthorityOwner).GetState<CommonState>().Kills.Value++;
+		else
+			gameMode.OnSuicide(Players.GetPlayer(prey));
+		
+		new KillShipClientMessage(prey).SendToAllClient();
 
 		Players.GetPlayer(prey.clientAuthorityOwner).GetState<CommonState>().Alive.Value = false;
 		prey.GetComponent<IDeath>().OnDead(null);
