@@ -27,7 +27,7 @@ public class ShipServerController : NetworkBehaviour {
             return;
 
         for (int i = 0; i < guns.Length; i++) {
-            if (!(UnityEngine.Object)guns[i])
+            if (!(UnityEngine.Object)guns[i] || !((MonoBehaviour)guns[i]).gameObject.activeSelf)
                 continue;
             
             if (Players.GetPlayer(identity.clientAuthorityOwner).GetState<CommonState>().IsShoot.Value)

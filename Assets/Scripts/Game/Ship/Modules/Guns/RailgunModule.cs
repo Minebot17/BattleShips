@@ -46,14 +46,14 @@ internal class RailgunModule : AbstractGunModule
                 moduleHp.Damage(damageInfo);
             }
         });
-        new RailgunClientMessage(damageInfo.OwnerShip, transform.parent.parent == null ? -1 : transform.parent.GetSiblingIndex(), hits.Last().point).SendToAllClient();
-        StartCoroutine(RenderLine(hits.Last().point));
+        new RailgunClientMessage(damageInfo.OwnerShip, transform.parent.parent == null ? -1 : transform.parent.GetSiblingIndex(), transform.position, hits.Last().point).SendToAllClientExceptHost();
+        StartCoroutine(RenderLine(transform.position, hits.Last().point));
     }
 
-    public IEnumerator RenderLine(Vector3 lastHit)
+    public IEnumerator RenderLine(Vector2 startPosition, Vector2 endPosition)
     {
         lineRenderer.positionCount = 2;
-        lineRenderer.SetPositions(new [] { transform.position, lastHit});
+        lineRenderer.SetPositions(new [] { startPosition.ToVector3(), endPosition.ToVector3() });
         yield return new WaitForSeconds(lineTime);
         lineRenderer.positionCount = 0;
     }

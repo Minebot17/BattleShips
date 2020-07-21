@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,12 +10,17 @@ public class ShieldDeath : MonoBehaviour, IDeath {
             return;
 
         isDead = true;
-        Destroy(transform.parent.gameObject);
-        Destroy(gameObject);
+        StartCoroutine(DestroyShield());
         if (NetworkManagerCustom.singleton.IsServer) {
             NetworkIdentity identity = gameObject.transform.parent.parent.GetComponent<NetworkIdentity>();
             new DestroyShieldClientMessage(identity).SendToAllClientExceptHost();
         }
+    }
+
+    private IEnumerator DestroyShield() {
+        yield return new WaitForSeconds(0.25f);
+        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
     }
 
     public bool IsDead() {

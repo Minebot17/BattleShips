@@ -164,12 +164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b64bd0096e109c43bf6cb731ea561f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 6
+  coolDown: 7
   recoilForce: 8
   damage: 480
   damageRating: 4
   lineTime: 1
-  blocksThrough: 5
+  blocksThrough: 3
 --- !u!120 &1737589467302904692
 LineRenderer:
   m_ObjectHideFlags: 0

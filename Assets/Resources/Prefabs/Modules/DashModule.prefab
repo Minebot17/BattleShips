@@ -163,4 +163,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab08e5aa1e14d619d9e2256a5191e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 7
+  coolDown: 5

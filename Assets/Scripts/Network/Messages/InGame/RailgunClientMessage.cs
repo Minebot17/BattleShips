@@ -6,9 +6,10 @@ public class RailgunClientMessage : GameMessage {
 
     public RailgunClientMessage() { }
 
-    public RailgunClientMessage(NetworkIdentity identity, int childIndex, Vector2 lineEnd) {
+    public RailgunClientMessage(NetworkIdentity identity, int childIndex, Vector2 lineStart, Vector2 lineEnd) {
         Writer.Write(identity);
         Writer.Write(childIndex);
+        Writer.Write(lineStart);
         Writer.Write(lineEnd);
     }
     
@@ -23,7 +24,7 @@ public class RailgunClientMessage : GameMessage {
             RailgunModule railgunModule = childIndex == -1
                                           ? id.gameObject.GetComponent<RailgunModule>()
                                           : id.transform.GetChild(childIndex).GetComponentInChildren<RailgunModule>();
-            railgunModule.StartCoroutine(railgunModule.RenderLine(reader.ReadVector2()));
+            railgunModule.StartCoroutine(railgunModule.RenderLine(reader.ReadVector2(), reader.ReadVector2()));
         }
         catch (UnityException e) {
             Debug.Log(e);

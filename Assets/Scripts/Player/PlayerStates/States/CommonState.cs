@@ -10,6 +10,7 @@ public class CommonState : PlayerState {
     public BoolStateValue Alive;
     public BoolStateValue IsShoot;
     public BoolStateValue WithShield;
+    public BoolStateValue IsInvisible;
 
     public CommonState(Player parent, bool isTest) : base(parent, isTest) {
         ShipIdentity = new NetworkIdentityStateValue(this, "ShipIdentity", null, SyncType.ALL_SYNC);
@@ -22,5 +23,6 @@ public class CommonState : PlayerState {
         Alive = new BoolStateValue(this, "Alive", true, SyncType.ALL_SYNC);
         IsShoot = new BoolStateValue(this, "IsShoot", false, SyncType.NOT_SYNC, true);
         WithShield = new BoolStateValue(this, "WithShield", true, SyncType.ALL_SYNC, true);
+        IsInvisible = new BoolStateValue(this, "IsInvisible", false, SyncType.ALL_SYNC);
     }
 }

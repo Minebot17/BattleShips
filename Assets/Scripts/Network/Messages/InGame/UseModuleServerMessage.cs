@@ -24,17 +24,25 @@ public class UseModuleServerMessage : GameMessage {
         ShipServerController serverController = shipIdentity.GetComponent<ShipServerController>();
         try {
             UsableModuleInfo usableModuleInfo = reader.ReadBoolean()
-                                                                ? serverController.usableModules[reader.ReadString()]
-                                                                : serverController.usableModules.Values.ToList()[reader.ReadInt32()];
+                                                ? serverController.usableModules[reader.ReadString()]
+                                                : serverController.usableModules.Values.ToList()[reader.ReadInt32()];
 
-            if (usableModuleInfo.sameModulesIndex != null && usableModuleInfo.sameModulesIndex.Count != 0 && !usableModuleInfo.isCoolDown) {
-                UsableModule usableModule = shipIdentity.transform.GetChild(usableModuleInfo.sameModulesIndex[0]).GetChild(0).GetComponent<UsableModule>();
+            if (usableModuleInfo != null
+                && usableModuleInfo.sameModulesIndex != null 
+                && usableModuleInfo.sameModulesIndex.Count != 0 
+                && !usableModuleInfo.isCoolDown) {
+                UsableModule usableModule = shipIdentity
+                                        .transform.GetChild(usableModuleInfo.sameModulesIndex[0]).GetChild(0)
+                                        .GetComponent<UsableModule>();
                 usableModule.Use();
                 usableModuleInfo.isCoolDown = true;
                 serverController.StartCoroutine(CoolDownTimer(usableModule.CoolDown, usableModuleInfo));
             }
         }
         catch (IndexOutOfRangeException e) {
+            Debug.Log(e);
+        }
+        catch (NullReferenceException e) {
             Debug.Log(e);
         }
     }

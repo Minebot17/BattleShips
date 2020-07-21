@@ -35,10 +35,10 @@ public class InvisibleShipClientMessage : GameMessage {
                 shield.GetComponent<MeshRenderer>().enabled = false;
         }
 
-        invisiblePlayerShip.GetComponent<ShipController>().StartCoroutine(DisableInvisibleCoroutine(invisiblePlayerShip, allSpriteRenderers, invisibleTime));
+        invisiblePlayerShip.GetComponent<ShipController>().StartCoroutine(DisableInvisibleCoroutine(invisiblePlayer, invisiblePlayerShip, allSpriteRenderers, invisibleTime));
     }
 
-    private static IEnumerator DisableInvisibleCoroutine(GameObject invisiblePlayerShip, SpriteRenderer[] allSpriteRenderers, float time) {
+    private static IEnumerator DisableInvisibleCoroutine(Player player, GameObject invisiblePlayerShip, SpriteRenderer[] allSpriteRenderers, float time) {
         yield return new WaitForSeconds(time);
         
         if (!invisiblePlayerShip)
@@ -53,5 +53,8 @@ public class InvisibleShipClientMessage : GameMessage {
             newColor.a = 1f;
             spriteRenderer.color = newColor;
         }
+
+        if (NetworkManagerCustom.singleton.IsServer)
+            player.GetState<CommonState>().IsInvisible.Value = false;
     }
 }
