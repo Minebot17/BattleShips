@@ -18,6 +18,7 @@ public class ModuleDeath : MonoBehaviour, IDeath {
 
             if (!GetComponent<RepairModule>())
                 transform.parent.parent.GetComponent<ShipServerController>().killedModules.Add(gameObject);
+            
             new DestroyModuleClientMessage(identity, gameObject.transform.parent.GetSiblingIndex()).SendToAllClient();
         }
         

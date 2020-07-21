@@ -1,3 +1,3 @@
 public enum LootSpawnRules {
-    ALL, WEAPONS, SUBSIDIARY, LIST
+    ALL, WEAPONS, SUBSIDIARY, USABLE, LIST
 }

@@ -7,6 +7,8 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class ShipServerController : NetworkBehaviour {
     public List<GameObject> killedModules = new List<GameObject>();
+    public Dictionary<string, UsableModuleInfo> usableModules = new Dictionary<string, UsableModuleInfo>(); // key - module name, value - alive cell names and coolDown
+
     private IGunModule[] guns = null;
     private NetworkIdentity identity;
     private ShipController commonController;

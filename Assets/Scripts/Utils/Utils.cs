@@ -248,6 +248,10 @@ public static class Utils {
                 result = ShipEditor.modules.Where(m => !m.isWeapon).ToList();
                 break;
             
+            case LootSpawnRules.USABLE:
+                result = ShipEditor.modules.Where(m => m.isUsable).ToList();
+                break;
+            
             case LootSpawnRules.LIST:
                 result = specificList.ToList();
                 break;

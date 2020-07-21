@@ -91,6 +91,10 @@ public abstract class GameMessage {
         SendWriter(() => conn?.SendWriter(Writer, GetChannel()));
     }
     
+    public void SendToPlayer(Player player) {
+        SendToClient(player.Conn);
+    }
+    
     public void SendToAllClient() {
         Writer.FinishMessage();
         foreach (NetworkConnection conn in NetworkServer.connections)

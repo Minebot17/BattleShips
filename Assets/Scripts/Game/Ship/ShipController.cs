@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,6 +27,13 @@ public class ShipController : NetworkBehaviour {
         
         if (!gameObject.transform.Find("ShilCell 0 0"))
             new ShipPartsMessage(identity).SendToServer();
+
+        Action<int> onUseModule = index => {
+            if (PlayerInputHandler.singleton.touch) {
+                
+            }
+        };
+        inputHandler.OnUse(onUseModule);
     }
 
     private void FixedUpdate() {

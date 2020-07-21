@@ -4,6 +4,7 @@ using UnityEngine;
 public class EditorModule : ScriptableObject {
     public GameObject prefab;
     public bool isWeapon;
+    public bool isUsable;
     public bool availableInitially;
     public bool endlessModule = true;
     public int startAmount = 1;
