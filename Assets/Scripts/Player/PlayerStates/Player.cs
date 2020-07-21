@@ -30,6 +30,10 @@ public class Player {
         return (T) states[typeof(T)];
     }
 
+    public GameObject GetShip() {
+        return GetState<CommonState>().ShipIdentity.Value.gameObject;
+    }
+
     /// <summary>
     /// Восстанавливает все StateValue во всех PlayerState к defaultValue
     /// </summary>
@@ -97,5 +101,19 @@ public class Player {
 
     public override int GetHashCode() {
         return id;
+    }
+    
+    public static bool operator ==(Player player0, Player player1) {
+        if (ReferenceEquals(player0, player1))
+            return true;
+
+        if (ReferenceEquals(player0, null) || ReferenceEquals(player1, null))
+            return false;
+
+        return player0.Id == player1.Id;
+    }
+    
+    public static bool operator !=(Player player0, Player player1) {
+        return !(player0 == player1);
     }
 }

@@ -267,4 +267,12 @@ public static class Utils {
         int count = collection.Count;
         return collection[rnd.Next(count)];
     }
+
+    public static void Write(this NetworkWriter writer, Player player) {
+        writer.Write(player.Id);
+    }
+    
+    public static Player ReadPlayer(this NetworkReader reader) {
+        return Players.GetPlayer(reader.ReadInt32());
+    }
 }

@@ -147,6 +147,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyShieldClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\EditUseButtonClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\FlamethrowerClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Network\Messages\InGame\InvisibleShipClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\LootItemMessage.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\MineReadyClientMessage.cs" />

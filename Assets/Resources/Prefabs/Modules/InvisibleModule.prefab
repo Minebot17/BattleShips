@@ -164,3 +164,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coolDown: 10
+  invisibleTime: 5
