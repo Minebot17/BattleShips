@@ -28,7 +28,7 @@ public class UseModuleServerMessage : GameMessage {
                                                                 : serverController.usableModules.Values.ToList()[reader.ReadInt32()];
 
             if (usableModuleInfo.sameModulesIndex != null && usableModuleInfo.sameModulesIndex.Count != 0 && !usableModuleInfo.isCoolDown) {
-                UsableModule usableModule = shipIdentity.transform.GetChild(usableModuleInfo.sameModulesIndex[0]).GetComponent<UsableModule>();
+                UsableModule usableModule = shipIdentity.transform.GetChild(usableModuleInfo.sameModulesIndex[0]).GetChild(0).GetComponent<UsableModule>();
                 usableModule.Use();
                 usableModuleInfo.isCoolDown = true;
                 serverController.StartCoroutine(CoolDownTimer(usableModule.CoolDown, usableModuleInfo));

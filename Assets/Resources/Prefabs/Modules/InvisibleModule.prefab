@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7408569212715886076}
   - component: {fileID: 5470151825955538092}
   - component: {fileID: 8774861914914714588}
+  - component: {fileID: 726958494058940857}
   m_Layer: 10
   m_Name: InvisibleModule
   m_TagString: Untagged
@@ -150,3 +151,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezeK: 1
+--- !u!114 &726958494058940857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718364027437422095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7c949b6d6e45acaa37599c1ab767a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coolDown: 10

@@ -30,8 +30,14 @@ public class ShipController : NetworkBehaviour {
 
         Action<int> onUseModule = index => {
             if (PlayerInputHandler.singleton.touch) {
-                
+                string moduleName = PlayerInputHandler
+                                .singleton.usableButtons
+                                .First(b => b.gameObject.name.StartsWith("UsableModule" + index)).gameObject.name
+                                .Split('_')[1];
+                new UseModuleServerMessage(moduleName).SendToServer();
             }
+            else
+                new UseModuleServerMessage(index).SendToServer();
         };
         inputHandler.OnUse(onUseModule);
     }

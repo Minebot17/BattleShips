@@ -24,9 +24,6 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
     public void Start() {
         leftJoystick.gameObject.SetActive(touch);
         gunButton.gameObject.SetActive(touch);
-        usableButtons[0].gameObject.SetActive(touch);
-        usableButtons[1].gameObject.SetActive(touch);
-        usableButtons[2].gameObject.SetActive(touch);
     }
 
     public void Update() {

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8071190798003765324}
   - component: {fileID: 6718180063284633884}
   - component: {fileID: 8004221850041292396}
+  - component: {fileID: 4507030132163570897}
   m_Layer: 10
   m_Name: DashModule
   m_TagString: Untagged
@@ -150,3 +151,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezeK: 1
+--- !u!114 &4507030132163570897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686519597385282495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab08e5aa1e14d619d9e2256a5191e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coolDown: 7
