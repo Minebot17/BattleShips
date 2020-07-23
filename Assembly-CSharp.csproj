@@ -216,6 +216,7 @@
      <Compile Include="Assets\Scripts\Utils\Events\EventBase.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventHandler.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventPriority.cs" />
+     <Compile Include="Assets\Scripts\Utils\Extensions.cs" />
      <Compile Include="Assets\Scripts\Utils\GameCoroutines.cs" />
      <Compile Include="Assets\Scripts\Utils\Language\LanguageManager.cs" />
      <Compile Include="Assets\Scripts\Utils\Language\LanguageText.cs" />
@@ -231,7 +232,12 @@
      <Compile Include="Assets\Scripts\Utils\UsableModuleInfo.cs" />
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />
      <Compile Include="Assets\Scripts\Utils\VelocityRotate.cs" />
+     <None Include="Assets\Packages\System.ValueTuple.4.5.0\version.txt" />
+     <None Include="Assets\Packages\System.ValueTuple.4.5.0\useSharedDesignerContext.txt" />
+     <None Include="Assets\Packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.xml" />
      <None Include="Assets\Resources\Lang\ru.txt" />
+     <None Include="Assets\Packages\morelinq.3.3.2\COPYING.txt" />
+     <None Include="Assets\Packages\morelinq.3.3.2\lib\net451\MoreLinq.xml" />
      <None Include="Assets\Packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.xml" />
      <None Include="Assets\Shaders\ShieldShader.shader" />
      <None Include="Assets\Resources\Lang\en.txt" />
@@ -504,6 +510,12 @@
  </Reference>
  <Reference Include="MathNet.Numerics">
  <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/MathNet.Numerics.4.11.0/lib/net461/MathNet.Numerics.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ValueTuple">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/System.ValueTuple.4.5.0/lib/net47/System.ValueTuple.dll</HintPath>
+ </Reference>
+ <Reference Include="MoreLinq">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/morelinq.3.3.2/lib/net451/MoreLinq.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.9f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -41,5 +42,17 @@ public class GameCoroutines : MonoBehaviour {
 
         if (NetworkManagerCustom.singleton.IsServer)
             ExplosionManager.suicideExplosion.Explode(ship.gameObject.transform.position, ship);
+    }
+
+    public static IEnumerator DestroyAmmo(GameObject toDestroy, float afterTime) {
+        yield return new WaitForSeconds(afterTime);
+        
+        if (!toDestroy)
+            yield break;
+
+        if (NetworkManagerCustom.singleton.IsServer)
+            NetworkServer.Destroy(toDestroy);
+        else
+            Destroy(toDestroy);
     }
 }

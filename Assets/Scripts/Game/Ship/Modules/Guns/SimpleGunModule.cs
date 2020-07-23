@@ -12,7 +12,7 @@ public class SimpleGunModule : AbstractGunModule {
             Vector2 newVec = Quaternion.Euler(0, 0, i * 10) * vec;
             GameObject ammo = Instantiate(ammoPrefab);
             ammo.transform.position = transform.position.ToVector2() + newVec / 2f;
-            ammo.transform.position += new Vector3(0, 0, -0.2f);
+            ammo.transform.position += new Vector3(0, 0, Players.GetPlayer(damageInfo.OwnerShip).Id);
             ammo.GetComponent<AbstractAmmo>().Initialize(damageInfo, (newVec * ammoSpeed));
 
             NetworkServer.Spawn(ammo);

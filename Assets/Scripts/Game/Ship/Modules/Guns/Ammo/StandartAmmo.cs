@@ -18,7 +18,7 @@ public class StandartAmmo : AbstractAmmo {
     protected void OnCollisionEnter2D(Collision2D other) {
         numberOfBounces--;
         if (numberOfBounces == 0)
-            NetworkServer.Destroy(gameObject);
+            Utils.DestroyAmmo(gameObject);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collider)
@@ -26,7 +26,7 @@ public class StandartAmmo : AbstractAmmo {
         base.OnTriggerEnter2D(collider);
 
         if (numberOfBounces == 0)
-            NetworkServer.Destroy(gameObject);
+            Utils.DestroyAmmo(gameObject);
     }
 
     protected override void OnMapTrigger(Collider2D collider)
@@ -35,7 +35,9 @@ public class StandartAmmo : AbstractAmmo {
     }
     protected override void OnEnemyTrigger(Collider2D collider, ModuleHp moduleHp)
     {
-        moduleHp.Damage(GetInfo());
-        NetworkServer.Destroy(gameObject);
+        if (NetworkManagerCustom.singleton.IsServer)
+            moduleHp.Damage(GetInfo());
+        
+        Utils.DestroyAmmo(gameObject);
     }
 }

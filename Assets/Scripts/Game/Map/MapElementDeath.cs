@@ -11,6 +11,10 @@ public class MapElementDeath : MonoBehaviour, IDeath {
             return;
 
         isDead = true;
+        Invoke(nameof(Death), 0.15f);
+    }
+
+    private void Death() {
         Destroy(gameObject);
         if (destroyParent)
             NetworkServer.Destroy(transform.parent.gameObject);

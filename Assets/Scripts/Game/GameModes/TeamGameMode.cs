@@ -26,11 +26,11 @@ public class TeamGameMode : IGameMode {
     }
 
     public bool CanDamageModule(ModuleHp hp, DamageInfo source) {
-        if (!NetworkManagerCustom.singleton.IsServer || !(source.OwnerShip == null))
+        if (!(source.OwnerShip == null))
             return true;
         
-        NetworkConnection target = hp.gameObject.transform.parent.parent.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner;
-        NetworkConnection owner = source.OwnerShip.clientAuthorityOwner;
+        NetworkIdentity target = hp.gameObject.transform.parent.parent.gameObject.GetComponent<NetworkIdentity>();
+        NetworkIdentity owner = source.OwnerShip;
         bool isAlly = Players.GetPlayer(target).GetState<TeamState>().TeamIndex.Value == Players.GetPlayer(owner).GetState<TeamState>().TeamIndex.Value;
         return !isAlly;
     }

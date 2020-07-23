@@ -18,7 +18,7 @@ public class InvisibleShipClientMessage : GameMessage {
     public override void OnClient(NetworkReader reader) {
         Player clientPlayer = Players.GetClient();
         Player invisiblePlayer = reader.ReadPlayer();
-        GameObject invisiblePlayerShip = invisiblePlayer.GetShip();
+        NetworkIdentity invisiblePlayerShip = invisiblePlayer.GetShip();
         float invisibleTime = reader.ReadSingle();
         SpriteRenderer[] allSpriteRenderers = invisiblePlayerShip.GetComponentsInChildren<SpriteRenderer>();
         float newAlpha = clientPlayer == invisiblePlayer ? 0.25f : 0f;
@@ -38,7 +38,7 @@ public class InvisibleShipClientMessage : GameMessage {
         invisiblePlayerShip.GetComponent<ShipController>().StartCoroutine(DisableInvisibleCoroutine(invisiblePlayer, invisiblePlayerShip, allSpriteRenderers, invisibleTime));
     }
 
-    private static IEnumerator DisableInvisibleCoroutine(Player player, GameObject invisiblePlayerShip, SpriteRenderer[] allSpriteRenderers, float time) {
+    private static IEnumerator DisableInvisibleCoroutine(Player player, NetworkIdentity invisiblePlayerShip, SpriteRenderer[] allSpriteRenderers, float time) {
         yield return new WaitForSeconds(time);
         
         if (!invisiblePlayerShip)

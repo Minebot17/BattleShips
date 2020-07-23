@@ -1,4 +1,5 @@
 using System.Linq;
+using MoreLinq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -6,12 +7,16 @@ public abstract class AbstractAmmo : NetworkBehaviour
 {
     [SerializeField]
     protected int lifeSpan;
-
     protected DamageInfo damageInfo;
-
     protected int lifeSpanTimer = 999999;
-
     protected new Rigidbody2D rigidbody2D;
+
+    protected virtual void Start() {
+        if (damageInfo == null)
+            damageInfo = new DamageInfo(0, Players.GetPlayer(Players.Ids.MinBy(id => Mathf.Abs(id - (int) transform.localPosition.z)).First()).GetShip());
+
+        transform.localPosition -= new Vector3(0, 0, transform.localPosition.z - 0.02f);
+    }
 
     public virtual void Initialize(DamageInfo damageInfo, Vector2 shootVector)
     {
@@ -37,9 +42,6 @@ public abstract class AbstractAmmo : NetworkBehaviour
     
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!isServer)
-            return;
-        
         if (collider.gameObject.TryGetComponent(out ModuleHp moduleHp))
         {
             if (!damageInfo.OwnerShip || moduleHp.transform.parent.parent.gameObject != damageInfo.OwnerShip.gameObject)

@@ -185,7 +185,7 @@ public class ShipEditor : MonoBehaviour {
     private Vector2Int GetClickPosition() {
         Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         p = new Vector3(p.x/Utils.sizeOfOne - 0.5f*(p.x > 0 ? -1 : 1), p.y/Utils.sizeOfOne - 0.5f*(p.y > 0 ? -1 : 1), 0f);
-        Vector2Int position = new Vector2Int(Utils.RoundSinged(p.x), Utils.RoundSinged(p.y));
+        Vector2Int position = new Vector2Int(p.x.RoundSinged(), p.y.RoundSinged());
         return position;
     }
 

@@ -63,7 +63,7 @@ public class NetworkSyncRotation : NetworkVectors{
 	}
 
 	public override float GetNetworkSendInterval() {
-		return 0.05f;
+		return 0.02f;
 	}
 }
 

@@ -30,8 +30,8 @@ public class Player {
         return (T) states[typeof(T)];
     }
 
-    public GameObject GetShip() {
-        return GetState<CommonState>().ShipIdentity.Value.gameObject;
+    public NetworkIdentity GetShip() {
+        return GetState<CommonState>().ShipIdentity.Value;
     }
 
     /// <summary>

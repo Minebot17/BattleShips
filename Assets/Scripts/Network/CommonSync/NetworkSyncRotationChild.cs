@@ -67,7 +67,7 @@ public class NetworkSyncRotationChild : NetworkBehaviour {
 	}
 
 	public override float GetNetworkSendInterval() {
-		return 0.05f;
+		return 0.02f;
 	}
 
 	[Command]

@@ -187,7 +187,7 @@ MonoBehaviour:
   Y: 1
   Z: 1
   posLerpRate: 15
-  posThreshold: 0.1
+  posThreshold: 0.05
   fromLocalPlayer: 0
 --- !u!114 &-4463591452616801562
 MonoBehaviour:
@@ -204,6 +204,6 @@ MonoBehaviour:
   X: 1
   Y: 1
   Z: 0
-  velocityLerpRate: 15
+  velocityLerpRate: 100
   velocityThreshold: 0.1
   fromLocalPlayer: 0

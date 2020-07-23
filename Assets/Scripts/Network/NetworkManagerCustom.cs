@@ -18,7 +18,7 @@ public class NetworkManagerCustom : NetworkManager {
 	public IGameMode gameMode = new FFAGameMode();
 	public int lastConnections;
 	public GameObject enemyPointerPrefab;
-	
+
 	public void Start() {
 		ResetValuesToDefault();
 		ShipEditor.Initialize();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 
@@ -31,8 +32,9 @@ public class PlayerInputHandler : MonoBehaviour, IInputHandler {
             return;
         
         for (int i = 0; i < useKeys.Length; i++)
-            if (Input.GetKeyDown(useKeys[i]))
+            if (Input.GetKeyDown(useKeys[i])) {
                 Use(i);
+            }
     }
 
     public void ToggleInput(bool active) {
