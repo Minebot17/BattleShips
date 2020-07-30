@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EditorAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 153f8940c48b9524693303e944457bf4, type: 3}
+    totalSpriteSurfaceArea: 64359
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 79120831c65f02142bfca206e2003ea0, type: 3}
+  - {fileID: 21300000, guid: 0c602b61a943a954f901d7c593db7709, type: 3}
+  - {fileID: 21300000, guid: 4efd97b166e00cd4394525f75eada039, type: 3}
+  - {fileID: 21300000, guid: a6018a03add68f648abd43bda5d60e2c, type: 3}
+  - {fileID: 21300000, guid: 37a00c63b5cbf6549952c0bb412da8b7, type: 3}
+  - {fileID: 21300000, guid: 3d2b44c3428d0dd4a8e41c60e4543930, type: 3}
+  - {fileID: 21300000, guid: 38d39bf35b6720e46a56ac314941641a, type: 3}
+  - {fileID: 21300000, guid: 807c2615eaa03fa4e86410dea129745e, type: 3}
+  - {fileID: 21300000, guid: a91e01558baa6ae47b9e7cab7aec5751, type: 3}
+  - {fileID: 21300000, guid: bc722706605eeb946a7e434a803bd8f1, type: 3}
+  - {fileID: 21300000, guid: bacef2169c1b336499a41a3b3e257c5e, type: 3}
+  - {fileID: 21300000, guid: b784e2561224c454ca664e8f23dd1647, type: 3}
+  - {fileID: 21300000, guid: fa5e56b6c356a5c48acf0b385da069b6, type: 3}
+  - {fileID: 21300000, guid: b1b4abf6986016d40a13d0a78ee6fd87, type: 3}
+  - {fileID: 21300000, guid: bef977370a130214faad1db2fddc6641, type: 3}
+  - {fileID: 21300000, guid: 0d27f25765214434da5a4c628181ef97, type: 3}
+  - {fileID: 21300000, guid: 70319a497082feb46a7d26d38327947f, type: 3}
+  - {fileID: 21300000, guid: b26dfc897ea2cd64e890d231ff0a3750, type: 3}
+  - {fileID: 21300000, guid: 8fc7f8991bb87ca438d9a687202439a1, type: 3}
+  - {fileID: 21300000, guid: dac4763a728ade14d9962a10aa7b3bb6, type: 3}
+  - {fileID: 21300000, guid: 0b9e01dac4b865c409f91a052ebbdf38, type: 3}
+  - {fileID: 21300000, guid: 96432f2b61c56c34cbd7de009c60cfc2, type: 3}
+  - {fileID: 21300000, guid: 0936a57bbbbcf2c4ba34200711267e40, type: 3}
+  - {fileID: 21300000, guid: fd57fb8bf9baed84ea7432878ff27528, type: 3}
+  - {fileID: 21300000, guid: 6c0bf3ebaaf0c0443834b0d2a1f513fd, type: 3}
+  - {fileID: 21300000, guid: c43fe86c6990c4148b5ffd60bc0df7b5, type: 3}
+  - {fileID: 21300000, guid: bc0de1acc33806a42909d72b3f68dfe5, type: 3}
+  - {fileID: 21300000, guid: b5431bbc25b71044db8092ca53971e40, type: 3}
+  - {fileID: 21300000, guid: f5f138cc18039684baeb85786554d65e, type: 3}
+  - {fileID: 21300000, guid: eb19dfcc6e1d2e74cb3766f461c01664, type: 3}
+  - {fileID: 21300000, guid: 32e72a8d6d7302f4dbaac54ad6fcdd23, type: 3}
+  - {fileID: 21300000, guid: 051416ad7fc7d994b97dbc400b406a21, type: 3}
+  - {fileID: 21300000, guid: fb9fb2bd2a90eaf479cf769b37d3918a, type: 3}
+  - {fileID: 21300000, guid: 7ec8757e8a2721344b2c2b25ee377476, type: 3}
+  - {fileID: 21300000, guid: 9b8d6e3f9cfbe534bace4e12dce6b51c, type: 3}
+  - {fileID: 21300000, guid: 2fcc014f3f70d614ab9099e420920520, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - "\u0430\u0442\u043B\u0430\u0441_70"
+  - "\u0430\u0442\u043B\u0430\u0441_57"
+  - "\u0430\u0442\u043B\u0430\u0441_75"
+  - "\u0430\u0442\u043B\u0430\u0441_74"
+  - "\u0430\u0442\u043B\u0430\u0441_77"
+  - "\u0430\u0442\u043B\u0430\u0441_03"
+  - "\u0430\u0442\u043B\u0430\u0441_26"
+  - "\u0430\u0442\u043B\u0430\u0441_06"
+  - "\u0430\u0442\u043B\u0430\u0441_33"
+  - "\u0430\u0442\u043B\u0430\u0441_50"
+  - "\u0430\u0442\u043B\u0430\u0441_21"
+  - "\u0430\u0442\u043B\u0430\u0441_08"
+  - "\u0430\u0442\u043B\u0430\u0441_61"
+  - "\u0430\u0442\u043B\u0430\u0441_29"
+  - "\u0430\u0442\u043B\u0430\u0441_79"
+  - "\u0430\u0442\u043B\u0430\u0441_94"
+  - "\u0430\u0442\u043B\u0430\u0441_31"
+  - "\u0430\u0442\u043B\u0430\u0441_83"
+  - "\u0430\u0442\u043B\u0430\u0441_35"
+  - "\u0430\u0442\u043B\u0430\u0441_69"
+  - "\u0430\u0442\u043B\u0430\u0441_46"
+  - "\u0430\u0442\u043B\u0430\u0441_93"
+  - "\u0430\u0442\u043B\u0430\u0441_55"
+  - "\u0430\u0442\u043B\u0430\u0441_37"
+  - "\u0430\u0442\u043B\u0430\u0441_59"
+  - "\u0430\u0442\u043B\u0430\u0441_01"
+  - "\u0430\u0442\u043B\u0430\u0441_45"
+  - "\u0430\u0442\u043B\u0430\u0441_12"
+  - "\u0430\u0442\u043B\u0430\u0441_51"
+  - "\u0430\u0442\u043B\u0430\u0441_53"
+  - "\u0430\u0442\u043B\u0430\u0441_10"
+  - "\u0430\u0442\u043B\u0430\u0441_81"
+  - "\u0430\u0442\u043B\u0430\u0441_19"
+  - "\u0430\u0442\u043B\u0430\u0441_04"
+  - "\u0430\u0442\u043B\u0430\u0441_27"
+  - "\u0430\u0442\u043B\u0430\u0441_85"
+  m_Tag: EditorAtlas
+  m_IsVariant: 0
