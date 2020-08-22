@@ -86,7 +86,8 @@ public static class LanguageManager {
 			return CurrentLanguage.Dictionary[key];
 		}
 		catch (KeyNotFoundException e) {
-			Debug.Log(e);
+			// TODO uncomment
+			//Debug.Log(e);
 			return key;
 		}
 	}

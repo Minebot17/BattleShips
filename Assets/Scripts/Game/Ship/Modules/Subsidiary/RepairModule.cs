@@ -16,6 +16,9 @@ public class RepairModule : AbstractModule {
 
         serverController = transform.parent.parent.GetComponent<ShipServerController>();
         identity = transform.parent.parent.GetComponent<NetworkIdentity>();
+        if (!identity)
+            return;
+        
         cState = Players.GetPlayer(identity).GetState<CommonState>();
         StartCoroutine(RepairCoroutine());
     }

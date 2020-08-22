@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atmosphericDensity: 0.25
-  shieldShader: {fileID: 4800000, guid: af75e2bd6a050534ea61b70f8602f373, type: 3}
+  shieldShader: {fileID: 4800000, guid: 0f7d81856d820c245a9af5d1f58dbd93, type: 3}
 --- !u!114 &6064448069935592005
 MonoBehaviour:
   m_ObjectHideFlags: 0
