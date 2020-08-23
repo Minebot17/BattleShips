@@ -22,7 +22,7 @@ public class ModuleDeath : MonoBehaviour, IDeath {
             new DestroyModuleClientMessage(identity, gameObject.transform.parent.GetSiblingIndex()).SendToAllClient();
         }
         
-        transform.parent.GetComponent<BoxCollider2D>().enabled = false;
+        transform.parent.GetComponent<PolygonCollider2D>().enabled = false;
         gameObject.SetActive(false);
     }
 

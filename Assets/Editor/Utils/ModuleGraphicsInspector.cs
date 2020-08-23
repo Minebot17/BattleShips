@@ -61,6 +61,7 @@ public class ModuleGraphicsInspector : Editor {
             
             serializedObject.ApplyModifiedProperties();
             ((ModuleGraphics)target).SetColor((ShipColor) colors.GetValue(currentColor.enumValueIndex));
+            EditorUtility.SetDirty(target);
         }
         
         EditorGUILayout.PropertyField(currentColor);

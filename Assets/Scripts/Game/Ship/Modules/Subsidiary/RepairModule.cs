@@ -32,7 +32,7 @@ public class RepairModule : AbstractModule {
                 int repairIndex = Utils.rnd.Next(serverController.killedModules.Count);
                 GameObject toRepair = serverController.killedModules[repairIndex];
                 serverController.killedModules.RemoveAt(repairIndex);
-                toRepair.transform.parent.GetComponent<BoxCollider2D>().enabled = true;
+                toRepair.transform.parent.GetComponent<PolygonCollider2D>().enabled = true;
                 toRepair.SetActive(true);
                 ModuleHp hp = toRepair.GetComponent<ModuleHp>();
                 hp.CurrentHealth = hp.MaxHealth;

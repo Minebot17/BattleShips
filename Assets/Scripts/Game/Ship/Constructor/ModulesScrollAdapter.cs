@@ -28,9 +28,11 @@ public class ModulesScrollAdapter : MonoBehaviour {
             GameObject editorModule = AddElement();
             editorModule.name = contentContainer[i].prefab.name + " " + i;
             editorModule.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -120 * i - 20);
-            editorModule.transform.GetChild(0).GetComponent<Image>().sprite =
+            editorModule.transform.GetChild(1).GetComponent<Image>().sprite =
                 contentContainer[i].prefab.GetComponent<SpriteRenderer>().sprite;
-            editorModule.transform.GetChild(1).GetComponent<Text>().text = endlessMode || moduleCount == -1 ? "∞" : moduleCount+"";
+            editorModule.transform.GetChild(2).GetComponent<Text>().text = endlessMode || moduleCount == -1 ? "∞" : moduleCount+"";
+            editorModule.transform.GetChild(0).GetComponent<Image>().sprite = 
+                contentContainer[i].prefab.transform.Find("Bloom").GetComponent<SpriteRenderer>().sprite;
         }
     }
 
@@ -68,6 +70,6 @@ public class ModulesScrollAdapter : MonoBehaviour {
             return;
         }
 
-        selectedModule.transform.GetChild(1).GetComponent<Text>().text = newCount + "";
+        selectedModule.transform.GetChild(2).GetComponent<Text>().text = newCount + "";
     }
 }
