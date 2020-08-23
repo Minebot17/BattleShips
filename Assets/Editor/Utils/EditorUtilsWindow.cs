@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class EditorUtilsWindow : EditorWindow {
 	private static readonly IUtilBlock[] utilBlocks = {
-		new MapFromBitmapBlock()
+		new MapFromBitmapBlock(),
+		new FixSortTexturesBlock(),
 	};
 
 	private bool[] togglers = new bool[utilBlocks.Length];

@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3fea48c19c6a1164c9d4106375dea9ce, type: 3}
-    totalSpriteSurfaceArea: 87040
+    totalSpriteSurfaceArea: 86016
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -60,7 +60,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 77635a0356d11334aadbc8a9c9d53285, type: 3}
   - {fileID: 21300000, guid: bd767713c5d6df84ebd65cec2b365d21, type: 3}
   - {fileID: 21300000, guid: 2a1b11333ac3d1348beafe54eec0d03d, type: 3}
-  - {fileID: 21300000, guid: 560c94434c54ffa4d8428a314d2d0654, type: 3}
   - {fileID: 21300000, guid: 82f03a633249a204f92678efb1ad5f5c, type: 3}
   - {fileID: 21300000, guid: afc342d3db1085d48b02a78088e42050, type: 3}
   - {fileID: 21300000, guid: a1e8f2741b021454ea078d86aee4cc5e, type: 3}
@@ -133,90 +132,89 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 67d2e6af3e3edf04eb6659384ccea19c, type: 3}
   - {fileID: 21300000, guid: b00cdadf81d90a342af4f4bad5fbf906, type: 3}
   m_PackedSpriteNamesToIndex:
-  - bloom_y-380
-  - bloom_p-23
-  - bloom_p
-  - bloom_p-133
-  - bloom_g-289
-  - bloom_y-379
-  - bloom_b-540
-  - bloom_g-183
-  - bloom_p-17
-  - bloom_y-446
-  - bloom_g-244
-  - bloom_b-491
-  - bloom_b-538
-  - bloom_g-249
-  - bloom_p-137
-  - bloom_b-490
-  - bloom_g-294
-  - bloom_b-595
-  - bloom_p-135
-  - bloom_p-93
-  - bloom_y-448
-  - bloom_p-89
-  - bloom_y-382
-  - bloom_y-450
-  - bloom_g-293
-  - bloom_y-339
-  - bloom_b-536
-  - bloom_b-600
-  - bloom_y-384
-  - bloom_p-21
-  - bloom_g-242
-  - bloom_p-136
-  - bloom_y-336
-  - bloom_y-445
-  - bloom_y-341
-  - bloom_b-599
-  - bloom_b-535
-  - bloom_g-243
-  - bloom_g-245
-  - bloom_p-27
-  - bloom_b-492
-  - bloom_b-537
-  - bloom_b-541
-  - bloom_b-597
-  - bloom_g-181
-  - bloom_p-134
-  - bloom_b-493
-  - bloom_y-337
-  - bloom_b
-  - bloom_y-338
+  - bloom_y-8
+  - bloom_p-4
+  - bloom_p-0
+  - bloom_p-16
+  - bloom_g-14
+  - bloom_y-7
+  - bloom_b-12
+  - bloom_g-4
+  - bloom_p-1
+  - bloom_y-15
+  - bloom_g-12
+  - bloom_b-2
+  - bloom_b-10
+  - bloom_p-20
+  - bloom_b-1
+  - bloom_g-19
+  - bloom_b-14
+  - bloom_p-18
+  - bloom_p-13
+  - bloom_y-17
+  - bloom_p-9
+  - bloom_y-10
+  - bloom_y-19
+  - bloom_g-18
+  - bloom_y-4
+  - bloom_b-8
+  - bloom_b-19
+  - bloom_y-12
+  - bloom_p-3
+  - bloom_g-10
   - bloom_p-19
-  - bloom_g-241
-  - bloom_y-451
-  - bloom_b-598
-  - bloom_y-340
-  - bloom_y-449
-  - bloom_p-91
-  - bloom_g-240
-  - bloom_p-87
-  - bloom_g-290
-  - bloom_p-88
-  - bloom_y-385
-  - bloom_g-291
-  - bloom_b-596
-  - bloom_g
-  - bloom_g-292
-  - bloom_g-180
-  - bloom_g-185
-  - bloom_g-239
-  - bloom_p-132
-  - bloom_b-601
-  - bloom_y-383
-  - bloom_b-494
-  - bloom_p-131
-  - bloom_y
-  - bloom_p-92
-  - bloom_g-295
-  - bloom_p-90
-  - bloom_b-539
-  - bloom_y-447
-  - bloom_g-182
-  - bloom_g-184
-  - bloom_b-495
-  - bloom_y-381
-  - bloom_p-25
+  - bloom_y-1
+  - bloom_y-14
+  - bloom_y-6
+  - bloom_b-18
+  - bloom_b-7
+  - bloom_g-11
+  - bloom_g-13
+  - bloom_p-6
+  - bloom_b-3
+  - bloom_b-9
+  - bloom_b-13
+  - bloom_b-16
+  - bloom_g-2
+  - bloom_p-17
+  - bloom_b-4
+  - bloom_y-2
+  - bloom_b-0
+  - bloom_y-3
+  - bloom_p-2
+  - bloom_g-9
+  - bloom_y-20
+  - bloom_b-17
+  - bloom_y-5
+  - bloom_y-18
+  - bloom_p-11
+  - bloom_g-8
+  - bloom_p-7
+  - bloom_g-15
+  - bloom_p-8
+  - bloom_y-13
+  - bloom_g-16
+  - bloom_b-15
+  - bloom_g-0
+  - bloom_g-17
+  - bloom_g-1
+  - bloom_g-6
+  - bloom_g-7
+  - bloom_p-15
+  - bloom_b-20
+  - bloom_y-11
+  - bloom_b-5
+  - bloom_p-14
+  - bloom_y-0
+  - bloom_p-12
+  - bloom_g-20
+  - bloom_p-10
+  - bloom_b-11
+  - bloom_y-16
+  - bloom_g-3
+  - bloom_g-5
+  - bloom_b-6
+  - bloom_y-9
+  - bloom_p-5
   m_Tag: BloomAtlas
   m_IsVariant: 0
