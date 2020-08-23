@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4526200893731984794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2245169367635120799}
+  - component: {fileID: 5065375271115948334}
+  m_Layer: 0
+  m_Name: Bloom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2245169367635120799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526200893731984794}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 575842776309565791}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5065375271115948334
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526200893731984794}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 68bc5f4a0b089114689980f9b0fdb1a7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.28, y: 1.28}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &9018164850899248096
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,6 +96,7 @@ GameObject:
   - component: {fileID: 6990636226601403775}
   - component: {fileID: 349663929350722499}
   - component: {fileID: 5123980868148562642}
+  - component: {fileID: 7932693700794982642}
   m_Layer: 10
   m_Name: DoubleGunModule
   m_TagString: Untagged
@@ -32,7 +114,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2245169367635120799}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +158,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c0a3a0f335b4cea4d8c7f73ed20c8ef6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e2fc51c2ef8bff4e9f76b0c2f3d211d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -171,3 +254,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezeK: 1
+--- !u!114 &7932693700794982642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9018164850899248096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e675da2f0c4d0da09e2bddd89c2ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moduleSprites:
+  - {fileID: 21300000, guid: b0722cceec777f4488728ea5ad648df4, type: 3}
+  - {fileID: 21300000, guid: 8d960fb135e539f4f96c0c61fcc01644, type: 3}
+  - {fileID: 21300000, guid: 0e2fc51c2ef8bff4e9f76b0c2f3d211d, type: 3}
+  - {fileID: 21300000, guid: daa0a088e33701c49b37163a971ff8d4, type: 3}
+  bloomSprites:
+  - {fileID: 21300000, guid: e487f80896bfa3c45a93ce8f8d599bae, type: 3}
+  - {fileID: 21300000, guid: 0375e88c260617446b07bd0c16ef9a1c, type: 3}
+  - {fileID: 21300000, guid: 68bc5f4a0b089114689980f9b0fdb1a7, type: 3}
+  - {fileID: 21300000, guid: 31a64791c80580845bef58234a62c634, type: 3}
+  bloom: {fileID: 4526200893731984794}
+  textureIndex: 7
+  currentColor: 2

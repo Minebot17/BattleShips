@@ -98,4 +98,19 @@ public static class Extensions {
     public static Player ReadPlayer(this NetworkReader reader) {
         return Players.GetPlayer(reader.ReadInt32());
     }
+
+    public static string GetPrefix(this ShipColor color) {
+        switch (color) {
+            case ShipColor.BLUE:
+                return "b";
+            case ShipColor.GREEN:
+                return "g";
+            case ShipColor.PINK:
+                return "p";
+            case ShipColor.YELLOW:
+                return "y";
+            default:
+                throw new ArgumentOutOfRangeException(nameof(color), color, null);
+        }
+    }
 }

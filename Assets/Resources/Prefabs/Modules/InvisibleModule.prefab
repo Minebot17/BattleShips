@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5470151825955538092}
   - component: {fileID: 8774861914914714588}
   - component: {fileID: 726958494058940857}
+  - component: {fileID: 7624387192456426095}
   m_Layer: 10
   m_Name: InvisibleModule
   m_TagString: Untagged
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c78cbf0cfcc978145baa1a9e3e634f89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4518bfe1f9ea8e94287b439d5b40f784, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -164,4 +165,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coolDown: 15
-  invisibleTime: 5
+--- !u!114 &7624387192456426095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718364027437422095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e675da2f0c4d0da09e2bddd89c2ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moduleSprites:
+  - {fileID: 21300000, guid: b23ec3235479b2f4a85484282e7268b2, type: 3}
+  - {fileID: 21300000, guid: aab60839ce114024d81b1a09dc055a51, type: 3}
+  - {fileID: 21300000, guid: 4518bfe1f9ea8e94287b439d5b40f784, type: 3}
+  - {fileID: 21300000, guid: 0e7734d771ba1aa47b9c3b8a3f5887d3, type: 3}
+  bloomSprites:
+  - {fileID: 21300000, guid: f56cf75faa6eda14e85f5d05b95456d1, type: 3}
+  - {fileID: 21300000, guid: 6ecb520c4d579874a90f9d86e93c4939, type: 3}
+  - {fileID: 21300000, guid: 4307d1a8712048c4e9af5e11399aa7e1, type: 3}
+  - {fileID: 21300000, guid: 4b4423b7f39be74428b9718956746c7f, type: 3}
+  bloom: {fileID: 0}
+  textureIndex: 6
+  currentColor: 2

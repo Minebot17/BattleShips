@@ -114,6 +114,7 @@
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\SimpleGunModule.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Guns\SimpleSpikes.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleDeath.cs" />
+     <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleGraphics.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShieldDeath.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ShipDeathStandart.cs" />
@@ -228,6 +229,7 @@
      <Compile Include="Assets\Scripts\Utils\Settings\KeySettingValue.cs" />
      <Compile Include="Assets\Scripts\Utils\Settings\SettingValue.cs" />
      <Compile Include="Assets\Scripts\Utils\Settings\StringSettingValue.cs" />
+     <Compile Include="Assets\Scripts\Utils\ShipColor.cs" />
      <Compile Include="Assets\Scripts\Utils\Timer.cs" />
      <Compile Include="Assets\Scripts\Utils\UsableModuleInfo.cs" />
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />

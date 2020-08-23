@@ -71,7 +71,7 @@
                 float yHigh = (-(_EllipseValueB * uv.x + _EllipseValueE) + pow(D, 0.5))/(2 * _EllipseValueC);
                 float yLow = (-(_EllipseValueB * uv.x + _EllipseValueE) - pow(D, 0.5))/(2 * _EllipseValueC);
                 
-                col.a = uv.y < yHigh && uv.y > yLow ? 0.5 : 0;
+                col.a = uv.y < yHigh && uv.y > yLow ? 0.25 : 0;
                 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);

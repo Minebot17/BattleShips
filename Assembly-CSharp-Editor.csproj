@@ -63,6 +63,7 @@
      <Compile Include="Assets\Editor\Utils\FixSortTexturesBlock.cs" />
      <Compile Include="Assets\Editor\Utils\IUtilBlock.cs" />
      <Compile Include="Assets\Editor\Utils\MapFromBitmapBlock.cs" />
+     <Compile Include="Assets\Editor\Utils\ModuleGraphicsInspector.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Editor\DynamicJoystickEditor.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Editor\FloatingJoystickEditor.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Editor\JoystickEditor.cs" />
