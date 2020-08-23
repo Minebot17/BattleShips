@@ -1931,7 +1931,7 @@ MonoBehaviour:
   rightBorder: {fileID: 0}
   topBorder: {fileID: 0}
   bottomBorder: {fileID: 0}
-  speed: 5
+  speed: 2.5
 --- !u!1001 &6567206067999125250
 PrefabInstance:
   m_ObjectHideFlags: 0
