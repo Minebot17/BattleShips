@@ -11,8 +11,8 @@ public class ProgressBar : MonoBehaviour {
     [SerializeField] private RectTransform centerProgressBarFiller;
     [SerializeField] private RectTransform rightProgressBarFiller;
 
-    [SerializeField] private int centerWidth = 256;
-    [SerializeField] private int cornersWidth = 32;
+    [SerializeField] private float centerWidth = 256;
+    [SerializeField] private float cornersWidth = 32;
     [SerializeField] private float value = 0.5f;
 
     public float Value {
@@ -31,7 +31,7 @@ public class ProgressBar : MonoBehaviour {
     }
 
     private void UpdateRect() {
-        int currentWidth = (int) ((centerWidth + 2 * cornersWidth) * value);
+        float currentWidth = (centerWidth + 2 * cornersWidth) * value;
         if (!leftProgressBarFiller)
             return;
         
