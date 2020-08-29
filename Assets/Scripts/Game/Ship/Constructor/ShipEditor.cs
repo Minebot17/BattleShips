@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 
 public class ShipEditor : MonoBehaviour {
@@ -18,7 +16,6 @@ public class ShipEditor : MonoBehaviour {
     [SerializeField] private Text blocksLeftText;
     [SerializeField] private GameObject readyButton;
     [SerializeField] private GameObject gridBorders;
-    [SerializeField] private GameObject moduleInfoPanel;
     [SerializeField] private GameObject modulePlaces;
     [SerializeField] private GameObject modulePlaceFramePrefab;
     [SerializeField] private GameObject shipCellPrefab;
@@ -43,12 +40,12 @@ public class ShipEditor : MonoBehaviour {
 
     public void Start() {
         singleton = this;
-
+        
         global = Players.GetGlobal();
         Player player = Players.GetClient();
         iState = player.GetState<InventoryState>();
         currentBuildPoints = player.GetState<CommonState>().AdditionalBuildPoints.Value + global.BuildPointsPerRound.Value;
-        blocksLeftText.text = currentBuildPoints + " blocks left";
+        blocksLeftText.text = currentBuildPoints + " Blocks";
         
         if (NetworkManagerCustom.singleton.IsServer)
             SetTimer(timeBeforeClosing);
@@ -63,41 +60,13 @@ public class ShipEditor : MonoBehaviour {
         });
         
         scrollAdapter.SetModules(iState, modules);
-        scrollAdapter.onModuleUpdate = () => {
-            UpdateFreePlaces();
-            
-            moduleInfoPanel.SetActive(scrollAdapter.SelectedModule != null);
-            if (scrollAdapter.SelectedModule == null)
-                return;
-
-            string[] splitted = scrollAdapter.SelectedModule.Split(' ');
-            moduleInfoPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = LanguageManager.GetValue( splitted[0] + ".name");
-            moduleInfoPanel.transform.GetChild(1).gameObject.GetComponent<Text>().text = LanguageManager.GetValue(splitted[0] + ".description");
-
-            GameObject modulePrefab = modules[int.Parse(splitted[1])].prefab;
-            List<string> parameters = new List<string>();
-
-            if (modulePrefab.TryGetComponent(out AbstractGunModule gun)) {
-                parameters.Add(LanguageManager.GetValue("moduleParams.coolDown") + ": " 
-                               + gun.CoolDown.ToString("#0.##") + " " + LanguageManager.GetValue("moduleParams.seconds"));
-                parameters.Add(LanguageManager.GetValue("moduleParams.recoilForce") + ": " 
-                               + gun.RecoilForce.ToString("#0.##"));
-                parameters.Add(LanguageManager.GetValue("moduleParams.damage") + ": " 
-                               + LanguageManager.GetValue("damageRating." + (int) gun.DamageRating));
-            }
-
-            if (modulePrefab.TryGetComponent(out ModuleHp hp))
-                parameters.Add(LanguageManager.GetValue("moduleParams.health") + ": " + hp.MaxHealth);
-
-            moduleInfoPanel.transform.GetChild(2).gameObject.GetComponent<Text>().text = string.Join("\n", parameters);
-        };
-        
+        scrollAdapter.onModuleUpdate = UpdateFreePlaces;
         OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
     }
 
     public void SetTimer(int seconds) {
         closingTimer = seconds;
-        timerText.text = (int) Math.Ceiling(closingTimer) + ""; 
+        timerText.text = (int) Math.Ceiling(closingTimer) + " Sec"; 
         timerText.enabled = true;
         timerStarted = true;
     }
@@ -113,7 +82,7 @@ public class ShipEditor : MonoBehaviour {
             timerStarted = false;
         }
 
-        timerText.text = (int) Math.Ceiling(closingTimer) + ""; 
+        timerText.text = (int) Math.Ceiling(closingTimer) + " Sec"; 
     }
 
     public void OpenShip(string json) {
@@ -158,7 +127,7 @@ public class ShipEditor : MonoBehaviour {
         module.name = editorModule.name;
         module.transform.localPosition = new Vector3(0, 0, -0.1f);
         installedModules++;
-        blocksLeftText.text = (currentBuildPoints - installedModules) + " blocks left";
+        blocksLeftText.text = (currentBuildPoints - installedModules) + " Blocks";
         scrollAdapter.OnModulePlaced(editorModule, iState.modulesCount[moduleIndex].Value);
         if (installedModules == currentBuildPoints)
             OnReadyClick();

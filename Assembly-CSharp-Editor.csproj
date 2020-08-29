@@ -58,6 +58,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\PathologicalGames\Common\PGEditorUtils.cs" />
+     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\PreRuntimePoolItemInspector.cs" />
+     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\SpawnPoolInspector.cs" />
      <Compile Include="Assets\Editor\Utils\ConditionalFieldAttributeDrawer.cs" />
      <Compile Include="Assets\Editor\Utils\EditorUtilsWindow.cs" />
      <Compile Include="Assets\Editor\Utils\FixSortTexturesBlock.cs" />
@@ -757,6 +760,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{DB5A006F-33F3-4B89-8428-A5F7EF7CC8CC}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{CC545EB7-3577-8724-42F5-D10A877C3B6C}</Project>
       <Name>Assembly-CSharp</Name>

@@ -8,7 +8,6 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     [SerializeField] protected float coolDown = 0;
     [SerializeField] private float recoilForce = 0;
     [SerializeField] protected int damage;
-    [SerializeField] protected DamageRatingEnum damageRating;
 
     protected DamageInfo damageInfo;
     protected float timerCoolDown;
@@ -17,7 +16,6 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     public float TimerCoolDown => timerCoolDown;
     public float CoolDown => coolDown;
     public float RecoilForce => recoilForce;
-    public DamageRatingEnum DamageRating => damageRating;
 
     protected override void Start() {
         base.Start();
@@ -49,8 +47,4 @@ public abstract class AbstractGunModule : AbstractModule, IGunModule {
     }
 
     protected abstract void Shoot(Vector2 vec);
-    
-    public enum DamageRatingEnum {
-        LOWEST, LOW, NORMAL, HIGH, HIGHEST 
-    }
 }
