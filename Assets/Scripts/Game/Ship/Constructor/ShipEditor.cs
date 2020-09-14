@@ -29,6 +29,7 @@ public class ShipEditor : MonoBehaviour {
     private InventoryState iState;
     private Stack<int> placedModules = new Stack<int>();
     private GlobalState global;
+    private Vector2 currentOffset = Vector2.zero;
 
     public static void Initialize() {
         modules = Resources.LoadAll<EditorModule>("EditorModules/").Select(m => {
@@ -38,9 +39,12 @@ public class ShipEditor : MonoBehaviour {
         }).ToArray();
     }
 
-    public void Start() {
+    private void Awake() {
         singleton = this;
-        
+        OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
+    }
+
+    private void Start() {
         global = Players.GetGlobal();
         Player player = Players.GetClient();
         iState = player.GetState<InventoryState>();
@@ -61,7 +65,6 @@ public class ShipEditor : MonoBehaviour {
         
         scrollAdapter.SetModules(iState, modules);
         scrollAdapter.onModuleUpdate = UpdateFreePlaces;
-        OpenShip(Players.GetClient().GetState<CommonState>().ShipJson.Value);
     }
 
     public void SetTimer(int seconds) {
@@ -87,6 +90,18 @@ public class ShipEditor : MonoBehaviour {
 
     public void OpenShip(string json) {
         currentShip = Utils.DeserializeShipFromJson(json);
+    }
+
+    public void MoveShipTo(Vector2 position) {
+        currentShip.GetComponent<NetworkSyncPosition>().enabled = false;
+
+        Vector3 delta = (position - currentOffset).ToVector3();
+        mainCamera.transform.position += delta;
+        currentShip.transform.position += delta;
+        gridBorders.transform.position += delta;
+        modulePlaces.transform.position += delta;
+        
+        currentOffset = position;
     }
 
     public void OnConstructorClick() {
@@ -152,7 +167,7 @@ public class ShipEditor : MonoBehaviour {
     }
 
     private Vector2Int GetClickPosition() {
-        Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition) - currentOffset.ToVector3();
         p = new Vector3(p.x/Utils.sizeOfOne - 0.5f*(p.x > 0 ? -1 : 1), p.y/Utils.sizeOfOne - 0.5f*(p.y > 0 ? -1 : 1), 0f);
         Vector2Int position = new Vector2Int(p.x.RoundSinged(), p.y.RoundSinged());
         return position;

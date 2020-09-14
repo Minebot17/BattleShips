@@ -397,7 +397,7 @@ MonoBehaviour:
   - {x: -0.5, y: -0.1}
   - {x: -6.4, y: 1.8}
   - {x: -1, y: -6.9}
-  Size: {x: 0, y: 0}
+  Size: {x: 19.2, y: 19.2}
 --- !u!1001 &36163177021009274
 PrefabInstance:
   m_ObjectHideFlags: 0

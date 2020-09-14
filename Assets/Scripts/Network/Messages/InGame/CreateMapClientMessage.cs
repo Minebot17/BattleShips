@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class CreateMapClientMessage : GameMessage {
 
@@ -34,5 +35,8 @@ public class CreateMapClientMessage : GameMessage {
             element.transform.position = elementPositions[i];
             element.transform.localEulerAngles = elementsEulerAngles[i];
         }
+        
+        if (SceneManager.GetActiveScene().name.Equals("ShipEditor"))
+            ShipEditor.singleton.MoveShipTo(Players.GetClient().GetState<CommonState>().SpawnPoint.Value);
     }
 }

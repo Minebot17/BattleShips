@@ -47,21 +47,28 @@ public class NetworkManagerCustom : NetworkManager {
 	public override void OnServerSceneChanged(string sceneName) {
 		if (sceneName.Equals("ShipEditor")) {
 			lastConnections = Players.All.Count;
-			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
-			
+
 			List<Vector2> spawnPoints = Resources.Load<GameObject>("Maps/" + Players.GetGlobal().CurrentMapName.Value)
 											.GetComponent<Map>().SpawnPoints;
+
+			ValueObservable<int> confirmCount = new ValueObservable<int>(0);
+			confirmCount.WhenEqual(Players.All.Count, () => {
+				Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+			});
+			
 			foreach (CommonState cState in Players.GetStates<CommonState>()) {
 				(int, Vector2) random = spawnPoints.GetRandom();
 				spawnPoints.RemoveAt(random.Item1);
+				cState.SpawnPoint.onAllSynced += () => confirmCount.Value++;
 				cState.SpawnPoint.Value = random.Item2;
 			}
 		}
 
 		if (sceneName.Equals("Game")) {
 			gameMode.OnStartRound();
-			SceneManager.MoveGameObjectToScene(Map.singleton.gameObject, SceneManager.GetActiveScene());
-			SceneManager.MoveGameObjectToScene(CameraFollower.singleton.gameObject, SceneManager.GetActiveScene());
+			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+			//SceneManager.MoveGameObjectToScene(Map.singleton.gameObject, SceneManager.GetActiveScene());
+			//SceneManager.MoveGameObjectToScene(CameraFollower.singleton.gameObject, SceneManager.GetActiveScene());
 
 			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)
@@ -138,7 +145,7 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 
 	private void SpawnClientShip(NetworkConnection conn) {
-		Vector2 spawnPosition = GetSpawnPoint();
+		Vector2 spawnPosition = Players.GetPlayer(conn).GetState<CommonState>().SpawnPoint.Value;
 		GameObject shipObject = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"));
 		shipObject.transform.position = spawnPosition.ToVector3();
 		NetworkServer.SpawnWithClientAuthority(shipObject, conn);
@@ -146,14 +153,6 @@ public class NetworkManagerCustom : NetworkManager {
 		CommonState gState = Players.GetPlayer(conn).GetState<CommonState>();
 		gState.ShipIdentity.Value = shipObject.GetComponent<NetworkIdentity>();
 		gState.Alive.Value = true;
-	}
-
-	private Vector2 GetSpawnPoint() {
-		GameObject points = GameObject.Find("SpawnPoints");
-		int index = Utils.rnd.Next(points.transform.childCount);
-		Vector2 result = new Vector2(points.transform.GetChild(index).position.x, points.transform.GetChild(index).position.y);
-		DestroyImmediate(points.transform.GetChild(index).gameObject);
-		return result;
 	}
 
 	private void ResetValuesToDefault() {

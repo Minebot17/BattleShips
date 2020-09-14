@@ -148,6 +148,11 @@ public abstract class StateValue<T> : GeneralStateValue {
     }
 
     private void StartConfirmation(int countToConfirm) {
+        if (countToConfirm == 0) {
+            onAllSynced.Invoke();
+            return;
+        }
+        
         confirmationTimer = Observable.Timer(TimeSpan.FromSeconds(10f)).Subscribe(x => {
             if (countToConfirm == -1)
                 return;

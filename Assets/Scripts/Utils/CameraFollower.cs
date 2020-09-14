@@ -24,7 +24,7 @@ public class CameraFollower : MonoBehaviour {
 
 	private void Awake() {
 		singleton = this;
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 	}
 
 	private void LateUpdate() {

@@ -139,4 +139,11 @@ public static class Extensions {
                 action.Invoke();
         });
     }
+
+    public static void WhenEqual(this ValueObservable<int> observable, int value, Action action) {
+        observable.Subscribe(() => {
+            if (observable.Value == value)
+                action.Invoke();
+        });
+    }
 }

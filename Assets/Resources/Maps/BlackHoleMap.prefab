@@ -190,7 +190,7 @@ MonoBehaviour:
   - {x: -9.67, y: -9.35}
   - {x: -9.4, y: 9.2}
   - {x: 9.22, y: -9.1}
-  Size: {x: 0, y: 0}
+  Size: {x: 32.64, y: 32.64}
 --- !u!1 &6323112451899776830
 GameObject:
   m_ObjectHideFlags: 0

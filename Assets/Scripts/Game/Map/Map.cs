@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Map : MonoBehaviour {
 
@@ -20,7 +21,7 @@ public class Map : MonoBehaviour {
 
     public void Start() {
         singleton = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         GameObject parent = new GameObject("Borders");
         
         GameObject left = new GameObject("Left");
@@ -110,6 +111,10 @@ public class Map : MonoBehaviour {
             else
                 objectsWithoutNI.Add((child.name, element.transform.position, element.transform.localEulerAngles));
         }
+        
+        if (SceneManager.GetActiveScene().name.Equals("ShipEditor"))
+            ShipEditor.singleton.MoveShipTo(Players.GetHost().GetState<CommonState>().SpawnPoint.Value);
+        
         new CreateMapClientMessage(mapName, map.Size, objectsWithoutNI).SendToAllClientExceptHost();
     }
 

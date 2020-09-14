@@ -24,4 +24,11 @@ public class ValueObservable<T> {
     {
         observers += onChange;
     }
+
+    public static List<ValueObservable<T>> List(int count, T defaultValue) {
+        List<ValueObservable<T>> list = new List<ValueObservable<T>>();
+        for (int i = 0; i < count; i++)
+            list.Add(new ValueObservable<T>(defaultValue));
+        return list;
+    }
 }

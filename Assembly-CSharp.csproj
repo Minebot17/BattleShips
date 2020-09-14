@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\Utils\Utils.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\ModuleHp.cs" />
      <Compile Include="Assets\Scripts\Utils\VelocityRotate.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\Vector2StateValue.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\PlayerStates\RemoveStateMessage.cs" />
      <Compile Include="Assets\Scripts\UI\ShieldToggle.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\GeneralStateValue.cs" />
@@ -134,7 +135,9 @@
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\StringStateValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\States\InventoryState.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Abstraction\IOnModuleDeathServer.cs" />
+     <Compile Include="Assets\Scripts\Utils\ValueObservable.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\KillShipClientMessage.cs" />
+     <Compile Include="Assets\Scripts\Utils\PrefsValue.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\Players.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\Lobby\ChangeTeamCountClientMessage.cs" />
      <Compile Include="Assets\Scripts\Utils\Events\EventBase.cs" />
@@ -163,6 +166,7 @@
      <Compile Include="Assets\Scripts\Network\Messages\InGame\CreateExplosionClientMessage.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\NetworkIdentityStateValue.cs" />
      <Compile Include="Assets\Scripts\Game\Ship\Modules\Usable\DashModule.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\Vector3StateValue.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
      <Compile Include="Assets\Scripts\Game\GameModes\IGameMode.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
@@ -226,10 +230,6 @@
      <Compile Include="Assets\Scripts\Utils\Settings\KeySettingValue.cs" />
      <Compile Include="Assets\Scripts\UI\Lobby\NetworkGuiSelector.cs" />
      <Compile Include="Assets\Scripts\Network\Messages\InGame\DestroyShieldClientMessage.cs" />
-     <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\Vector3StateValue.cs" />
-     <Compile Include="Assets\Scripts\Player\PlayerStates\StateValues\Vector2StateValue.cs" />
-     <Compile Include="Assets\Scripts\Utils\ValueObservable.cs" />
-     <Compile Include="Assets\Scripts\Utils\PrefsValue.cs" />
      <None Include="Assets\Packages\System.ValueTuple.4.5.0\version.txt" />
      <None Include="Assets\Packages\System.ValueTuple.4.5.0\useSharedDesignerContext.txt" />
      <None Include="Assets\Packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.xml" />
@@ -541,6 +541,9 @@
  <Reference Include="UnityEditor">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.5f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
  </Reference>
+ <Reference Include="MathNet.Numerics">
+ <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/MathNet.Numerics.4.12.0/lib/net461/MathNet.Numerics.dll</HintPath>
+ </Reference>
  <Reference Include="MoreLinq">
  <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/morelinq.3.3.2/lib/net451/MoreLinq.dll</HintPath>
  </Reference>
@@ -549,9 +552,6 @@
  </Reference>
  <Reference Include="UniRx">
  <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/UniRx.5.4.1.0/lib/UniRx.dll</HintPath>
- </Reference>
- <Reference Include="MathNet.Numerics">
- <HintPath>E:/Unity Projects/BattleShips/Assets/Packages/MathNet.Numerics.4.12.0/lib/net461/MathNet.Numerics.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
