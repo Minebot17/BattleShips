@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -85,10 +86,21 @@ public static class Extensions {
 
         return result.Where(m => !m.availableInitially || !m.endlessModule).ToList();
     }
+    
+    public static (int, T) GetRandom<T>(this IList<T> collection) {
+        int count = collection.Count;
+        int index = Utils.rnd.Next(count);
+        return (index, collection[index]);
+    }
 
-    public static T GetRandom<T>(this IList<T> collection) {
+    public static T GetRandomValue<T>(this IList<T> collection) {
         int count = collection.Count;
         return collection[Utils.rnd.Next(count)];
+    }
+    
+    public static int GetRandomIndex<T>(this IList<T> collection) {
+        int count = collection.Count;
+        return Utils.rnd.Next(count);
     }
 
     public static void Write(this NetworkWriter writer, Player player) {
@@ -112,5 +124,19 @@ public static class Extensions {
             default:
                 throw new ArgumentOutOfRangeException(nameof(color), color, null);
         }
+    }
+
+    public static void SubscribeAll<T>(this List<ValueObservable<T>> list, Action action) {
+        foreach (ValueObservable<T> t in list)
+            t.Subscribe(action);
+    }
+
+    public static void WhenAll(this List<ValueObservable<bool>> list, Action action) {
+        int count = list.Count(e => e.Value);
+        list.SubscribeAll(() => {
+            count++;
+            if (count == list.Count)
+                action.Invoke();
+        });
     }
 }

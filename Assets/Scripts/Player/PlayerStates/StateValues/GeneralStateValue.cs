@@ -6,4 +6,5 @@ public abstract class GeneralStateValue {
     public abstract void Read(NetworkReader reader, NetworkConnection modificationBuffer);
     public abstract void OnRemoveState();
     public abstract void Reset();
+    public abstract void Confirm();
 }

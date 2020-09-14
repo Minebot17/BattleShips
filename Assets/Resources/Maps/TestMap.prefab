@@ -392,7 +392,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590bea8c02734e4882514b81cb040716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 19.199999, y: 19.199999}
+  spawnPoints:
+  - {x: 6.1, y: 1.5}
+  - {x: -0.5, y: -0.1}
+  - {x: -6.4, y: 1.8}
+  - {x: -1, y: -6.9}
+  Size: {x: 0, y: 0}
 --- !u!1001 &36163177021009274
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,11 +13,18 @@ public abstract class StateValue<T> : GeneralStateValue {
     private bool modification;
     private int playerRequestPlayersEventId;
     private NetworkConnection modificationBuffer;
+    private int countToConfirm = -1;
+    private IDisposable confirmationTimer;
     
     /// <summary>
     /// Эвент, срабатывающий при изменении значения параметра
     /// </summary>
     public readonly EventHandler<OnChangeValueEvent> onChangeValueEvent = new EventHandler<OnChangeValueEvent>();
+    
+    /// <summary>
+    /// Срабатывает на сервере когда все получатели синхронизировали значение. После срабатывания очищается в null
+    /// </summary>
+    public Action onAllSynced;
     
     public T Value {
         get => value;
@@ -28,13 +36,18 @@ public abstract class StateValue<T> : GeneralStateValue {
             this.value = result.NewValue;
 
             if (sync != SyncType.NOT_SYNC && NetworkManagerCustom.singleton.IsServer) {
-                SyncStateValueClientMessage message = new SyncStateValueClientMessage(GetOwnerId(), GetName());
+                bool toConfirm = onAllSynced != null;
+                SyncStateValueMessage message = new SyncStateValueMessage(GetOwnerId(), GetName(), toConfirm);
                 Write(message.Writer);
                 if (modificationBuffer != null) {
                     if (sync == SyncType.ALL_SYNC)
                         message.SendToAllClient(modificationBuffer, Players.HostConn);
                     else
                         message.SendToClient(parent.GetParent().Conn);
+                    
+                    if (toConfirm)
+                        StartConfirmation(sync == SyncType.ALL_SYNC ? (parent.GetParent() == Players.GetHost() ? Players.All.Count - 1 : Players.All.Count - 2) : (Players.GetHost() == parent.GetParent() ? 0 : 1));
+                    
                     modificationBuffer = null;
                 }
                 else {
@@ -42,6 +55,9 @@ public abstract class StateValue<T> : GeneralStateValue {
                         message.SendToAllClientExceptHost();
                     else
                         message.SendToClient(parent.GetParent().Conn);
+                    
+                    if (toConfirm)
+                        StartConfirmation(sync == SyncType.ALL_SYNC ? Players.All.Count - 1 : (Players.GetHost() == parent.GetParent() ? 0 : 1));
                 }
             }
 
@@ -78,7 +94,7 @@ public abstract class StateValue<T> : GeneralStateValue {
                 if (this.defaultValue == null ? value == null : this.defaultValue.Equals(value)) 
                     return;
                 
-                SyncStateValueClientMessage message = new SyncStateValueClientMessage(GetOwnerId(), GetName());
+                SyncStateValueMessage message = new SyncStateValueMessage(GetOwnerId(), GetName(), false);
                 Write(message.Writer);
                 message.SendToClient(e.Conn);
             });
@@ -112,6 +128,35 @@ public abstract class StateValue<T> : GeneralStateValue {
     public void SetWithCheckEquals(T newValue) {
         if (!newValue.Equals(value))
             Value = newValue;
+    }
+    
+    /// <summary>
+    /// Вызывается от клиента для подтверждения прихода значений, если того требовал сервер
+    /// </summary>
+    public override void Confirm() {
+        if (countToConfirm == -1)
+            return;
+        
+        countToConfirm--;
+        if (countToConfirm != 0) 
+            return;
+        
+        onAllSynced.Invoke();
+        onAllSynced = null;
+        countToConfirm = -1;
+        confirmationTimer.Dispose();
+    }
+
+    private void StartConfirmation(int countToConfirm) {
+        confirmationTimer = Observable.Timer(TimeSpan.FromSeconds(10f)).Subscribe(x => {
+            if (countToConfirm == -1)
+                return;
+            
+            Debug.LogError("State confirmation time out!");
+            onAllSynced = null;
+            countToConfirm = -1;
+        });
+        this.countToConfirm = countToConfirm;
     }
 
     protected abstract T ReadValue(NetworkReader reader);

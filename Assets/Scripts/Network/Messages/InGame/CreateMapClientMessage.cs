@@ -21,7 +21,7 @@ public class CreateMapClientMessage : GameMessage {
     
     public override void OnClient(NetworkReader reader) {
         Map map = new GameObject(reader.ReadString()).AddComponent<Map>();
-        map.size = reader.ReadVector2();
+        map.Size = reader.ReadVector2();
         
         List<string> elementNames = reader.ReadMessage<StringListMessage>().Value;
         List<Vector3> elementPositions = reader.ReadMessage<Vector3ListMessage>().Value;

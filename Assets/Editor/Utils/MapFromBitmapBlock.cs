@@ -26,14 +26,14 @@ public class MapFromBitmapBlock : IUtilBlock {
 			
 			Transform parent = new GameObject("Generated map").transform;
 			Map map = parent.gameObject.AddComponent<Map>();
-			map.size = new Vector2(mapSprite.rect.width * 0.64f, mapSprite.rect.height * 0.64f);
+			map.Size = new Vector2(mapSprite.rect.width * 0.64f, mapSprite.rect.height * 0.64f);
 			for(int x = 0; x < mapSprite.rect.width; x++)
 				for (int y = 0; y < mapSprite.rect.height; y++) {
 					int color = mapSprite.texture.GetPixel(x, y).ToHex();
 					if (color != 0) {
 						GameObject element = (GameObject) PrefabUtility.InstantiatePrefab(colorToPrefabName[color].Item2);
 						element.transform.parent = parent;
-						element.transform.localPosition = new Vector3(-map.size.x/2f + 0.32f + x * 0.64f, -map.size.y/2f + 0.32f + y * 0.64f);
+						element.transform.localPosition = new Vector3(-map.Size.x/2f + 0.32f + x * 0.64f, -map.Size.y/2f + 0.32f + y * 0.64f);
 
 						if (color == 0xFF8E8E) {
 							if (y > 0 && mapSprite.texture.GetPixel(x, y - 1).ToHex() == 0xFFFFFF)

@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.SceneManagement;
 
 [AddComponentMenu("NetworkCustom/NetworkManagerCustom")]
 public class NetworkManagerCustom : NetworkManager {
@@ -44,12 +45,23 @@ public class NetworkManagerCustom : NetworkManager {
 	}
 	
 	public override void OnServerSceneChanged(string sceneName) {
-		if (sceneName.Equals("ShipEditor"))
+		if (sceneName.Equals("ShipEditor")) {
 			lastConnections = Players.All.Count;
+			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+			
+			List<Vector2> spawnPoints = Resources.Load<GameObject>("Maps/" + Players.GetGlobal().CurrentMapName.Value)
+											.GetComponent<Map>().SpawnPoints;
+			foreach (CommonState cState in Players.GetStates<CommonState>()) {
+				(int, Vector2) random = spawnPoints.GetRandom();
+				spawnPoints.RemoveAt(random.Item1);
+				cState.SpawnPoint.Value = random.Item2;
+			}
+		}
 
 		if (sceneName.Equals("Game")) {
 			gameMode.OnStartRound();
-			Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+			SceneManager.MoveGameObjectToScene(Map.singleton.gameObject, SceneManager.GetActiveScene());
+			SceneManager.MoveGameObjectToScene(CameraFollower.singleton.gameObject, SceneManager.GetActiveScene());
 
 			foreach (NetworkConnection conn in Players.Conns) {
 				if (conn.isReady)

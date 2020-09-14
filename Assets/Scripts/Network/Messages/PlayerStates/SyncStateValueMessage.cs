@@ -2,22 +2,27 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SyncStateValueClientMessage : GameMessage {
+public class SyncStateValueMessage : GameMessage {
 
-    public SyncStateValueClientMessage() { }
+    public SyncStateValueMessage() { }
 
-    public SyncStateValueClientMessage(int id, string name) {
+    public SyncStateValueMessage(int id, string name, bool toConfirm) {
         Writer.Write(id);
         Writer.Write(name);
+        Writer.Write(toConfirm);
     }
 
     public override void OnServer(NetworkReader reader, NetworkConnection conn) {
-        
+        int id = reader.ReadInt32();
+        string name = reader.ReadString();
+        GeneralStateValue stateValue = Players.GetPlayer(id).GetStateValue(name);
+        stateValue.Confirm();
     }
     
     public override void OnClient(NetworkReader reader) {
         int id = reader.ReadInt32();
         string name = reader.ReadString();
+        bool toConfirm = reader.ReadBoolean();
         Player player = Players.GetPlayer(id) ?? Players.AddPlayer(id);
         GeneralStateValue stateValue = player.GetStateValue(name);
 
@@ -30,6 +35,9 @@ public class SyncStateValueClientMessage : GameMessage {
         }
 
         stateValue.Read(reader, null);
+        
+        if (toConfirm)
+            new SyncStateValueMessage(id, name, true).SendToServer();
     }
 
     public override bool WithServersClient() {

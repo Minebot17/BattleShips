@@ -11,48 +11,53 @@ public class Map : MonoBehaviour {
     public static Dictionary<string, GameObject> mapElements;
     public static GameObject lootBoxPrefab;
     public static GameObject lootItemPrefab;
-    public Vector2 size;
     private const BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+    [SerializeField] private List<Vector2> spawnPoints = new List<Vector2>();
+
+    public Vector2 Size;
+    public List<Vector2> SpawnPoints => spawnPoints;
 
     public void Start() {
         singleton = this;
+        DontDestroyOnLoad(gameObject);
         GameObject parent = new GameObject("Borders");
         
         GameObject left = new GameObject("Left");
         left.transform.parent = parent.transform;
-        left.transform.localPosition = new Vector3(-size.x/2f, 0, 0);
-        left.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, size.y);
+        left.transform.localPosition = new Vector3(-Size.x/2f, 0, 0);
+        left.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, Size.y);
         left.tag = "TransparentForBullets";
         CameraFollower.singleton.leftBorder = left.GetComponent<BoxCollider2D>();
         
         GameObject right = new GameObject("Right");
         right.transform.parent = parent.transform;
-        right.transform.localPosition = new Vector3(size.x/2f, 0, 0);
-        right.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, size.y);
+        right.transform.localPosition = new Vector3(Size.x/2f, 0, 0);
+        right.AddComponent<BoxCollider2D>().size = new Vector2(0.01f, Size.y);
         right.tag = "TransparentForBullets";
         CameraFollower.singleton.rightBorder = right.GetComponent<BoxCollider2D>();
         
         GameObject top = new GameObject("Top");
         top.transform.parent = parent.transform;
-        top.transform.localPosition = new Vector3(0, size.x/2f, 0);
-        top.AddComponent<BoxCollider2D>().size = new Vector2(size.x, 0.01f);
+        top.transform.localPosition = new Vector3(0, Size.x/2f, 0);
+        top.AddComponent<BoxCollider2D>().size = new Vector2(Size.x, 0.01f);
         top.tag = "TransparentForBullets";
         CameraFollower.singleton.topBorder = top.GetComponent<BoxCollider2D>();
         
         GameObject bottom = new GameObject("Bottom");
         bottom.transform.parent = parent.transform;
-        bottom.transform.localPosition = new Vector3(0, -size.x/2f, 0);
-        bottom.AddComponent<BoxCollider2D>().size = new Vector2(size.x, 0.01f);
+        bottom.transform.localPosition = new Vector3(0, -Size.x/2f, 0);
+        bottom.AddComponent<BoxCollider2D>().size = new Vector2(Size.x, 0.01f);
         bottom.tag = "TransparentForBullets";
         CameraFollower.singleton.bottomBorder = bottom.GetComponent<BoxCollider2D>();
     }
 
     public void OnDrawGizmos() {
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + new Vector3(-size.x/2f, -size.y/2f, 0), transform.position + new Vector3(size.x/2f, -size.y/2f, 0));
-        Gizmos.DrawLine(transform.position + new Vector3(size.x/2f, -size.y/2f, 0), transform.position + new Vector3(size.x/2f, size.y/2f, 0));
-        Gizmos.DrawLine(transform.position + new Vector3(size.x/2f, size.y/2f, 0), transform.position + new Vector3(-size.x/2f, size.y/2f, 0));
-        Gizmos.DrawLine(transform.position + new Vector3(-size.x/2f, size.y/2f, 0), transform.position + new Vector3(-size.x/2f, -size.y/2f, 0));
+        Gizmos.DrawLine(transform.position + new Vector3(-Size.x/2f, -Size.y/2f, 0), transform.position + new Vector3(Size.x/2f, -Size.y/2f, 0));
+        Gizmos.DrawLine(transform.position + new Vector3(Size.x/2f, -Size.y/2f, 0), transform.position + new Vector3(Size.x/2f, Size.y/2f, 0));
+        Gizmos.DrawLine(transform.position + new Vector3(Size.x/2f, Size.y/2f, 0), transform.position + new Vector3(-Size.x/2f, Size.y/2f, 0));
+        Gizmos.DrawLine(transform.position + new Vector3(-Size.x/2f, Size.y/2f, 0), transform.position + new Vector3(-Size.x/2f, -Size.y/2f, 0));
     }
 
     public static void Initialize() {
@@ -84,7 +89,7 @@ public class Map : MonoBehaviour {
         Instantiate(mapPrefab.transform.Find("SpawnPoints").gameObject).name = "SpawnPoints";
         GameObject mapObj = new GameObject(mapPrefab.name);
         Map map = mapObj.AddComponent<Map>();
-        map.size = mapPrefab.GetComponent<Map>().size;
+        map.Size = mapPrefab.GetComponent<Map>().Size;
         
         if (Players.GetGlobal().WithLootItems.Value)
             Instantiate(mapPrefab.transform.Find("LootBoxes").gameObject).name = "LootBoxes";
@@ -105,7 +110,7 @@ public class Map : MonoBehaviour {
             else
                 objectsWithoutNI.Add((child.name, element.transform.position, element.transform.localEulerAngles));
         }
-        new CreateMapClientMessage(mapName, map.size, objectsWithoutNI).SendToAllClientExceptHost();
+        new CreateMapClientMessage(mapName, map.Size, objectsWithoutNI).SendToAllClientExceptHost();
     }
 
     private static void TranslateVariables(GameObject from, GameObject to) {

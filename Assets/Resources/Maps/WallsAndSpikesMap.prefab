@@ -309,7 +309,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590bea8c02734e4882514b81cb040716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 38.399998, y: 38.399998}
+  spawnPoints:
+  - {x: -6.83, y: -15.29}
+  - {x: 6.8, y: 13.7}
+  - {x: -7.5, y: 12.1}
+  - {x: 6.6, y: -14}
+  Size: {x: 0, y: 0}
 --- !u!1 &2514463157319283670
 GameObject:
   m_ObjectHideFlags: 0

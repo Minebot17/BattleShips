@@ -137,6 +137,10 @@ public static class Players {
         return playerFromId[ClientId];
     }
 
+    public static Player GetHost() {
+        return playerFromId[HostId];
+    }
+
     /// <summary>
     /// Возвращает глобальное состояние
     /// </summary>
