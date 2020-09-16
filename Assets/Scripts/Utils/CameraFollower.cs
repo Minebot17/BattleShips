@@ -25,6 +25,8 @@ public class CameraFollower : MonoBehaviour {
 	private void Awake() {
 		singleton = this;
 		//DontDestroyOnLoad(gameObject);
+		Vector2 spawnPoint = Players.GetClient().GetState<CommonState>().SpawnPoint.Value;
+		transform.position = spawnPoint.ToVector3(transform.position.z);
 	}
 
 	private void LateUpdate() {

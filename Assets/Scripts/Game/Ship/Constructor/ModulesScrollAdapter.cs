@@ -11,6 +11,7 @@ public class ModulesScrollAdapter : MonoBehaviour {
     private GameObject selectedModule;
     private readonly List<Image> moduleBackgrounds = new List<Image>();
     private bool endlessMode;
+    private Dictionary<EditorModule, GameObject> disabledModules = new Dictionary<EditorModule, GameObject>();
 
     public string SelectedModule => selectedModule ? selectedModule.name : null;
 
@@ -59,13 +60,38 @@ public class ModulesScrollAdapter : MonoBehaviour {
     public void OnModulePlaced(EditorModule module, int newCount) {
         if (endlessMode || module.endlessModule)
             return;
+        
+        GameObject updateModule = null;
+        for (int i = 0; i < content.childCount; i++)
+            if (content.GetChild(i).name.StartsWith(module.prefab.name))
+                updateModule = content.GetChild(i).gameObject;
 
         if (newCount == 0) {
-            DestroyImmediate(selectedModule);
+            disabledModules.Add(module, updateModule);
+            updateModule.SetActive(false);
             onModuleUpdate.Invoke();
             return;
         }
 
-        selectedModule.transform.GetChild(3).GetComponent<Text>().text = newCount + "";
+        updateModule.transform.GetChild(3).GetComponent<Text>().text = newCount + "";
+    }
+
+    public void OnModuleReturned(EditorModule module, int newCount) {
+        if (endlessMode || module.endlessModule)
+            return;
+
+        if (newCount == 1) {
+            disabledModules[module].SetActive(true);
+            disabledModules.Remove(module);
+            onModuleUpdate.Invoke();
+            return;
+        }
+
+        GameObject updateModule = null;
+        for (int i = 0; i < content.childCount; i++)
+            if (content.GetChild(i).name.StartsWith(module.prefab.name))
+                updateModule = content.GetChild(i).gameObject;
+        
+        updateModule.transform.GetChild(3).GetComponent<Text>().text = newCount + "";
     }
 }

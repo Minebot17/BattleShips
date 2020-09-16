@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class ShipEditor : MonoBehaviour {
     [SerializeField] private GameObject modulePlaces;
     [SerializeField] private GameObject modulePlaceFramePrefab;
     [SerializeField] private GameObject shipCellPrefab;
+    [SerializeField] private GameObject cancelButton;
+    [SerializeField] private GameObject cancelCancelButton;
     
     private GameObject currentShip;
     private int currentBuildPoints;
@@ -27,7 +30,8 @@ public class ShipEditor : MonoBehaviour {
     private int installedModules;
     private HashSet<Vector2Int> freePlaces = new HashSet<Vector2Int>();
     private InventoryState iState;
-    private Stack<int> placedModules = new Stack<int>();
+    private Stack<(int, Vector2Int, int)> placedModules = new Stack<(int, Vector2Int, int)>(); // placedModule, position, oldModule (-1 if nothing)
+    private Stack<(int, Vector2Int, int)> canceledModules = new Stack<(int, Vector2Int, int)>();
     private GlobalState global;
     private Vector2 currentOffset = Vector2.zero;
 
@@ -78,12 +82,12 @@ public class ShipEditor : MonoBehaviour {
         if (!timerStarted)
             return;
         
-        if (closingTimer > 0)
+        /*if (closingTimer > 0)
             closingTimer -= Time.deltaTime;
         else {
-            new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.ToList()).SendToServer();
+            new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.Select(x => x.Item1).ToList()).SendToServer();
             timerStarted = false;
-        }
+        }*/
 
         timerText.text = (int) Math.Ceiling(closingTimer) + " Sec"; 
     }
@@ -121,19 +125,71 @@ public class ShipEditor : MonoBehaviour {
         int moduleIndex = int.Parse(splittedName[1]);
         if (global.WithLootItems.Value && !modules[moduleIndex].endlessModule && iState.modulesCount[moduleIndex].Value == 0)
             return;
-        
+
+        int oldModuleIndex = -1;
         if (shipCell) {
             GameObject oldModule = shipCell.transform.GetChild(0).gameObject;
+            oldModuleIndex = modules.ToList().FindIndex(em => em.name.Equals(oldModule.name));
             if (!oldModule.name.Equals(splittedName[0]))
                 DestroyImmediate(shipCell);
             else 
                 return;
         }
         
-        placedModules.Push(moduleIndex);
+        canceledModules.Clear();
+        cancelCancelButton.SetActive(false);
+        placedModules.Push((moduleIndex, position, oldModuleIndex));
+        if (placedModules.Count == 1)
+            cancelButton.SetActive(true);
+        
         if (global.WithLootItems.Value && iState.modulesCount[moduleIndex].Value != -1)
             iState.modulesCount[moduleIndex].Value--;
         
+        SpawnModule(moduleIndex, position);
+    }
+
+    public void CancelPlaceModule() {
+        (int, Vector2Int, int) canceledModule = placedModules.Pop();
+        canceledModules.Push(canceledModule);
+        DestroyImmediate(currentShip.transform.Find("ShipCell " + canceledModule.Item2.x + " " + canceledModule.Item2.y).gameObject);
+        installedModules--;
+        blocksLeftText.text = (currentBuildPoints - installedModules) + " Blocks";
+
+        if (global.WithLootItems.Value && iState.modulesCount[canceledModule.Item1].Value != -1)
+            iState.modulesCount[canceledModule.Item1].Value++;
+        
+        scrollAdapter.OnModuleReturned(modules[canceledModule.Item1], iState.modulesCount[canceledModule.Item1].Value);
+        cancelCancelButton.SetActive(true);
+        if (placedModules.Count == 0)
+            cancelButton.SetActive(false);
+
+        if (canceledModule.Item3 != -1)
+            SpawnModule(canceledModule.Item3, canceledModule.Item2);
+        
+        UpdateFreePlaces();
+    }
+
+    public void CancelCancelPlaceModule() {
+        (int, Vector2Int, int) canceledCanceledModule = canceledModules.Pop();
+        placedModules.Push(canceledCanceledModule);
+
+        if (canceledCanceledModule.Item3 != -1) {
+            DestroyImmediate(currentShip.transform.Find("ShipCell " + canceledCanceledModule.Item2.x + " " + canceledCanceledModule.Item2.y).gameObject);
+            installedModules--;
+            blocksLeftText.text = (currentBuildPoints - installedModules) + " Blocks";
+            //scrollAdapter.OnModuleReturned(modules[canceledCanceledModule.Item3], iState.modulesCount[canceledCanceledModule.Item3].Value);
+        }
+
+        if (global.WithLootItems.Value && iState.modulesCount[canceledCanceledModule.Item1].Value != -1)
+            iState.modulesCount[canceledCanceledModule.Item1].Value--;
+        
+        SpawnModule(canceledCanceledModule.Item1, canceledCanceledModule.Item2);
+        cancelButton.SetActive(true);
+        if (canceledModules.Count == 0)
+            cancelCancelButton.SetActive(false);
+    }
+
+    private void SpawnModule(int moduleIndex, Vector2Int position) {
         EditorModule editorModule = modules[moduleIndex];
         GameObject cell = Instantiate(shipCellPrefab, currentShip.transform);
         cell.name = "ShipCell " + position.x + " " + position.y;
@@ -144,9 +200,6 @@ public class ShipEditor : MonoBehaviour {
         installedModules++;
         blocksLeftText.text = (currentBuildPoints - installedModules) + " Blocks";
         scrollAdapter.OnModulePlaced(editorModule, iState.modulesCount[moduleIndex].Value);
-        if (installedModules == currentBuildPoints)
-            OnReadyClick();
-        
         UpdateFreePlaces();
     }
 
@@ -231,7 +284,7 @@ public class ShipEditor : MonoBehaviour {
     }
 
     public void OnReadyClick() {
-        new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.ToList()).SendToServer();
+        new SendShipServerMessage(Utils.SerializeShip(currentShip), placedModules.Select(x => x.Item1).ToList()).SendToServer();
         Destroy(readyButton.GetComponent<Button>());
         readyButton.transform.GetChild(0).GetComponent<Text>().text = "Waiting...";
         blocksLeftText.enabled = false;

@@ -53,7 +53,7 @@ public class NetworkManagerCustom : NetworkManager {
 
 			ValueObservable<int> confirmCount = new ValueObservable<int>(0);
 			confirmCount.WhenEqual(Players.All.Count, () => {
-				Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value);
+				Map.SpawnMap(Players.GetGlobal().CurrentMapName.Value, true);
 			});
 			
 			foreach (CommonState cState in Players.GetStates<CommonState>()) {

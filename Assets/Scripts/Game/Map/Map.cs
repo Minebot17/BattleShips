@@ -85,14 +85,14 @@ public class Map : MonoBehaviour {
     /// Спавнит карту и синхронизирует ее. Вызывать только на сервере
     /// </summary>
     /// <param name="mapName">Название префаба в папке Maps в ресурсах</param>
-    public static void SpawnMap(string mapName) {
+    public static void SpawnMap(string mapName, bool spawnInEditor = false) {
         GameObject mapPrefab = Resources.Load<GameObject>("Maps/" + mapName);
         Instantiate(mapPrefab.transform.Find("SpawnPoints").gameObject).name = "SpawnPoints";
         GameObject mapObj = new GameObject(mapPrefab.name);
         Map map = mapObj.AddComponent<Map>();
         map.Size = mapPrefab.GetComponent<Map>().Size;
         
-        if (Players.GetGlobal().WithLootItems.Value)
+        if (Players.GetGlobal().WithLootItems.Value && !spawnInEditor)
             Instantiate(mapPrefab.transform.Find("LootBoxes").gameObject).name = "LootBoxes";
 
         // element name, position, localEulerAngles
